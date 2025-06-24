@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alan Szuster - About Me</title>
+    <meta name="description" content="Alan Szuster's professional portfolio website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="icon" type="image/svg+xml" href="/static/images/favicon.svg">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="/">Alan<span>Szuster</span></a>
+                </div>
+                <div class="nav-links">
+                    <a href="/" class="">Home</a>
+                    <a href="/about/" class="active">About</a>
+                    <a href="/skills/" class="">Skills</a>
+                    <a href="/projects/" class="">Projects</a>
+                    <a href="/contact/" class="">Contact</a>
+                </div>
+                <div class="theme-toggle">
+                    <button id="theme-toggle-btn" aria-label="Toggle dark mode">
+                        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        
+<section class="py-5 mt-5">
+    <div class="container px-4">
+        <div class="row gx-5">
+            <div class="col-lg-8 mx-auto">
+                <h1 class="mb-4 text-center">About Me</h1>
+                <hr class="divider mb-5" />
+
+                <div class="row mb-5">
+                    <div class="col-md-4 text-center mb-4 mb-md-0">
+                        <div class="avatar-container mb-3">
+                            <!-- Photo can be inserted here -->
+                            <div class="avatar-placeholder bg-primary text-white">AS</div>
+                        </div>
+                        <div class="social-links">
+                            <a href="https://github.com/alanszuster" target="_blank" class="btn btn-sm btn-dark mx-1">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                            <a href="https://linkedin.com/in/alan-szuster" target="_blank" class="btn btn-sm btn-primary mx-1">
+                                <i class="fab fa-linkedin"></i> LinkedIn
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <h2 class="h3 mb-3">Alan Szuster</h2>
+                        <p class="lead mb-3">Python Developer | Data Scientist</p>
+                        <p>I am a technology enthusiast with many years of programming experience. I specialize in Python, which I use both for creating web applications and for advanced data analysis and artificial intelligence projects.</p>
+                        <p>My adventure with programming began during my computer science studies, where I discovered my passion for solving problems through code. Over the years, I have developed my skills in various companies and projects, always looking for new challenges and opportunities for growth.</p>
+                        <p>Currently, I focus on projects using data analysis and machine learning to create valuable business solutions.</p>
+                    </div>
+                </div>
+
+                <h3 class="mb-4">Professional Experience</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content shadow-sm">
+                            <h4>Senior Python Developer</h4>
+                            <p class="text-muted">TechCorp, Warsaw | 2023 - present</p>
+                            <ul>
+                                <li>Development and maintenance of Flask and Django-based applications</li>
+                                <li>Design and implementation of RESTful APIs</li>
+                                <li>Collaboration with the Data Science team on AI projects</li>
+                                <li>Mentoring junior developers</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content shadow-sm">
+                            <h4>Python Developer</h4>
+                            <p class="text-muted">DataInnovations, Krakow | 2020 - 2023</p>
+                            <ul>
+                                <li>Creation of scripts for business process automation</li>
+                                <li>Implementation of machine learning models</li>
+                                <li>Analysis and visualization of large datasets</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content shadow-sm">
+                            <h4>Junior Developer</h4>
+                            <p class="text-muted">WebSolutions, Wroclaw | 2018 - 2020</p>
+                            <ul>
+                                <li>Development of web applications using Django framework</li>
+                                <li>Implementation of unit and integration tests</li>
+                                <li>Collaboration with UX department on user interface design</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="mb-4 mt-5">Education</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content shadow-sm">
+                            <h4>Master of Computer Science</h4>
+                            <p class="text-muted">Warsaw University of Technology | 2016 - 2018</p>
+                            <p>Specialization: Artificial Intelligence and Expert Systems</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content shadow-sm">
+                            <h4>Bachelor of Computer Science</h4>
+                            <p class="text-muted">Warsaw University of Technology | 2012 - 2016</p>
+                            <p>Specialization: Software Engineering</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-5">
+                    <a href="/cv/" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-download me-2"></i>Download CV
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>&copy; 2025 Alan Szuster. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="https://github.com/alanszuster" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://linkedin.com/in/alan-szuster" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a href="/cv/">Download CV</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/js/main.js"></script>
+    
+    
+</body>
+</html>
