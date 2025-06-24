@@ -1,10 +1,10 @@
 # Alan Szuster - Personal Portfolio Website
 
-This is my personal portfolio website showcasing my work as a Python Developer and Data Scientist.
+This is my personal website showcasing my work as a Site Reliability Engineer (SRE) and Machine Learning/AI Engineer. The site is built using Jekyll, a static site generator, and is hosted on GitHub Pages.
 
 ## About
 
-Professional portfolio featuring my projects, skills, and experience in Software Development, SRE, and ML/AI.
+Professional website featuring my skills, and experience in Software Development, SRE, and ML/AI.
 
 **Website**: [https://alanszuster.github.io/](https://alanszuster.github.io/)
 
