@@ -1,65 +1,33 @@
-// Main JavaScript for portfolio website
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Theme toggle
-    const themeToggleBtn = document.getElementById('theme-toggle-btn');
-    const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    // Check for saved theme preference or use OS preference
-    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && prefersDarkMode)) {
-        document.body.classList.add('dark-mode');
-    }
-
-    // Theme toggle button handler
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-
-            // Save preference to localStorage
-            if (document.body.classList.contains('dark-mode')) {
-                localStorage.setItem('theme', 'dark');
-            } else {
-                localStorage.setItem('theme', 'light');
-            }
-        });
-    }
-
-    // Mobile menu toggle
     const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
+    const mobileNavLinks = document.querySelector('.nav-links');
 
     if (hamburger) {
         hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+            mobileNavLinks.classList.toggle('active');
             hamburger.classList.toggle('active');
         });
     }
 
-    // Form submission handler
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // Get form values
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const subject = document.getElementById('subject').value;
             const message = document.getElementById('message').value;
 
-            // In a real application, you would send this data to a server
-            // For demonstration purposes, we'll just log it to console
             console.log('Form submission:', { name, email, subject, message });
 
-            // Show success message
-            alert('Dziękuję za wiadomość! Odpowiem najszybciej jak to możliwe.');
+            alert('Thank you for your message! I will respond as soon as possible.');
 
-            // Reset form
             contactForm.reset();
         });
     }
 
-    // Add active class to nav links based on current page
     const currentPath = window.location.pathname;
     const navLinks = document.querySelectorAll('.nav-link');
 
@@ -69,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
@@ -84,7 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add animation to skill progress bars
     const animateProgressBars = () => {
         const progressBars = document.querySelectorAll('.progress-bar');
         progressBars.forEach(bar => {
@@ -97,12 +63,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 
-    // Check if we're on the skills page
     if (document.querySelector('.progress-bar')) {
         animateProgressBars();
     }
 
-    // Show back-to-top button when scrolling down
     const scrollFunction = () => {
         const backToTopBtn = document.getElementById('backToTop');
         if (backToTopBtn) {
@@ -120,16 +84,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Listen for scroll events
     window.addEventListener('scroll', scrollFunction);
 
-    // Add back-to-top button if it doesn't exist
     if (!document.getElementById('backToTop')) {
         const backToTopBtn = document.createElement('button');
         backToTopBtn.id = 'backToTop';
         backToTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
-        backToTopBtn.title = 'Przewiń do góry';
-        backToTopBtn.setAttribute('aria-label', 'Przewiń do góry');
+        backToTopBtn.title = 'Back to top';
+        backToTopBtn.setAttribute('aria-label', 'Back to top');
         backToTopBtn.style.cssText = `
             position: fixed;
             bottom: 20px;
@@ -158,7 +120,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Initialize project tabs if present
     const projectsTab = document.getElementById('projects-tab');
     if (projectsTab) {
         const triggerTabList = projectsTab.querySelectorAll('button');

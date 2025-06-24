@@ -13,18 +13,7 @@
     --container-width: 1200px;
 }
 
-/* Dark mode variables */
-body.dark-mode {
-    --bg-light: #1a202c;
-    --bg-dark: #2d3748;
-    --text-dark: #f8f9fa;
-    --text-light: #e2e8f0;
-    --text-muted: #a0aec0;
-    --border-color: #4a5568;
-    --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-}
 
-/* Reset & Base Styles */
 * {
     margin: 0;
     padding: 0;
@@ -59,7 +48,7 @@ ul, ol {
     list-style: none;
 }
 
-/* Container */
+
 .container {
     width: 90%;
     max-width: var(--container-width);
@@ -67,7 +56,7 @@ ul, ol {
     padding: 0 1rem;
 }
 
-/* Header & Navigation */
+
 header {
     position: sticky;
     top: 0;
@@ -122,30 +111,6 @@ nav {
     width: 100%;
 }
 
-.theme-toggle {
-    display: flex;
-    align-items: center;
-}
-
-#theme-toggle-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--text-dark);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: var(--transition);
-}
-
-.sun-icon, .moon-icon {
-    transition: var(--transition);
-}
-
-body:not(.dark-mode) .moon-icon,
-body.dark-mode .sun-icon {
-    display: none;
-}
 
 .hamburger {
     display: none;
@@ -162,7 +127,7 @@ body.dark-mode .sun-icon {
     transition: var(--transition);
 }
 
-/* Hero Section */
+
 .hero {
     padding: 5rem 0;
 }
@@ -195,7 +160,7 @@ body.dark-mode .sun-icon {
     margin-bottom: 2rem;
 }
 
-/* Buttons */
+
 .btn {
     display: inline-block;
     padding: 0.75rem 1.5rem;
@@ -239,7 +204,7 @@ body.dark-mode .sun-icon {
     justify-content: center;
 }
 
-/* Sections */
+
 section {
     padding: 5rem 0;
 }
@@ -264,7 +229,7 @@ section {
     border-radius: 2px;
 }
 
-/* Cards */
+
 .highlight-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -312,7 +277,7 @@ section {
     color: var(--text-muted);
 }
 
-/* Featured Project */
+
 .featured-project-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -357,7 +322,7 @@ section {
     object-fit: cover;
 }
 
-/* About */
+
 .about-content {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -375,7 +340,7 @@ section {
     margin-bottom: 1rem;
 }
 
-/* Skills */
+
 .skills-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -404,7 +369,7 @@ section {
     font-size: 0.875rem;
 }
 
-/* Projects */
+
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -460,7 +425,7 @@ section {
     flex-grow: 1;
 }
 
-/* Contact */
+
 .contact-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -531,7 +496,7 @@ section {
     box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
 }
 
-/* Footer */
+
 footer {
     background-color: var(--bg-dark);
     color: var(--text-light);
@@ -553,7 +518,7 @@ footer {
     color: var(--primary-color);
 }
 
-/* Media Queries */
+
 @media (max-width: 992px) {
     .nav-links {
         position: fixed;
