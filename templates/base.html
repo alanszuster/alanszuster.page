@@ -53,6 +53,22 @@
             <div class="footer-content">
                 <div class="footer-info">
                     <p>&copy; {{ year }} Alan Szuster. All rights reserved.</p>
+
+                    <div id="visitor-counter" class="visitor-counter">
+                        <div class="visitor-counter-header">
+                            <span>Statystyki odwiedzin</span>
+                        </div>
+                        <div class="counter-display">
+                            <i class="fas fa-users counter-icon"></i>
+                            <span id="counter-digits">0</span>
+                        </div>
+                        <div class="counter-details">
+                            <div class="counter-today">
+                                <span>Dziś:</span>
+                                <span><span id="today-visits">0</span></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="footer-links">
                     <a href="https://github.com/alanszuster" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -64,6 +80,7 @@
     </footer>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/counter.js') }}"></script>
     {% block scripts %}
     {% endblock %}
 </body>
