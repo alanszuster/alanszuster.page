@@ -4,19 +4,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (!counterElement || !todayElement) return;
 
+    const sessionKey = 'visitedThisSession';
+    const hasVisitedThisSession = sessionStorage.getItem(sessionKey);
+
     let totalCount = parseInt(localStorage.getItem('totalVisits') || '0');
     let todayCount = parseInt(localStorage.getItem('todayVisits') || '0');
     const lastDate = localStorage.getItem('lastVisitDate');
     const today = new Date().toISOString().split('T')[0];
 
-    if (lastDate !== today) {
-        todayCount = 1;
-        localStorage.setItem('lastVisitDate', today);
-    } else {
-        todayCount++;
+    if (!hasVisitedThisSession) {
+        if (lastDate !== today) {
+            todayCount = 1;
+            localStorage.setItem('lastVisitDate', today);
+        } else {
+            todayCount++;
+        }
+        totalCount++;
+        sessionStorage.setItem(sessionKey, 'true');
     }
-
-    totalCount++;
 
     localStorage.setItem('totalVisits', totalCount.toString());
     localStorage.setItem('todayVisits', todayCount.toString());
