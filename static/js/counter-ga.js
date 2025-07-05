@@ -24,13 +24,9 @@ document.addEventListener('DOMContentLoaded', function() {
     counterElement.textContent = totalCount.toLocaleString();
     todayElement.textContent = todayCount.toLocaleString();
 
-    // Animacja licznika
     animateValue(counterElement, totalCount - 1, totalCount, 1000);
 });
 
-/**
- * Animuje zmianę wartości liczbowej
- */
 function animateValue(element, start, end, duration) {
     let startTimestamp = null;
     const step = (timestamp) => {

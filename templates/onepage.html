@@ -28,23 +28,7 @@
             });
         });
 
-        // Contact form validation
-        const form = document.getElementById('contactForm');
-
-        if (form) {
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                } else {
-                    event.preventDefault();
-                    alert('Thank you for your message! This is a demo form (no actual message was sent).');
-                    form.reset();
-                }
-
-                form.classList.add('was-validated');
-            });
-        }
+        // Contact section has been simplified to just show contact information
     });
 </script>
 {% endblock %}
