@@ -1,40 +1,76 @@
 document.addEventListener('DOMContentLoaded', function() {
     const counterElement = document.getElementById('counter-digits');
     const todayElement = document.getElementById('today-visits');
+    const visitorCounter = document.getElementById('visitor-counter');
 
     if (!counterElement || !todayElement) return;
 
+    // Ustawienie klucza dla naszej strony (alanszuster.github.io)
+    const NAMESPACE_KEY = 'alanszuster-portfolio';
+    const TOTAL_KEY = 'total-visits';
+    const TODAY_KEY = 'today-' + new Date().toISOString().split('T')[0];
+
+    // Funkcja pobierająca wartość licznika
+    async function getCount(key) {
+        try {
+            const response = await fetch(`https://api.countapi.xyz/get/${NAMESPACE_KEY}/${key}`);
+            const data = await response.json();
+            return data.value || 0;
+        } catch (error) {
+            console.error('Error fetching counter:', error);
+            return 0;
+        }
+    }
+
+    // Funkcja zwiększająca licznik
+    async function incrementCount(key) {
+        try {
+            const response = await fetch(`https://api.countapi.xyz/hit/${NAMESPACE_KEY}/${key}`);
+            const data = await response.json();
+            return data.value;
+        } catch (error) {
+            console.error('Error incrementing counter:', error);
+            return 0;
+        }
+    }
+
+    // Sprawdzenie, czy już odwiedziliśmy stronę w tej sesji
     const sessionKey = 'visitedThisSession';
     const hasVisitedThisSession = sessionStorage.getItem(sessionKey);
 
-    let totalCount = parseInt(localStorage.getItem('totalVisits') || '0');
-    let todayCount = parseInt(localStorage.getItem('todayVisits') || '0');
-    const lastDate = localStorage.getItem('lastVisitDate');
-    const today = new Date().toISOString().split('T')[0];
+    // Pobierz i zaktualizuj liczniki
+    (async function updateCounters() {
+        // Pobierz całkowity licznik
+        let totalCount = 0;
 
-    if (!hasVisitedThisSession) {
-        if (lastDate !== today) {
-            todayCount = 1;
-            localStorage.setItem('lastVisitDate', today);
+        // Jeśli to nowa sesja, zwiększ liczniki
+        if (!hasVisitedThisSession) {
+            totalCount = await incrementCount(TOTAL_KEY);
+            await incrementCount(TODAY_KEY);
+            sessionStorage.setItem(sessionKey, 'true');
         } else {
-            todayCount++;
+            totalCount = await getCount(TOTAL_KEY);
         }
-        totalCount++;
-        sessionStorage.setItem(sessionKey, 'true');
-    }
 
-    localStorage.setItem('totalVisits', totalCount.toString());
-    localStorage.setItem('todayVisits', todayCount.toString());
+        // Pobierz licznik dzisiejszych odwiedzin
+        const todayCount = await getCount(TODAY_KEY);
 
-    counterElement.textContent = totalCount.toLocaleString();
-    todayElement.textContent = todayCount.toLocaleString();
+        // Aktualizuj wyświetlane liczniki
+        if (counterElement) {
+            counterElement.textContent = totalCount.toLocaleString();
+            // Animacja licznika całkowitego
+            animateValue(counterElement, totalCount > 0 ? totalCount - 1 : 0, totalCount, 1000);
+        }
 
-    const visitorCounter = document.getElementById('visitor-counter');
-    if (visitorCounter) {
-        visitorCounter.classList.add('visible');
-    }
+        if (todayElement) {
+            todayElement.textContent = todayCount.toLocaleString();
+        }
 
-    animateValue(counterElement, totalCount - 1, totalCount, 1000);
+        // Pokaż licznik
+        if (visitorCounter) {
+            visitorCounter.classList.add('visible');
+        }
+    })();
 });
 
 function animateValue(element, start, end, duration) {
