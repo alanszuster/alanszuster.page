@@ -537,6 +537,11 @@ footer {
     transition: opacity 0.8s ease;
     font-size: 0.85rem;
     margin-top: 0.75rem;
+    /* Safari fix */
+    -webkit-transition: opacity 0.8s ease;
+    -webkit-opacity: 0;
+    display: block;
+    visibility: visible !important; /* Ensure visibility in Safari */
 }
 
 .header-counter {
@@ -560,6 +565,9 @@ footer {
 
 .visitor-counter.visible {
     opacity: 1;
+    -webkit-opacity: 1;
+    /* Ensure the counter is visible with higher specificity instead of !important */
+    visibility: visible;
 }
 
 .visit-stats {
@@ -648,5 +656,22 @@ footer {
         flex-direction: column;
         gap: 1.5rem;
         text-align: center;
+    }
+}
+
+/* Mobile Safari fix for visitor counter */
+@media (max-width: 767px) {
+    .visitor-counter {
+        opacity: 1;
+        -webkit-opacity: 1;
+        visibility: visible;
+    }
+
+    .header-counter {
+        font-size: 0.65rem;
+    }
+
+    .nav {
+        flex-wrap: wrap;
     }
 }

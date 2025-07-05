@@ -2,6 +2,16 @@
     background-color: var(--card-bg);
     border-radius: 8px;
     transition: transform 0.3s, box-shadow 0.3s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    word-break: break-word;
+    /* Safari mobile fix */
+    overflow-wrap: break-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
 }
 
 .skill-badge:hover {
@@ -16,4 +26,54 @@
 @keyframes flash {
     0% { background-color: var(--primary-color); }
     100% { background-color: var(--bg-dark); }
+}
+
+/* Responsywność dla sekcji skills */
+@media (max-width: 767px) {
+    .skill-badge h3.h6 {
+        font-size: 0.85rem;
+    }
+
+    .skill-badge i {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .row-cols-2 {
+        --bs-gutter-x: 0.75rem;
+    }
+
+    .skill-badge {
+        padding: 0.75rem;
+        min-height: 80px;
+        max-width: 100%;
+    }
+
+    .skill-badge h3.h6 {
+        font-size: 0.75rem;
+        margin-top: 0.5rem;
+        max-width: 100%;
+        text-overflow: ellipsis;
+    }
+
+    /* Special adjustment for Safari on small screens */
+    .col {
+        min-width: 0;
+    }
+}
+
+@media (max-width: 375px) {
+    .skill-badge h3.h6 {
+        font-size: 0.7rem;
+    }
+
+    .skill-badge i {
+        font-size: 1.3rem;
+    }
+
+    .col {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
 }

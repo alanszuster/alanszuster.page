@@ -9,7 +9,7 @@ This is my personal website showcasing my work as a Site Reliability Engineer (S
 - **One-page Design**: Modern single-page layout with smooth scrolling between sections
 - **Dark Theme**: Sleek dark theme with neon accents and subtle glow effects
 - **Responsive Design**: Works on all devices from mobile to desktop
-- **Visitor Analytics**: Integration with Google Analytics
+- **Visitor Counter**: Simple visit tracking with CountAPI
 - **Beautiful UI**: Modern, clean interface with smooth animations and transitions
 
 ## Technology Stack
@@ -17,11 +17,9 @@ This is my personal website showcasing my work as a Site Reliability Engineer (S
 - **Frontend**: HTML5, CSS3, JavaScript, Bootstrap 5
 - **Backend**: Python, Flask, Flask-Frozen
 - **Deployment**: GitHub Pages
-- **Analytics**: Google Analytics (GA4)
+- **Analytics**: Visit counter using CountAPI
 
-## Google Analytics Configuration
-
-### Visitor Counter Configuration
+## Visitor Counter Configuration
 
 The site includes a visitor counter powered by CountAPI:
 
@@ -30,11 +28,7 @@ The site includes a visitor counter powered by CountAPI:
 3. Each visitor is counted once per browser session
 4. No additional setup is needed - the counter works out of the box
 
-For Google Analytics setup:
 
-1. Create a Google Analytics account at [https://analytics.google.com/](https://analytics.google.com/)
-2. Create a new property and get your measurement ID (format: G-XXXXXXXXXX)
-3. Replace the placeholder `G-MEASUREMENT_ID` in `templates/base.html` with your actual measurement ID
 
 ## Author
 

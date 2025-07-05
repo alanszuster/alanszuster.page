@@ -49,3 +49,6 @@ CV-2025.pdf
 # SQLite database
 data/
 *.db
+
+# Config files with private keys
+config.local.json
