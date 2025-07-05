@@ -24,6 +24,11 @@ document.addEventListener('DOMContentLoaded', function() {
     counterElement.textContent = totalCount.toLocaleString();
     todayElement.textContent = todayCount.toLocaleString();
 
+    const visitorCounter = document.getElementById('visitor-counter');
+    if (visitorCounter) {
+        visitorCounter.classList.add('visible');
+    }
+
     animateValue(counterElement, totalCount - 1, totalCount, 1000);
 });
 
