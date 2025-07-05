@@ -53,19 +53,15 @@
             <div class="footer-content">
                 <div class="footer-info">
                     <p>&copy; {{ year }} Alan Szuster. All rights reserved.</p>
-
                     <div id="visitor-counter" class="visitor-counter">
-                        <div class="visitor-counter-header">
-                            <span>Statystyki odwiedzin</span>
-                        </div>
-                        <div class="counter-display">
-                            <i class="fas fa-users counter-icon"></i>
-                            <span id="counter-digits">0</span>
-                        </div>
-                        <div class="counter-details">
-                            <div class="counter-today">
-                                <span>Dziś:</span>
-                                <span><span id="today-visits">0</span></span>
+                        <div class="visit-stats">
+                            <div class="visit-stat-item">
+                                <span>Total visits:</span>
+                                <span id="counter-digits" class="stat-value">0</span>
+                            </div>
+                            <div class="visit-stat-item">
+                                <span>Today's:</span>
+                                <span id="today-visits" class="stat-value">0</span>
                             </div>
                         </div>
                     </div>
