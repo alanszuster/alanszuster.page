@@ -45,3 +45,7 @@ CV-2025.pdf
 
 # Logs
 *.log
+
+# SQLite database
+data/
+*.db

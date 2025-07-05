@@ -13,6 +13,4 @@ def url_generator():
 if __name__ == '__main__':
     if os.path.exists('build'):
         shutil.rmtree('build')
-
-    # Generate new static files
     freezer.freeze()

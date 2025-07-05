@@ -5,7 +5,6 @@
 
 /* Import component styles */
 @import 'components/bootstrap-dark.css';
-@import 'components/ai-chat.css';
 @import 'components/skills.css';
 
 /* Import original CSS files for compatibility */
