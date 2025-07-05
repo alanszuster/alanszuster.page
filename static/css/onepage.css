@@ -1,0 +1,156 @@
+/* One-page styles */
+:root {
+    --transition-duration: 0.5s;
+}
+
+/* Interactive code demo */
+.code-container {
+    background-color: #1a1d24;
+    border: 1px solid #363c48;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    color: #abb2bf;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    overflow: auto;
+    max-height: 350px;
+}
+
+pre.language-python {
+    white-space: pre-wrap;
+}
+
+.demo-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+#code-output {
+    background-color: #111318;
+    border: 1px solid #2a303c;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: #a9b7c6;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#code-output pre {
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.flash-animation {
+    animation: flash 0.3s;
+}
+
+@keyframes flash {
+    0% { background-color: #21252b; }
+    50% { background-color: #3a404d; }
+    100% { background-color: #21252b; }
+}
+
+/* AI sentiment analysis demo */
+.ai-interactive-demo {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+}
+
+.result-box {
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
+}
+
+#sentiment-bar {
+    transition: width 0.8s ease;
+}
+
+.badge {
+    transition: all 0.3s ease;
+}
+
+/* Skill badges */
+.skill-badge {
+    background-color: var(--card-bg);
+    border-radius: 6px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.skill-badge:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(76, 201, 240, 0.2);
+    border-color: var(--primary-color);
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+}
+
+/* Section transitions */
+section {
+    transition: background-color var(--transition-duration) ease;
+}
+
+/* Dividers with animation */
+.divider {
+    width: 60px;
+    height: 4px;
+    background-color: var(--primary-color);
+    margin: 1.5rem auto;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 10px var(--primary-color);
+}
+
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(76, 201, 240, 0.5);
+    animation: shine 2s infinite;
+}
+
+@keyframes shine {
+    0% { left: -100%; }
+    50% { left: 100%; }
+    100% { left: 100%; }
+}
+
+/* Header counter adjustments for onepage layout */
+@media (max-width: 992px) {
+    .header-counter {
+        display: none;
+    }
+}
+
+/* Dark theme enhancements */
+.skill-badge i,
+.card-icon,
+.text-primary {
+    text-shadow: 0 0 8px rgba(76, 201, 240, 0.4);
+}
+
+/* Section background alternation for visual separation */
+section:nth-child(odd) {
+    background-color: var(--bg-dark);
+}
+
+section:nth-child(even) {
+    background-color: rgba(45, 55, 72, 0.5);
+}
+
+/* Glowing effect for primary elements on hover */
+.nav-links a:hover,
+.footer-links a:hover,
+.btn-primary:hover,
+.card:hover .card-icon,
+.skill-badge:hover i {
+    text-shadow: 0 0 10px var(--primary-color);
+}

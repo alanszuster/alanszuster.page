@@ -1,0 +1,147 @@
+<!-- Skills Section -->
+<section id="skills" class="py-5">
+    <div class="container px-4">
+        <div class="row gx-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="fw-bold text-center">Skills</h2>
+                <hr class="divider mb-5" />
+
+                <div class="mb-5">
+                    <h3 class="h4 mb-4">Programming Languages</h3>
+                    <div class="row row-cols-2 row-cols-md-3 g-4 mb-4">
+                        <div class="col">
+                            <div class="skill-badge p-3 text-center shadow-sm">
+                                <i class="fab fa-python fa-2x mb-2 text-primary"></i>
+                                <h3 class="h6 mb-0">Python</h3>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="skill-badge p-3 text-center shadow-sm">
+                                <i class="fab fa-java fa-2x mb-2 text-primary"></i>
+                                <h3 class="h6 mb-0">Java</h3>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="skill-badge p-3 text-center shadow-sm">
+                                <i class="fab fa-js fa-2x mb-2 text-primary"></i>
+                                <h3 class="h6 mb-0">JavaScript</h3>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="skill-badge p-3 text-center shadow-sm">
+                                <i class="fab fa-js fa-2x mb-2 text-primary"></i>
+                                <h3 class="h6 mb-0">TypeScript</h3>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="skill-badge p-3 text-center shadow-sm">
+                                <i class="fas fa-terminal fa-2x mb-2 text-primary"></i>
+                                <h3 class="h6 mb-0">Bash</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="h4 mb-4">Technologies</h3>
+                    <div class="row row-cols-2 row-cols-md-3 g-4 mb-4">
+                        <div class="col">
+                            <div class="skill-badge p-3 text-center shadow-sm">
+                                <i class="fab fa-docker fa-2x mb-2 text-primary"></i>
+                                <h3 class="h6 mb-0">Docker</h3>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="skill-badge p-3 text-center shadow-sm">
+                                <i class="fas fa-dharmachakra fa-2x mb-2 text-primary"></i>
+                                <h3 class="h6 mb-0">Kubernetes</h3>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="skill-badge p-3 text-center shadow-sm">
+                                <i class="fab fa-aws fa-2x mb-2 text-primary"></i>
+                                <h3 class="h6 mb-0">AWS</h3>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="skill-badge p-3 text-center shadow-sm">
+                                <i class="fab fa-google fa-2x mb-2 text-primary"></i>
+                                <h3 class="h6 mb-0">GCP</h3>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="skill-badge p-3 text-center shadow-sm">
+                                <i class="fab fa-microsoft fa-2x mb-2 text-primary"></i>
+                                <h3 class="h6 mb-0">Azure</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Python Demo Section -->
+                    <div class="mt-5 py-4 px-3 bg-light rounded">
+                        <h3 class="h4 mb-4">Python Skills Demo</h3>
+                        <div class="interactive-demo">
+                            <div class="code-container">
+                                <pre id="python-demo" class="language-python">
+# This is an interactive Python skills demo
+# Click buttons below to see different examples
+
+def analyze_server_metrics(metrics):
+    """Analyze server metrics and return status."""
+    cpu_usage = metrics.get('cpu_usage', 0)
+    memory_usage = metrics.get('memory_usage', 0)
+    disk_usage = metrics.get('disk_usage', 0)
+
+    status = 'healthy'
+    alerts = []
+
+    if cpu_usage > 80:
+        status = 'warning'
+        alerts.append(f'High CPU usage: {cpu_usage}%')
+
+    if memory_usage > 90:
+        status = 'critical'
+        alerts.append(f'Critical memory usage: {memory_usage}%')
+
+    if disk_usage > 85:
+        status = 'warning'
+        alerts.append(f'High disk usage: {disk_usage}%')
+
+    return {
+        'status': status,
+        'alerts': alerts,
+        'metrics': metrics
+    }
+
+# Example usage
+server_metrics = {
+    'cpu_usage': 45,
+    'memory_usage': 60,
+    'disk_usage': 72
+}
+
+result = analyze_server_metrics(server_metrics)
+print(f"Server Status: {result['status']}")
+print(f"Metrics: {result['metrics']}")
+print(f"Alerts: {result['alerts']}")
+</pre>
+                            </div>
+                            <div class="demo-controls mt-3">
+                                <button id="demo-btn-1" class="btn btn-sm btn-outline-primary me-2">Server
+                                    Analysis</button>
+                                <button id="demo-btn-2" class="btn btn-sm btn-outline-primary me-2">AI
+                                    Integration</button>
+                                <button id="demo-btn-3" class="btn btn-sm btn-outline-primary me-2">K8s
+                                    Automation</button>
+                                <button id="run-code" class="btn btn-sm btn-primary">Run Demo</button>
+                            </div>
+                            <div id="code-output" class="mt-3 p-3 bg-dark text-light rounded">
+                                <pre>Server Status: healthy
+Metrics: {'cpu_usage': 45, 'memory_usage': 60, 'disk_usage': 72}
+Alerts: []</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

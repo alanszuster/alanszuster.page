@@ -1,0 +1,42 @@
+:root {
+    /* Dark theme variables */
+    --bg-darker: #0f1115;
+    --bg-dark: #141922;
+    --card-bg: #1e2532;
+    --text-light: #e4e6eb;
+    --text-muted: #9ca2af;
+    --border-color: #2c3647;
+    --primary-color: #4cc9f0;
+    --primary-dark: #176686;
+    --accent-color: #7b2cbf;
+}
+
+/* Base Dark Theme Styles */
+body {
+    background-color: var(--bg-darker);
+    color: var(--text-light);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-light);
+}
+
+a {
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #7dd9fa;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #65d2f3;
+    border-color: #65d2f3;
+}

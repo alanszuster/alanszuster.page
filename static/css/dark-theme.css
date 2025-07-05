@@ -1,0 +1,206 @@
+/* Bootstrap dark theme overrides */
+.card {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+.bg-light {
+    background-color: var(--bg-dark) !important;
+}
+
+.bg-white {
+    background-color: var(--card-bg) !important;
+    color: var(--text-light);
+}
+
+.form-control {
+    background-color: var(--bg-dark);
+    border-color: var(--border-color);
+    color: var(--text-light);
+}
+
+.form-control:focus {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(76, 201, 240, 0.25);
+}
+
+.form-floating>.form-control:focus~label,
+.form-floating>.form-control:not(:placeholder-shown)~label {
+    color: var(--primary-color);
+}
+
+.form-floating>label {
+    color: var(--text-muted);
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+.shadow-sm {
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, 0.4) !important;
+}
+
+.modal-content {
+    background-color: var(--bg-dark);
+    border-color: var(--border-color);
+}
+
+/* AI Chat Styling */
+.ai-interactive-demo {
+    background-color: var(--card-bg);
+}
+
+.chat-container {
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-darker);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.chat-messages {
+    background-color: var(--bg-darker);
+    height: 300px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) var(--bg-darker);
+}
+
+.message {
+    display: flex;
+    margin-bottom: 10px;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.message-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--bg-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.user-message .message-avatar {
+    background-color: var(--primary-color);
+}
+
+.ai-message .message-avatar {
+    background-color: var(--accent-color);
+}
+
+.message-content {
+    background-color: var(--bg-dark);
+    border-radius: 12px;
+    padding: 8px 12px;
+    max-width: calc(100% - 50px);
+    word-break: break-word;
+}
+
+.user-message .message-content {
+    background-color: var(--primary-dark);
+    margin-left: auto;
+    margin-right: 0;
+    border-bottom-right-radius: 2px;
+}
+
+.ai-message .message-content {
+    background-color: var(--card-bg);
+    border-bottom-left-radius: 2px;
+}
+
+.chat-input-container {
+    background-color: var(--bg-dark);
+    padding: 8px;
+    border-top: 1px solid var(--border-color);
+}
+
+.chat-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.suggestion-chip {
+    background-color: var(--card-bg);
+    color: var(--text-light);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 4px 12px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.suggestion-chip:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+/* Typing indicator */
+.typing-indicator .message-text {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.dot-typing {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--text-muted);
+    animation: dotTyping 1.5s infinite ease-in-out;
+}
+
+.dot-typing:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.dot-typing:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.dot-typing:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes dotTyping {
+    0%, 100% { transform: scale(0.7); opacity: 0.5; }
+    50% { transform: scale(1.2); opacity: 1; }
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+/* Neon glow effect for some elements */
+.logo a span {
+    text-shadow: 0 0 10px var(--primary-color);
+}

@@ -1,27 +1,4 @@
-{% extends "base.html" %}
-
-{% block title %}Alan Szuster - Home{% endblock %}
-
-{% block content %}
-<section class="hero">
-    <div class="container">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1>Alan Szuster</h1>
-                <h2>Site Reliability Engineer</h2>
-                <p>Ensures reliability and scalability of systems through CI/CD automation, cloud infrastructure (GCP,
-                    Azure), container orchestration (Docker, Kubernetes), and monitoring (Datadog, Zabbix). Codes in
-                    Python, Java, Node.js, TypeScript, and Bash. Occasionally builds AI/ML and GenAI solutions as side
-                    projects.</p>
-                <div class="hero-buttons">
-                    <a href="{{ url_for('about') }}" class="btn btn-primary">About Me</a>
-                    <a href="{{ url_for('contact') }}" class="btn btn-outline">Contact</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
+<!-- What I Do Section -->
 <section class="py-5">
     <div class="container px-4">
         <div class="row gx-5 justify-content-center">
@@ -48,22 +25,22 @@
                     <div class="card-body text-center p-4">
                         <i class="fas fa-chart-line fa-3x mb-4 text-primary"></i>
                         <h3 class="h4 mb-3">Monitoring & Reliability</h3>
-                        <p class="mb-0">System monitoring and observability using Datadog and Zabbix to ensure high
-                            availability and performance.</p>
+                        <p class="mb-0">Implementation of monitoring solutions like Datadog, Prometheus, and Zabbix.
+                            System reliability engineering and incident response.</p>
                     </div>
                 </div>
             </div>
             <div class="col mb-5">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body text-center p-4">
-                        <i class="fas fa-brain fa-3x mb-4 text-primary"></i>
-                        <h3 class="h4 mb-3">Development & AI</h3>
-                        <p class="mb-0">Full-stack development in Python, Java, Node.js, and TypeScript. Building AI/ML
-                            and GenAI solutions as side projects.</p>
+                        <i class="fas fa-robot fa-3x mb-4 text-primary"></i>
+                        <h3 class="h4 mb-3">AI & ML Solutions</h3>
+                        <p class="mb-0">Developing artificial intelligence and machine learning solutions as side
+                            projects,
+                            exploring GenAI applications.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-{% endblock %}
