@@ -19,7 +19,6 @@ def load_visitor_data():
             "visits_by_date": {},
             "visits_by_hour": {str(i): 0 for i in range(24)},
             "user_agents": {},
-            "paths": {},
             "last_updated": datetime.now().isoformat()
         }
         save_visitor_data(default_data)
@@ -66,11 +65,6 @@ def increment_counter(request):
     if browser not in data["user_agents"]:
         data["user_agents"][browser] = 0
     data["user_agents"][browser] += 1
-
-    path = request.path
-    if path not in data["paths"]:
-        data["paths"][path] = 0
-    data["paths"][path] += 1
 
     save_visitor_data(data)
     return data

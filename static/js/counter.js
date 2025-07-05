@@ -3,21 +3,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const todayVisitsDisplay = document.getElementById('today-visits');
     const visitorCounter = document.getElementById('visitor-counter');
 
-    // Initial fetch
     updateVisitorCounter();
 
-    // Update every 30 seconds
     setInterval(updateVisitorCounter, 30000);
+  function updateVisitorCounter() {
 
-    function updateVisitorCounter() {
         fetch('/api/visitor-count')
             .then(response => response.json())
             .then(data => {
-                // Update the counter with elegant fade transition
                 fadeTransition(counterDigits, data.total_visits.toLocaleString());
                 fadeTransition(todayVisitsDisplay, data.today.toLocaleString());
 
-                // Make the counter visible
                 visitorCounter.classList.add('visible');
             })
             .catch(error => {

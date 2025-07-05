@@ -1,16 +1,17 @@
 :root {
-    --primary-color: #4361ee;
-    --secondary-color: #3a0ca3;
-    --accent-color: #4cc9f0;
-    --bg-light: #f8f9fa;
+    --primary-color: #4cc9f0;
+    --secondary-color: #4361ee;
+    --accent-color: #7c3aed;
+    --bg-light: #2d3748;
     --bg-dark: #1a202c;
     --text-light: #f8f9fa;
-    --text-dark: #2d3748;
-    --text-muted: #718096;
-    --border-color: #e2e8f0;
-    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --text-dark: #e2e8f0;
+    --text-muted: #a0aec0;
+    --border-color: #4a5568;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     --transition: all 0.3s ease;
     --container-width: 1200px;
+    --card-bg: #2d3748;
 }
 
 
@@ -28,8 +29,8 @@ html {
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     line-height: 1.7;
-    background-color: var(--bg-light);
-    color: var(--text-dark);
+    background-color: var(--bg-dark);
+    color: var(--text-light);
     transition: var(--transition);
 }
 
@@ -60,11 +61,12 @@ ul, ol {
 header {
     position: sticky;
     top: 0;
-    background-color: var(--bg-light);
+    background-color: var(--bg-dark);
     box-shadow: var(--shadow);
     padding: 1rem 0;
     z-index: 100;
     transition: var(--transition);
+    border-bottom: 1px solid var(--border-color);
 }
 
 nav {
@@ -76,7 +78,7 @@ nav {
 .logo a {
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--text-dark);
+    color: var(--text-light);
 }
 
 .logo span {
@@ -89,7 +91,7 @@ nav {
 }
 
 .nav-links a {
-    color: var(--text-dark);
+    color: var(--text-light);
     font-weight: 500;
     padding: 0.5rem 0;
     position: relative;
@@ -123,7 +125,7 @@ nav {
     display: block;
     width: 30px;
     height: 3px;
-    background-color: var(--text-dark);
+    background-color: var(--text-light);
     transition: var(--transition);
 }
 
@@ -178,13 +180,15 @@ nav {
 
 .btn-primary {
     background-color: var(--primary-color);
-    color: var(--text-light);
+    color: var(--bg-dark);
     border: 2px solid var(--primary-color);
+    font-weight: 600;
 }
 
 .btn-primary:hover {
     background-color: var(--secondary-color);
     border-color: var(--secondary-color);
+    box-shadow: 0 0 15px rgba(76, 201, 240, 0.5);
 }
 
 .btn-outline {
@@ -194,8 +198,9 @@ nav {
 }
 
 .btn-outline:hover {
-    background-color: var(--primary-color);
-    color: var(--text-light);
+    background-color: rgba(76, 201, 240, 0.2);
+    color: var(--primary-color);
+    box-shadow: 0 0 15px rgba(76, 201, 240, 0.3);
 }
 
 .hero-buttons {
@@ -237,7 +242,7 @@ section {
 }
 
 .card {
-    background-color: var(--bg-light);
+    background-color: var(--card-bg);
     border-radius: 8px;
     padding: 2rem;
     box-shadow: var(--shadow);
@@ -251,7 +256,8 @@ section {
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    border-color: var(--primary-color);
 }
 
 .card-icon {
@@ -377,7 +383,7 @@ section {
 }
 
 .project-card {
-    background-color: var(--bg-light);
+    background-color: var(--card-bg);
     border-radius: 8px;
     border: 1px solid var(--border-color);
     overflow: hidden;
@@ -389,6 +395,7 @@ section {
 .project-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow);
+    border-color: var(--primary-color);
 }
 
 .project-card-image {
@@ -484,8 +491,8 @@ section {
     padding: 0.75rem;
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    background-color: var(--bg-light);
-    color: var(--text-dark);
+    background-color: var(--bg-dark);
+    color: var(--text-light);
     transition: var(--transition);
 }
 
@@ -493,14 +500,15 @@ section {
 .contact-form textarea:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.3);
 }
 
 
 footer {
-    background-color: var(--bg-dark);
+    background-color: #141921;
     color: var(--text-light);
     padding: 3rem 0;
+    border-top: 1px solid var(--border-color);
 }
 
 .footer-content {
@@ -529,6 +537,25 @@ footer {
     transition: opacity 0.8s ease;
     font-size: 0.85rem;
     margin-top: 0.75rem;
+}
+
+.header-counter {
+    font-size: 0.7rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.header-counter .visit-stats {
+    display: flex;
+    gap: 1rem;
+    color: var(--text-light);
+    opacity: 0.9;
+}
+
+.header-counter .stat-value {
+    color: var(--primary-color);
+    font-weight: 700;
 }
 
 .visitor-counter.visible {
@@ -564,7 +591,7 @@ footer {
         top: 70px;
         left: 0;
         right: 0;
-        background-color: var(--bg-light);
+        background-color: var(--bg-dark);
         flex-direction: column;
         gap: 0;
         height: 0;

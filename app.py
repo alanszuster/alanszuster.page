@@ -12,30 +12,9 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     stats = get_visitor_stats()
-    return render_template('index.html',
+    return render_template('onepage.html',
                            year=datetime.now().year,
                            visitor_stats=stats)
-
-@app.route('/about/')
-def about():
-    stats = get_visitor_stats()
-    return render_template('about.html',
-                          year=datetime.now().year,
-                          visitor_stats=stats)
-
-@app.route('/skills/')
-def skills():
-    stats = get_visitor_stats()
-    return render_template('skills.html',
-                          year=datetime.now().year,
-                          visitor_stats=stats)
-
-@app.route('/contact/')
-def contact():
-    stats = get_visitor_stats()
-    return render_template('contact.html',
-                          year=datetime.now().year,
-                          visitor_stats=stats)
 
 @app.route('/api/visitor-count')
 def visitor_count():
