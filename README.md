@@ -21,14 +21,20 @@ This is my personal website showcasing my work as a Site Reliability Engineer (S
 
 ## Google Analytics Configuration
 
-To set up the visitor counter with Google Analytics:
+### Visitor Counter Configuration
 
-1. Create a Google Analytics account at https://analytics.google.com/
+The site includes a visitor counter powered by CountAPI:
+
+1. The counter is already set up with namespace key 'alanszuster-portfolio'
+2. It tracks both total visits and daily visits
+3. Each visitor is counted once per browser session
+4. No additional setup is needed - the counter works out of the box
+
+For Google Analytics setup:
+
+1. Create a Google Analytics account at [https://analytics.google.com/](https://analytics.google.com/)
 2. Create a new property and get your measurement ID (format: G-XXXXXXXXXX)
 3. Replace the placeholder `G-MEASUREMENT_ID` in `templates/base.html` with your actual measurement ID
-4. The visitor counter will now track using Google Analytics data
-
-Note: The counter on the page uses localStorage to provide immediate visual feedback, while actual analytics data is collected by Google Analytics.
 
 ## Author
 
