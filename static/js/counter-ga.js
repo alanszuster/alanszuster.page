@@ -69,6 +69,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // Pokaż licznik
         if (visitorCounter) {
             visitorCounter.classList.add('visible');
+
+            // Safari mobile fix - ensure counter is visible
+            visitorCounter.style.opacity = '1';
+            visitorCounter.style.visibility = 'visible';
         }
     })();
 });
