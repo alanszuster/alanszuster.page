@@ -1,3 +1,5 @@
+![Status](https://github.com/alanszuster/alanszuster.github.io/actions/workflows/ci.yaml/badge.svg)
+
 # Alan Szuster - Personal Website
 
 This is my personal website showcasing my work as a Site Reliability Engineer (SRE). The site highlights my expertise in cloud infrastructure, system automation, monitoring, and development skills, with AI/ML projects as side endeavors. The site is built using Flask and Flask-Frozen to generate static files, and is hosted on GitHub Pages.
