@@ -1,4 +1,4 @@
-![Status](https://github.com/alanszuster/alanszuster.github.io/actions/workflows/ci.yaml/badge.svg)
+![Build and Deploy to GitHub Pages](https://github.com/alanszuster/alanszuster.github.io/actions/workflows/ci.yml/badge.svg)
 
 # Alan Szuster - Personal Website
 
