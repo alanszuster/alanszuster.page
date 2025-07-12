@@ -532,44 +532,6 @@ footer {
     color: var(--primary-color);
 }
 
-.visitor-counter {
-    opacity: 0;
-    transition: opacity 0.8s ease;
-    font-size: 0.85rem;
-    margin-top: 0.75rem;
-    /* Safari fix */
-    -webkit-transition: opacity 0.8s ease;
-    -webkit-opacity: 0;
-    display: block;
-    visibility: visible !important; /* Ensure visibility in Safari */
-}
-
-.header-counter {
-    font-size: 0.7rem;
-    margin: 0;
-    display: flex;
-    align-items: center;
-}
-
-.header-counter .visit-stats {
-    display: flex;
-    gap: 1rem;
-    color: var(--text-light);
-    opacity: 0.9;
-}
-
-.header-counter .stat-value {
-    color: var(--primary-color);
-    font-weight: 700;
-}
-
-.visitor-counter.visible {
-    opacity: 1;
-    -webkit-opacity: 1;
-    /* Ensure the counter is visible with higher specificity instead of !important */
-    visibility: visible;
-}
-
 .visit-stats {
     display: flex;
     flex-direction: column;
@@ -659,18 +621,8 @@ footer {
     }
 }
 
-/* Mobile Safari fix for visitor counter */
+/* Mobile navigation */
 @media (max-width: 767px) {
-    .visitor-counter {
-        opacity: 1;
-        -webkit-opacity: 1;
-        visibility: visible;
-    }
-
-    .header-counter {
-        font-size: 0.65rem;
-    }
-
     .nav {
         flex-wrap: wrap;
     }

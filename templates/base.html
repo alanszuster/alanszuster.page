@@ -31,13 +31,6 @@
                     <a href="#contact" class="scroll-link">Contact</a>
                 </div>
 
-                <div id="visitor-counter" class="visitor-counter header-counter">
-                    <div class="visit-stats">
-                        <span>Visits: <span id="counter-digits" class="stat-value">0</span></span>
-                        <span>Today: <span id="today-visits" class="stat-value">0</span></span>
-                    </div>
-                </div>
-
                 <div class="hamburger">
                     <span></span>
                     <span></span>
@@ -68,7 +61,6 @@
     </footer>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/counter-ga.js') }}"></script>
     {% block scripts %}
     {% endblock %}
 </body>

@@ -52,3 +52,6 @@ data/
 
 # Config files with private keys
 config.local.json
+
+# Vercel
+.vercel
