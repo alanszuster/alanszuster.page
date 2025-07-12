@@ -169,17 +169,29 @@ class AIPlayground {
                 console.log(`AI model can recognize ${this.totalClasses} different classes:`, result.classes);
             } else {
                 console.warn('Could not load classes info:', result.error);
+                this.showClassesError();
             }
 
         } catch (error) {
             console.error('Error loading classes info:', error);
+            this.showClassesError();
         }
     }
 
     updateClassesDisplay() {
         const classesInfo = document.getElementById('classesInfo');
         if (classesInfo && this.totalClasses > 0) {
-            classesInfo.textContent = `The AI can recognize ${this.totalClasses} different drawings`;
+            classesInfo.innerHTML = `<i class="fas fa-robot text-primary"></i> The AI can recognize <strong>${this.totalClasses}</strong> different drawings`;
+            classesInfo.className = 'alert alert-success mb-3';
+            classesInfo.style.display = 'block';
+        }
+    }
+
+    showClassesError() {
+        const classesInfo = document.getElementById('classesInfo');
+        if (classesInfo) {
+            classesInfo.innerHTML = `<i class="fas fa-exclamation-triangle text-warning"></i> AI service is currently unavailable`;
+            classesInfo.className = 'alert alert-warning mb-3';
             classesInfo.style.display = 'block';
         }
     }
