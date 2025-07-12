@@ -7,9 +7,11 @@ class AIPlayground {
         this.lastX = 0;
         this.lastY = 0;
         this.apiUrl = '/api/ai'; // Use our proxy endpoints
+        this.totalClasses = 0; // Store total number of classes
 
         this.initCanvas();
         this.bindEvents();
+        this.loadClassesInfo(); // Load classes info on initialization
     }
 
     initCanvas() {
@@ -153,6 +155,32 @@ class AIPlayground {
         } catch (error) {
             console.error('Random word error:', error);
             this.showError(`Failed to get random word: ${error.message}`);
+        }
+    }
+
+    async loadClassesInfo() {
+        try {
+            const response = await fetch(`${this.apiUrl}/classes`);
+            const result = await response.json();
+
+            if (response.ok && result.classes) {
+                this.totalClasses = result.total_classes;
+                this.updateClassesDisplay();
+                console.log(`AI model can recognize ${this.totalClasses} different classes:`, result.classes);
+            } else {
+                console.warn('Could not load classes info:', result.error);
+            }
+
+        } catch (error) {
+            console.error('Error loading classes info:', error);
+        }
+    }
+
+    updateClassesDisplay() {
+        const classesInfo = document.getElementById('classesInfo');
+        if (classesInfo && this.totalClasses > 0) {
+            classesInfo.textContent = `The AI can recognize ${this.totalClasses} different drawings`;
+            classesInfo.style.display = 'block';
         }
     }
 
