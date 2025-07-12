@@ -68,6 +68,24 @@ def ai_health():
             'error': f'AI service unavailable: {str(e)}'
         }), 503
 
+@app.route('/api/ai/classes')
+def ai_classes():
+    """Proxy endpoint for getting available classes"""
+    try:
+        response = requests.get(
+            f"{AI_API_URL}/classes",
+            timeout=10
+        )
+
+        return jsonify(response.json()), response.status_code
+
+    except requests.exceptions.RequestException as e:
+        return jsonify({
+            'error': f'Failed to connect to AI service: {str(e)}',
+            'classes': [],
+            'total_classes': 0
+        }), 503
+
 app = app
 
 if __name__ == '__main__':
