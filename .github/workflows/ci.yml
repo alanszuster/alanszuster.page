@@ -7,6 +7,7 @@ on:
     branches: [main]
 
 env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 jobs:
@@ -46,7 +47,7 @@ jobs:
       - name: Test Flask app startup
         run: |
           export FLASK_APP=app.py
-          python -c "from app import app; print('✅ Flask app imports successfully')"
+          python -c "from app import app; print('Flask app imports successfully')"
 
   deploy-preview:
     runs-on: ubuntu-latest
@@ -79,7 +80,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `🚀 **Preview deployment ready!**\n\n📱 **Preview URL:** ${process.env.PREVIEW_URL}\n\n✅ Tests passed\n🧪 Flask app tested`
+              body: `Preview deployment ready!\n\nURL: ${process.env.PREVIEW_URL}\n\nTests passed\nFlask app tested`
             })
 
   deploy-production:
@@ -106,8 +107,8 @@ jobs:
 
       - name: Notify deployment success
         run: |
-          echo "🎉 Successfully deployed to production!"
-          echo "🌐 Live URL: https://alanszuster.vercel.app"
+          echo "Successfully deployed to production"
+          echo "URL: https://alanszuster.vercel.app"
 
   lighthouse:
     runs-on: ubuntu-latest
