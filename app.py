@@ -7,8 +7,10 @@ from dotenv import load_dotenv
 load_dotenv()
 app = Flask(__name__)
 
+
 # Configuration for AI Calambury API
-AI_API_URL = os.getenv('AI_API_URL', 'http://localhost:5000')  # Default to localhost for development
+AI_API_URL = os.getenv('AI_API_URL')
+AI_API_KEY = os.getenv('AI_API_KEY')
 
 @app.route('/')
 def index():
@@ -18,16 +20,16 @@ def index():
 def ai_predict():
     """Proxy endpoint for AI prediction to handle CORS and API routing"""
     try:
-        # Forward the request to the AI microservice
+        headers = {'Content-Type': 'application/json'}
+        if AI_API_KEY:
+            headers['x-api-key'] = AI_API_KEY
         response = requests.post(
             f"{AI_API_URL}/predict",
             json=request.json,
-            headers={'Content-Type': 'application/json'},
+            headers=headers,
             timeout=30
         )
-
         return jsonify(response.json()), response.status_code
-
     except requests.exceptions.RequestException as e:
         return jsonify({
             'error': f'Failed to connect to AI service: {str(e)}',
@@ -38,13 +40,15 @@ def ai_predict():
 def ai_random_word():
     """Proxy endpoint for getting random word"""
     try:
+        headers = {}
+        if AI_API_KEY:
+            headers['x-api-key'] = AI_API_KEY
         response = requests.get(
             f"{AI_API_URL}/get_random_word",
+            headers=headers,
             timeout=10
         )
-
         return jsonify(response.json()), response.status_code
-
     except requests.exceptions.RequestException as e:
         return jsonify({
             'error': f'Failed to connect to AI service: {str(e)}',
@@ -55,13 +59,15 @@ def ai_random_word():
 def ai_health():
     """Check AI service health"""
     try:
+        headers = {}
+        if AI_API_KEY:
+            headers['x-api-key'] = AI_API_KEY
         response = requests.get(
             f"{AI_API_URL}/health",
+            headers=headers,
             timeout=5
         )
-
         return jsonify(response.json()), response.status_code
-
     except requests.exceptions.RequestException as e:
         return jsonify({
             'status': 'unhealthy',
@@ -72,13 +78,15 @@ def ai_health():
 def ai_classes():
     """Proxy endpoint for getting available classes"""
     try:
+        headers = {}
+        if AI_API_KEY:
+            headers['x-api-key'] = AI_API_KEY
         response = requests.get(
             f"{AI_API_URL}/classes",
+            headers=headers,
             timeout=10
         )
-
         return jsonify(response.json()), response.status_code
-
     except requests.exceptions.RequestException as e:
         return jsonify({
             'error': f'Failed to connect to AI service: {str(e)}',
