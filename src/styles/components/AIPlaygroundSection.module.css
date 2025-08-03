@@ -1,0 +1,298 @@
+/* Main AI Playground Section */
+.aiPlayground {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  min-height: 90vh; /* Reduced from 100vh for better flow */
+  padding: 3rem 0; /* Reduced padding */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add subtle background animation */
+.aiPlayground::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 1px,
+    transparent 1px
+  );
+  background-size: 50px 50px;
+  animation: backgroundMove 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes backgroundMove {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Section Headers */
+.sectionHeading {
+  color: white;
+  margin-bottom: 1rem;
+  font-size: 3rem;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.sectionSubheading {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 3rem;
+  font-size: 1.5rem;
+}
+
+/* Card Styling */
+.card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  max-width: 700px;
+  margin: 0 auto;
+  transform: translateY(20px);
+  opacity: 0;
+  animation: cardSlideIn 0.8s ease-out 0.3s forwards;
+}
+
+@keyframes cardSlideIn {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25);
+}
+
+.cardBody {
+  padding: 2.5rem;
+  text-align: center;
+}
+
+/* Drawing Area */
+.drawingArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.drawingCanvas {
+  background: white;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  cursor: crosshair;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  touch-action: none;
+  max-width: 100%;
+  height: auto;
+  opacity: 0;
+  transform: scale(0.9) rotateX(10deg);
+  animation: canvasAppear 1s ease-out 0.2s forwards;
+}
+
+@keyframes canvasAppear {
+  to {
+    opacity: 1;
+    transform: scale(1) rotateX(0deg);
+  }
+}
+
+.drawingCanvas:hover {
+  border-color: #667eea;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  transform: scale(1.02);
+}
+
+/* Responsive canvas for mobile */
+@media (max-width: 768px) {
+  .drawingCanvas {
+    width: 100%;
+    max-width: 90vw;
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .card {
+    max-width: 95%;
+    margin: 0 auto;
+    animation-delay: 0.1s; /* Faster animation on mobile */
+  }
+
+  .cardBody {
+    padding: 1.5rem;
+  }
+
+  .controlsContainer {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .controlButton {
+    width: 100%;
+    max-width: 250px;
+    animation-duration: 0.4s; /* Faster animations on mobile */
+  }
+
+  /* Disable complex animations on mobile for performance */
+  .aiPlayground::before {
+    display: none;
+  }
+}
+
+.drawingCanvas:hover {
+  border-color: #667eea;
+}
+
+/* Controls Container */
+.controlsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+/* Control Buttons */
+.controlButton {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 140px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: buttonSlideIn 0.6s ease-out forwards;
+}
+
+/* Staggered button animations */
+.controlButton:nth-child(1) {
+  animation-delay: 0.4s;
+}
+.controlButton:nth-child(2) {
+  animation-delay: 0.5s;
+}
+.controlButton:nth-child(3) {
+  animation-delay: 0.6s;
+}
+.controlButton:nth-child(4) {
+  animation-delay: 0.7s;
+}
+
+@keyframes buttonSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Button hover effects */
+.controlButton::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.controlButton:hover::before {
+  left: 100%;
+}
+
+.controlButton:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+.controlButton:active {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Challenge Word */
+.challengeWord {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Instructions */
+.instructions {
+  background: rgba(102, 126, 234, 0.1);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-top: 2rem;
+  color: #333;
+}
+
+.instructions h4 {
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  color: #667eea;
+  font-weight: 600;
+}
+
+.instructionsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.instructionsList li {
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: flex-start;
+  color: #555;
+  line-height: 1.4;
+}
+
+.instructionsList li::before {
+  content: "✓";
+  color: #667eea;
+  font-weight: bold;
+  margin-right: 0.75rem;
+  margin-top: 0.1rem;
+  flex-shrink: 0;
+}
