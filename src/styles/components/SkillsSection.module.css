@@ -1,0 +1,132 @@
+.skills {
+  padding: 3rem 0;
+  background: #1a1a1a; /* Static dark gray background */
+  color: var(--text-light);
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: none; /* Remove background animation */
+}
+
+/* Dark transition when section becomes visible */
+.skills.visible {
+  background: #1a1a1a;
+}
+
+/* Animated background pattern */
+.skills::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+      circle at 30% 70%,
+      rgba(67, 97, 238, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 70% 30%,
+      rgba(76, 201, 240, 0.1) 0%,
+      transparent 50%
+    );
+  animation: backgroundFloat 18s ease-in-out infinite;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1s ease-in-out 1.5s; /* Delay background animation */
+}
+
+.skills.visible::before {
+  opacity: 1;
+}
+
+@keyframes backgroundFloat {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.08) rotate(-1deg);
+  }
+}
+
+.skills h2 {
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  margin-bottom: 2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.divider {
+  width: 60px;
+  height: 4px;
+  background-color: var(--primary-color);
+  margin: 0.5rem auto 2rem;
+  border-radius: 2px;
+}
+
+.skillTable {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.skillCategory {
+  background: var(--bg-dark);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.skillCategory:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.categoryHeader {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.skillList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.skillList li {
+  font-size: 1rem;
+  color: var(--text-light);
+  background: #333;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.skillList li:hover {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
