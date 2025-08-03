@@ -1,4 +1,6 @@
-import React, { useEffect } from "react";
+"use client";
+
+import { useEffect } from "react";
 import Image from "next/image";
 import HeroSection from "../components/HeroSection";
 import AIPlaygroundSection from "../components/AIPlaygroundSection";
@@ -6,7 +8,7 @@ import ServicesSection from "../components/ServicesSection";
 import AboutSection from "../components/AboutSection";
 import SkillsSection from "../components/SkillsSection";
 
-export default function Home() {
+export default function HomePage() {
   useEffect(() => {
     const sections = document.querySelectorAll("section");
     const navLinks = document.querySelectorAll("nav .links a");
@@ -122,8 +124,8 @@ export default function Home() {
             <Image
               src="/custom-logo-as.png"
               alt="AS Logo"
-              width={50} // Increased size
-              height={50} // Increased size
+              width={50}
+              height={50}
             />
           </a>
           <span
