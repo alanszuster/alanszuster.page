@@ -111,7 +111,7 @@ jobs:
           git push origin main
 
       - name: Create GitHub Release
-        uses: actions/create-release@v2
+        uses: actions/create-release@v1
         with:
           tag_name: "v${{ steps.bump_version.outputs.new_version }}"
           release_name: "Release v${{ steps.bump_version.outputs.new_version }}"
@@ -120,7 +120,7 @@ jobs:
           prerelease: false
 
       - name: Update Deployment Status
-        uses: actions/github-script@v7
+        uses: actions/github-script@v6
         with:
           script: |
             github.rest.repos.createDeploymentStatus({
