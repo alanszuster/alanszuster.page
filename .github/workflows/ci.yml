@@ -32,27 +32,16 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     needs: test
-
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-
-      - name: Install dependencies
-        run: npm install
-
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
-
-      - name: Deploy to Preview
-        id: vercel_preview
-        run: |
-          url=$(vercel --token=${{ secrets.VERCEL_TOKEN }})
-          echo "Preview URL: $url" >> $GITHUB_STEP_SUMMARY
-          echo "PREVIEW_URL=$url" >> $GITHUB_ENV
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build Project Artifacts
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Update Deployment Status for Preview
         uses: actions/github-script@v7
@@ -67,32 +56,24 @@ jobs:
               environment_url: process.env.PREVIEW_URL,
               description: 'Preview deployment successful'
             })
-
   deploy-production:
-    runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     needs: test
-
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-
-      - name: Install dependencies
-        run: npm install
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      - name: Deploy to Production
-        id: vercel_prod
-        run: |
-          url=$(vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --project-id=${{ secrets.VERCEL_PROJECT_ID }} --org-id=${{ secrets.VERCEL_ORG_ID }})
-          echo "Successfully deployed to production!" >> $GITHUB_STEP_SUMMARY
-          echo "URL=$url" >> $GITHUB_ENV
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Update Deployment Status for Production
         uses: actions/github-script@v7
@@ -107,3 +88,22 @@ jobs:
               environment_url: process.env.URL,
               description: 'Production deployment successful'
             })
+
+      - name: Bump version
+        id: bump_version
+        run: |
+          new_version=$(npm version patch -m "ci: bump version to %s [skip ci]")
+          echo "::set-output name=new_version::$new_version"
+
+      - name: Push updated version
+        run: |
+          git push origin main
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: "${{ steps.bump_version.outputs.new_version }}"
+          release_name: "Release ${{ steps.bump_version.outputs.new_version }}"
+          body: "Deployment URL: ${{ env.URL }}"
+          draft: false
+          prerelease: false
