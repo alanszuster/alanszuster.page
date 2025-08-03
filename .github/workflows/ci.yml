@@ -17,6 +17,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "24"
+
       - name: Install dependencies
         run: npm install
 
@@ -31,11 +36,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "24"
+
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: NPM install
+        run: npm install
 
       - name: Build Project Artifacts
         run: npm run build
@@ -67,11 +80,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "24"
+
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: NPM install
+        run: npm install
 
       - name: Build Project Artifacts
         run: npm run build
