@@ -92,8 +92,34 @@ jobs:
       - name: Deploy Production to Vercel
         run: |
           url=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
-
-      - name: Notify deployment success
-        run: |
           echo "Successfully deployed to production!" >> $GITHUB_STEP_SUMMARY
           echo "URL: https://alanszuster.vercel.app" >> $GITHUB_STEP_SUMMARY
+
+      - name: Bump version
+        id: bump_version
+        run: |
+          new_version=$(npm version patch -m "ci: bump version to %s [skip ci]")
+          echo "::set-output name=new_version::${new_version}"
+          git push origin main
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: "v${{ steps.bump_version.outputs.new_version }}"
+          release_name: "Release v${{ steps.bump_version.outputs.new_version }}"
+          body: "Deployment URL: https://alanszuster.vercel.app"
+          draft: false
+          prerelease: false
+
+      - name: Update Deployment Status
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: context.payload.deployment.id,
+              state: 'success',
+              environment_url: 'https://alanszuster.vercel.app',
+              description: 'Production deployment successful'
+            })
