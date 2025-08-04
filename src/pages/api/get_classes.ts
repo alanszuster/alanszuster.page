@@ -8,7 +8,7 @@ export default async function handler(
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const apiUrl = `${process.env.AI_APP_ENDPOINT}/get_classes`;
+  const apiUrl = `${process.env.AI_APP_ENDPOINT}/classes`;
   const apiKey = process.env.AI_APP_TOKEN;
 
   try {
@@ -22,7 +22,7 @@ export default async function handler(
     const data = await response.json();
     res.status(response.status).json(data);
   } catch (error) {
-    console.error("Error in /api/get_classes:", error);
+    console.error("[ERROR] Error in /api/get_classes:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 }
