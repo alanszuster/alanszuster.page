@@ -19,19 +19,10 @@ export default function AIPlaygroundSection() {
     const imageData = canvas.toDataURL("image/png");
 
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_AI_APP_ENDPOINT}/predict`;
-      const apiKey = process.env.NEXT_PUBLIC_AI_APP_TOKEN;
-
-      if (!apiUrl || !apiKey) {
-        setError("API configuration is missing");
-        return;
-      }
-
-      const response = await fetch(apiUrl, {
+      const response = await fetch("/api/predict", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": apiKey, // Changed to x-api-key
         },
         body: JSON.stringify({ image: imageData }),
       });
@@ -53,19 +44,8 @@ export default function AIPlaygroundSection() {
 
   const handleGetKnownClasses = async () => {
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_AI_APP_ENDPOINT}/get_classes`;
-      const apiKey = process.env.NEXT_PUBLIC_AI_APP_TOKEN;
-
-      if (!apiUrl || !apiKey) {
-        setError("API configuration is missing");
-        return;
-      }
-
-      const response = await fetch(apiUrl, {
+      const response = await fetch("/api/get_classes", {
         method: "GET",
-        headers: {
-          "x-api-key": apiKey, // Changed to x-api-key
-        },
       });
 
       if (!response.ok) {
@@ -85,19 +65,8 @@ export default function AIPlaygroundSection() {
 
   const handleGetRandomClass = async () => {
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_AI_APP_ENDPOINT}/get_random_word`;
-      const apiKey = process.env.NEXT_PUBLIC_AI_APP_TOKEN;
-
-      if (!apiUrl || !apiKey) {
-        setError("API configuration is missing");
-        return;
-      }
-
-      const response = await fetch(apiUrl, {
+      const response = await fetch("/api/get_random_class", {
         method: "GET",
-        headers: {
-          "x-api-key": apiKey, // Changed to x-api-key
-        },
       });
 
       if (!response.ok) {
@@ -117,39 +86,22 @@ export default function AIPlaygroundSection() {
 
   const checkApiHealth = async () => {
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_AI_APP_ENDPOINT}/health`;
-      const apiKey = process.env.NEXT_PUBLIC_AI_APP_TOKEN;
-
-      console.log("API URL:", apiUrl); // Debug log
-      console.log("API Key:", apiKey); // Debug log
-
-      if (!apiUrl || !apiKey) {
-        setError("API configuration is missing");
-        return;
-      }
-
-      const response = await fetch(apiUrl, {
+      const response = await fetch("/api/health", {
         method: "GET",
-        headers: {
-          "x-api-key": apiKey, // Changed to x-api-key
-        },
       });
 
-      console.log("API Health Response Status:", response.status); // Debug log
-
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error("API Health Error:", errorData); // Debug log
-        setError(errorData.error || "An error occurred");
+        setApiHealth("API is unhealthy");
+        setError("Failed to fetch API health");
         return;
       }
 
       const data = await response.json();
-      console.log("API Health Data:", data); // Debug log
-      setApiHealth(`Status: ${data.status}, Model: ${data.model}`);
+      setApiHealth("API is healthy");
       setError(null);
     } catch (err) {
       console.error("API Health Exception:", err); // Debug log
+      setApiHealth("API is unhealthy");
       setError("Failed to connect to the server");
     }
   };
