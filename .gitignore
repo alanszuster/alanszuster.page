@@ -82,10 +82,6 @@ CV-2025.pdf
 instance/
 .webassets-cache
 
-# Private files - CV
-CV-2025.pdf
-*.pdf
-
 # Logs
 *.log
 
