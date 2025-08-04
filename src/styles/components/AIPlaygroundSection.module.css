@@ -180,7 +180,7 @@
   border: none;
   border-radius: 8px;
   padding: 0.75rem 1rem;
-  font-size: 0.85rem;
+  font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -189,7 +189,7 @@
   justify-content: center;
   gap: 0.4rem;
   width: 140px;
-  min-width: 140px;
+  min-width: 150px; /* Ensure buttons have enough width */
   max-width: 140px;
   height: 40px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -200,6 +200,7 @@
   animation: buttonSlideIn 0.6s ease-out forwards;
   white-space: nowrap;
   text-overflow: ellipsis;
+  padding: 10px 20px; /* Adjust padding for better appearance */
 }
 
 /* Staggered button animations */

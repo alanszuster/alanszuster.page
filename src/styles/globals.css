@@ -218,6 +218,14 @@ nav .links a {
   overflow: hidden;
 }
 
+nav .links a {
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  text-align: center; /* Center text inside links */
+  display: block; /* Ensure full clickable area */
+  margin: 0 auto; /* Center the links themselves */
+}
+
 nav .links a::before {
   content: "";
   position: absolute;
@@ -354,6 +362,7 @@ nav .hamburger.active span:nth-child(3) {
     border-radius: 10px;
     gap: 15px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+    align-items: center; /* Center menu options */
   }
 
   nav .links.active {
@@ -363,8 +372,17 @@ nav .hamburger.active span:nth-child(3) {
   nav .links a {
     padding: 12px 20px;
     font-size: 1.1rem;
-    text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center; /* Center text inside links */
+    display: block; /* Ensure full clickable area */
+    margin: 0 auto; /* Center the links themselves */
+  }
+
+  nav .links a {
+    padding: 12px 20px;
+    font-size: 1.1rem;
+    text-align: center; /* Center text inside links */
+    display: block; /* Ensure full clickable area */
+    margin: 0 auto; /* Center the links themselves */
   }
 
   nav .links a:last-child {
@@ -374,7 +392,7 @@ nav .hamburger.active span:nth-child(3) {
   nav .social-icons {
     display: none;
     flex-direction: row;
-    justify-content: center;
+    justify-content: center; /* Center social icons */
     width: 100%;
     margin-right: 0;
     padding: 15px 0;
