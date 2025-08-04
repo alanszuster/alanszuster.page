@@ -10,10 +10,16 @@ export default function AIPlaygroundSection() {
 
   const handlePredict = async () => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) {
+      setError("Please draw something on the canvas before predicting.");
+      return;
+    }
 
     const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    if (!ctx) {
+      setError("Canvas context is not available.");
+      return;
+    }
 
     // Convert canvas to Base64
     const imageData = canvas.toDataURL("image/png");
@@ -55,7 +61,7 @@ export default function AIPlaygroundSection() {
       }
 
       const data = await response.json();
-      alert(`Available Classes: ${data.classes.join(", ")}`);
+      setPredictions(data.classes || []); // Display classes in the predictions section
       setError(null);
     } catch (err) {
       console.error(err); // Log the error for debugging
@@ -76,7 +82,7 @@ export default function AIPlaygroundSection() {
       }
 
       const data = await response.json();
-      setRandomWord(data.word || null);
+      setRandomWord(data.word || ""); // Display random word in the random word section
       setError(null);
     } catch (err) {
       console.error(err); // Log the error for debugging
