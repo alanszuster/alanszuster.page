@@ -18,11 +18,9 @@ export default async function handler(
         "x-api-key": apiKey || "",
       },
     });
-
     const data = await response.json();
     res.status(response.status).json(data);
-  } catch (error) {
-    console.error("Error in /api/health:", error);
+  } catch {
     res.status(500).json({ error: "Internal server error" });
   }
 }

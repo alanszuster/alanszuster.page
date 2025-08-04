@@ -13,21 +13,16 @@ export default function HomePage() {
     const sections = document.querySelectorAll("section");
     const navLinks = document.querySelectorAll("nav .links a");
 
-    // Enhanced Intersection Observer with multiple thresholds
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Add staggered animation class
             entry.target.classList.add("visible");
 
-            // Update active navigation link
             const id = entry.target.getAttribute("id");
             if (id) {
-              // Remove active class from all links
               navLinks.forEach((link) => link.classList.remove("active"));
 
-              // Add active class to current link
               const activeLink = document.querySelector(
                 `nav .links a[href="#${id}"]`
               );
@@ -35,11 +30,9 @@ export default function HomePage() {
                 activeLink.classList.add("active");
               }
 
-              // Update URL hash smoothly
               history.replaceState(null, "", `#${id}`);
             }
 
-            // Add special effects for specific sections
             const sectionId = entry.target.getAttribute("id");
             if (sectionId === "ai-playground") {
               (entry.target as HTMLElement).style.setProperty(
@@ -51,18 +44,16 @@ export default function HomePage() {
         });
       },
       {
-        threshold: [0.2, 0.5, 0.8], // Multiple thresholds for smoother transitions
-        rootMargin: "-10% 0px -10% 0px", // Trigger animation slightly before/after
+        threshold: [0.2, 0.5, 0.8],
+        rootMargin: "-10% 0px -10% 0px",
       }
     );
 
-    // Add initial animation state
     sections.forEach((section) => {
       (section as HTMLElement).style.willChange = "transform, opacity";
       observer.observe(section);
     });
 
-    // Enhanced smooth scroll for navigation
     const smoothScrollLinks = document.querySelectorAll('a[href^="#"]');
     smoothScrollLinks.forEach((link) => {
       link.addEventListener("click", (e) => {
@@ -70,7 +61,6 @@ export default function HomePage() {
         const targetId = link.getAttribute("href")?.substring(1);
         const targetSection = document.getElementById(targetId || "");
         if (targetSection) {
-          // Smooth scroll with offset for fixed navigation
           const offsetTop = targetSection.offsetTop - 70;
           window.scrollTo({
             top: offsetTop,
@@ -80,7 +70,6 @@ export default function HomePage() {
       });
     });
 
-    // Add scroll effect to navigation
     const nav = document.querySelector("nav");
     const handleScroll = () => {
       if (nav) {
@@ -137,6 +126,22 @@ export default function HomePage() {
           >
             Alan Szuster
           </span>
+          <div
+            className="hamburger"
+            onClick={() => {
+              const hamburger = document.querySelector(".hamburger");
+              const links = document.querySelector(".links");
+              const socialIcons = document.querySelector(".social-icons");
+
+              hamburger?.classList.toggle("active");
+              links?.classList.toggle("active");
+              socialIcons?.classList.toggle("active");
+            }}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
         </div>
         <div className="links">
           <a href="#home">Home</a>

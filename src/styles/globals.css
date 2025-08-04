@@ -292,21 +292,126 @@ nav .social-icons a:hover {
   background: rgba(76, 201, 240, 0.1);
 }
 
-@media (max-width: 768px) {
-  nav .social-icons {
-    justify-content: center;
-    margin-right: 0;
-  }
+/* Mobile hamburger menu */
+nav .hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  padding: 10px;
+  z-index: 1001;
+  margin-right: 20px;
+}
 
-  nav .links {
-    display: flex;
+nav .hamburger span {
+  width: 25px;
+  height: 3px;
+  background: var(--text-light);
+  margin: 3px 0;
+  transition: 0.3s;
+  border-radius: 2px;
+}
+
+nav .hamburger.active span:nth-child(1) {
+  transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+nav .hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+nav .hamburger.active span:nth-child(3) {
+  transform: rotate(45deg) translate(-5px, -6px);
+}
+
+@media (max-width: 768px) {
+  nav {
     flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+    padding: 10px 20px;
+    height: auto;
   }
 
   nav .brand {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 0;
+    padding-right: 10px;
+  }
+
+  nav .hamburger {
+    display: flex;
+  }
+
+  nav .links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background: rgba(15, 15, 35, 0.98);
+    padding: 20px 0;
+    margin-top: 10px;
+    border-radius: 10px;
+    gap: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  nav .links.active {
+    display: flex;
+  }
+
+  nav .links a {
+    padding: 12px 20px;
+    font-size: 1.1rem;
     text-align: center;
-    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  nav .links a:last-child {
+    border-bottom: none;
+  }
+
+  nav .social-icons {
+    display: none;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    margin-right: 0;
+    padding: 15px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 10px;
+  }
+
+  nav .social-icons.active {
+    display: flex;
+  }
+}
+
+@media (max-width: 480px) {
+  nav .brand span {
+    font-size: 1rem;
+  }
+
+  nav .brand img {
+    width: 35px;
+    height: 35px;
+  }
+
+  nav .links a {
+    font-size: 1rem;
+    padding: 10px 15px;
+  }
+
+  section {
+    padding: 60px 15px;
+    min-height: 80vh;
+  }
+
+  section h2 {
+    font-size: 2rem;
+  }
+
+  section p {
+    font-size: 1rem;
   }
 }

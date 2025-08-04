@@ -3,12 +3,17 @@ import styles from "../styles/components/AIPlaygroundSection.module.css";
 
 export default function AIPlaygroundSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [predictions, setPredictions] = useState<string[]>([]);
+  const [predictions, setPredictions] = useState<
+    Array<string | { class: string; confidence: number }>
+  >([]);
   const [error, setError] = useState<string | null>(null);
   const [randomWord, setRandomWord] = useState<string | null>(null);
   const [apiHealth, setApiHealth] = useState<string | null>(null);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
 
   const handlePredict = async () => {
+    console.log("Predict button clicked");
+    setActiveSection("predictions");
     const canvas = canvasRef.current;
     if (!canvas) {
       setError("Please draw something on the canvas before predicting.");
@@ -25,6 +30,7 @@ export default function AIPlaygroundSection() {
     const imageData = canvas.toDataURL("image/png");
 
     try {
+      console.log("Sending prediction request...");
       const response = await fetch("/api/predict", {
         method: "POST",
         headers: {
@@ -33,80 +39,90 @@ export default function AIPlaygroundSection() {
         body: JSON.stringify({ image: imageData }),
       });
 
+      console.log("Response status:", response.status);
+
       if (!response.ok) {
         const errorData = await response.json();
+        console.error("Error response:", errorData);
         setError(errorData.error || "An error occurred");
         return;
       }
 
       const data = await response.json();
+      console.log("Prediction data:", data);
       setPredictions(data.predictions || []);
       setError(null);
     } catch (err) {
-      console.error(err); // Log the error for debugging
+      console.error("Prediction exception:", err);
       setError("Failed to connect to the server");
     }
   };
 
   const handleGetKnownClasses = async () => {
+    console.log("Get Known Classes button clicked");
+    setActiveSection("knownClasses");
     try {
+      console.log("Sending get classes request...");
       const response = await fetch("/api/get_classes", {
         method: "GET",
       });
 
+      console.log("Response status:", response.status);
+
       if (!response.ok) {
         const errorData = await response.json();
+        console.error("Error response:", errorData);
         setError(errorData.error || "An error occurred");
         return;
       }
 
       const data = await response.json();
-      setPredictions(data.classes || []); // Display classes in the predictions section
+      console.log("Classes data:", data);
+      setPredictions(data.classes || []);
       setError(null);
     } catch (err) {
-      console.error(err); // Log the error for debugging
+      console.error("Get classes exception:", err);
       setError("Failed to connect to the server");
     }
   };
 
   const handleGetRandomClass = async () => {
+    console.log("Get Random Class button clicked");
     try {
+      console.log("Sending get random class request...");
       const response = await fetch("/api/get_random_class", {
         method: "GET",
       });
 
+      console.log("Response status:", response.status);
+
       if (!response.ok) {
         const errorData = await response.json();
+        console.error("Error response:", errorData);
         setError(errorData.error || "An error occurred");
         return;
       }
 
       const data = await response.json();
-      setRandomWord(data.word || ""); // Display random word in the random word section
+      console.log("Random class data:", data);
+      setRandomWord(data.word || "");
       setError(null);
     } catch (err) {
-      console.error(err); // Log the error for debugging
+      console.error("Get random class exception:", err);
       setError("Failed to connect to the server");
     }
   };
 
   const checkApiHealth = async () => {
     try {
-      const response = await fetch("/api/health", {
-        method: "GET",
-      });
-
+      const response = await fetch("/api/health");
       if (!response.ok) {
         setApiHealth("API is unhealthy");
-        setError("Failed to fetch API health");
+        setError("Failed to connect to the server");
         return;
       }
-
-      const data = await response.json();
       setApiHealth("API is healthy");
-      setError(null);
-    } catch (err) {
-      console.error("API Health Exception:", err); // Debug log
+    } catch {
       setApiHealth("API is unhealthy");
       setError("Failed to connect to the server");
     }
@@ -204,6 +220,20 @@ export default function AIPlaygroundSection() {
     checkApiHealth();
   }, []);
 
+  useEffect(() => {
+    console.log("Rendering Random Word:", randomWord);
+  }, [randomWord]);
+
+  const clearCanvas = () => {
+    const canvas = canvasRef.current;
+    if (canvas) {
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+  };
+
   return (
     <section id="ai-playground" className={styles.aiPlayground}>
       <div className="container">
@@ -220,6 +250,13 @@ export default function AIPlaygroundSection() {
           <div className="col-lg-6">
             <div className={styles.card}>
               <div className={styles.cardBody}>
+                {/* API Health Section */}
+                {apiHealth && (
+                  <div className={styles.apiHealth}>
+                    <strong>API Health:</strong> {apiHealth}
+                  </div>
+                )}
+
                 {/* Drawing Canvas */}
                 <div className={styles.drawingArea}>
                   <canvas
@@ -235,14 +272,7 @@ export default function AIPlaygroundSection() {
                 <div className={styles.controlsContainer}>
                   <button
                     className={styles.controlButton}
-                    onClick={() => {
-                      const canvas = canvasRef.current;
-                      if (!canvas) return;
-                      const ctx = canvas.getContext("2d");
-                      if (ctx) {
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
-                      }
-                    }}
+                    onClick={clearCanvas}
                   >
                     <i className="fas fa-eraser"></i> Clear
                   </button>
@@ -266,32 +296,37 @@ export default function AIPlaygroundSection() {
                   </button>
                 </div>
 
-                {/* Predictions Section */}
-                {predictions.length > 0 && (
+                {/* Dynamic Sections */}
+                {activeSection === "predictions" && predictions.length > 0 && (
                   <div className={styles.predictions}>
                     <h4>Predictions:</h4>
                     <ul>
                       {predictions.map((prediction, index) => (
-                        <li key={index}>{prediction}</li>
+                        <li key={index}>
+                          {typeof prediction === "string"
+                            ? prediction
+                            : `Class: ${
+                                prediction.class
+                              }, Confidence: ${prediction.confidence?.toFixed(
+                                2
+                              )}%`}
+                        </li>
                       ))}
                     </ul>
                   </div>
                 )}
 
-                {/* Random Word Section */}
+                {activeSection === "knownClasses" && predictions.length > 0 && (
+                  <div className={styles.predictions}>
+                    <h4>Known Classes:</h4>
+                    <p>{predictions.join(", ")}</p>
+                  </div>
+                )}
+
                 {randomWord && (
                   <div className={styles.challengeWord}>
                     <div className="alert alert-info">
                       <strong>Try to draw:</strong> {randomWord}
-                    </div>
-                  </div>
-                )}
-
-                {/* API Health Section */}
-                {apiHealth && (
-                  <div className={styles.apiHealth}>
-                    <div className="alert alert-success">
-                      <strong>API Health:</strong> {apiHealth}
                     </div>
                   </div>
                 )}
