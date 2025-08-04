@@ -4,8 +4,9 @@ import styles from "../styles/components/AIPlaygroundSection.module.css";
 export default function AIPlaygroundSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [predictions, setPredictions] = useState<
-    Array<string | { class: string; confidence: number }>
+    Array<{ class: string; confidence: number }>
   >([]);
+  const [knownClasses, setKnownClasses] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [randomWord, setRandomWord] = useState<string | null>(null);
   const [apiHealth, setApiHealth] = useState<string | null>(null);
@@ -78,7 +79,7 @@ export default function AIPlaygroundSection() {
 
       const data = await response.json();
       console.log("Classes data:", data);
-      setPredictions(data.classes || []);
+      setKnownClasses(data.classes || []);
       setError(null);
     } catch (err) {
       console.error("Get classes exception:", err);
@@ -303,25 +304,22 @@ export default function AIPlaygroundSection() {
                     <ul>
                       {predictions.map((prediction, index) => (
                         <li key={index}>
-                          {typeof prediction === "string"
-                            ? prediction
-                            : `Class: ${
-                                prediction.class
-                              }, Confidence: ${prediction.confidence?.toFixed(
-                                2
-                              )}%`}
+                          {`Class: ${
+                            prediction.class
+                          }, Confidence: ${prediction.confidence.toFixed(2)}%`}
                         </li>
                       ))}
                     </ul>
                   </div>
                 )}
 
-                {activeSection === "knownClasses" && predictions.length > 0 && (
-                  <div className={styles.predictions}>
-                    <h4>Known Classes:</h4>
-                    <p>{predictions.join(", ")}</p>
-                  </div>
-                )}
+                {activeSection === "knownClasses" &&
+                  knownClasses.length > 0 && (
+                    <div className={styles.predictions}>
+                      <h4>Known Classes:</h4>
+                      <p>{knownClasses.join(", ")}</p>
+                    </div>
+                  )}
 
                 {randomWord && (
                   <div className={styles.challengeWord}>
