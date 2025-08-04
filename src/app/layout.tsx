@@ -16,6 +16,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  if (typeof window !== "undefined") {
+    console.log("Client-side rendering");
+  } else {
+    console.log("Server-side rendering");
+  }
+
   return (
     <html lang="en">
       <head>

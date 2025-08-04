@@ -1,8 +1,158 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "../styles/components/AIPlaygroundSection.module.css";
 
 export default function AIPlaygroundSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [predictions, setPredictions] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [randomWord, setRandomWord] = useState<string | null>(null);
+  const [apiHealth, setApiHealth] = useState<string | null>(null);
+
+  const handlePredict = async () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Convert canvas to Base64
+    const imageData = canvas.toDataURL("image/png");
+
+    try {
+      const apiUrl = `${process.env.NEXT_PUBLIC_AI_APP_ENDPOINT}/predict`;
+      const apiKey = process.env.NEXT_PUBLIC_AI_APP_TOKEN;
+
+      if (!apiUrl || !apiKey) {
+        setError("API configuration is missing");
+        return;
+      }
+
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": apiKey, // Changed to x-api-key
+        },
+        body: JSON.stringify({ image: imageData }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.error || "An error occurred");
+        return;
+      }
+
+      const data = await response.json();
+      setPredictions(data.predictions || []);
+      setError(null);
+    } catch (err) {
+      console.error(err); // Log the error for debugging
+      setError("Failed to connect to the server");
+    }
+  };
+
+  const handleGetKnownClasses = async () => {
+    try {
+      const apiUrl = `${process.env.NEXT_PUBLIC_AI_APP_ENDPOINT}/get_classes`;
+      const apiKey = process.env.NEXT_PUBLIC_AI_APP_TOKEN;
+
+      if (!apiUrl || !apiKey) {
+        setError("API configuration is missing");
+        return;
+      }
+
+      const response = await fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          "x-api-key": apiKey, // Changed to x-api-key
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.error || "An error occurred");
+        return;
+      }
+
+      const data = await response.json();
+      alert(`Available Classes: ${data.classes.join(", ")}`);
+      setError(null);
+    } catch (err) {
+      console.error(err); // Log the error for debugging
+      setError("Failed to connect to the server");
+    }
+  };
+
+  const handleGetRandomClass = async () => {
+    try {
+      const apiUrl = `${process.env.NEXT_PUBLIC_AI_APP_ENDPOINT}/get_random_word`;
+      const apiKey = process.env.NEXT_PUBLIC_AI_APP_TOKEN;
+
+      if (!apiUrl || !apiKey) {
+        setError("API configuration is missing");
+        return;
+      }
+
+      const response = await fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          "x-api-key": apiKey, // Changed to x-api-key
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.error || "An error occurred");
+        return;
+      }
+
+      const data = await response.json();
+      setRandomWord(data.word || null);
+      setError(null);
+    } catch (err) {
+      console.error(err); // Log the error for debugging
+      setError("Failed to connect to the server");
+    }
+  };
+
+  const checkApiHealth = async () => {
+    try {
+      const apiUrl = `${process.env.NEXT_PUBLIC_AI_APP_ENDPOINT}/health`;
+      const apiKey = process.env.NEXT_PUBLIC_AI_APP_TOKEN;
+
+      console.log("API URL:", apiUrl); // Debug log
+      console.log("API Key:", apiKey); // Debug log
+
+      if (!apiUrl || !apiKey) {
+        setError("API configuration is missing");
+        return;
+      }
+
+      const response = await fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          "x-api-key": apiKey, // Changed to x-api-key
+        },
+      });
+
+      console.log("API Health Response Status:", response.status); // Debug log
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("API Health Error:", errorData); // Debug log
+        setError(errorData.error || "An error occurred");
+        return;
+      }
+
+      const data = await response.json();
+      console.log("API Health Data:", data); // Debug log
+      setApiHealth(`Status: ${data.status}, Model: ${data.model}`);
+      setError(null);
+    } catch (err) {
+      console.error("API Health Exception:", err); // Debug log
+      setError("Failed to connect to the server");
+    }
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -92,6 +242,10 @@ export default function AIPlaygroundSection() {
     };
   }, []);
 
+  useEffect(() => {
+    checkApiHealth();
+  }, []);
+
   return (
     <section id="ai-playground" className={styles.aiPlayground}>
       <div className="container">
@@ -136,42 +290,60 @@ export default function AIPlaygroundSection() {
                   </button>
                   <button
                     className={styles.controlButton}
-                    onClick={() => {
-                      // TODO: Implement predict functionality
-                      console.log("Predict drawing clicked");
-                    }}
+                    onClick={handlePredict}
                   >
                     <i className="fas fa-magic"></i> Predict Draw
                   </button>
                   <button
                     className={styles.controlButton}
-                    onClick={() => {
-                      // TODO: Implement get known classes functionality
-                      console.log("Get known classes clicked");
-                    }}
+                    onClick={handleGetKnownClasses}
                   >
                     <i className="fas fa-list"></i> Get Known Classes
                   </button>
                   <button
                     className={styles.controlButton}
-                    onClick={() => {
-                      // TODO: Implement get random class functionality
-                      console.log("Get random class clicked");
-                    }}
+                    onClick={handleGetRandomClass}
                   >
                     <i className="fas fa-dice"></i> Get Random Class
                   </button>
                 </div>
 
-                {/* Challenge Word */}
-                <div
-                  className={styles.challengeWord}
-                  style={{ display: "none" }}
-                >
-                  <div className="alert alert-info">
-                    <strong>Try to draw:</strong> <span id="wordToDraw"></span>
+                {/* Predictions Section */}
+                {predictions.length > 0 && (
+                  <div className={styles.predictions}>
+                    <h4>Predictions:</h4>
+                    <ul>
+                      {predictions.map((prediction, index) => (
+                        <li key={index}>{prediction}</li>
+                      ))}
+                    </ul>
                   </div>
-                </div>
+                )}
+
+                {/* Random Word Section */}
+                {randomWord && (
+                  <div className={styles.challengeWord}>
+                    <div className="alert alert-info">
+                      <strong>Try to draw:</strong> {randomWord}
+                    </div>
+                  </div>
+                )}
+
+                {/* API Health Section */}
+                {apiHealth && (
+                  <div className={styles.apiHealth}>
+                    <div className="alert alert-success">
+                      <strong>API Health:</strong> {apiHealth}
+                    </div>
+                  </div>
+                )}
+
+                {/* Error Section */}
+                {error && (
+                  <div className="alert alert-danger">
+                    <strong>Error:</strong> {error}
+                  </div>
+                )}
 
                 {/* Instructions Section */}
                 <div className={styles.instructions}>
