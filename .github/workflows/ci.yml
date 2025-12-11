@@ -48,7 +48,7 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          new_version=$(npm version prerelease --preid=preview -m "ci: bump preview version to %s")
+          new_version=$(npm version prerelease --preid=preview -m "ci: bump preview version to %s" --allow-same-version --git-tag-version=false)
           echo "new_version=$new_version" >> $GITHUB_ENV
           echo "::set-output name=new_version::$new_version"
 
@@ -115,7 +115,10 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          new_version=$(npm version patch -m "ci: bump version to %s")
+          new_version=$(npm version patch -m "ci: bump version to %s" --git-tag-version=false)
+          git add package.json package-lock.json
+          git commit -m "ci: bump version to $new_version"
+          git tag -a "$new_version" -m "ci: bump version to $new_version"
           echo "new_version=$new_version" >> $GITHUB_ENV
           git push origin main --follow-tags
 
