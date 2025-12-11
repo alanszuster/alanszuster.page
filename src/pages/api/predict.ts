@@ -13,15 +13,19 @@ export default async function handler(
     return res.status(400).json({ error: "Image data is required" });
   }
 
-  const apiUrl = `${process.env.AI_APP_ENDPOINT}/predict`;
+  const apiUrl = process.env.AI_APP_ENDPOINT;
   const apiKey = process.env.AI_APP_TOKEN;
 
+  if (!apiUrl || !apiKey) {
+    return res.status(500).json({ error: "API configuration missing" });
+  }
+
   try {
-    const response = await fetch(apiUrl, {
+    const response = await fetch(`${apiUrl}/predict`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": apiKey || "",
+        "x-api-key": apiKey,
       },
       body: JSON.stringify({ image }),
     });
@@ -29,7 +33,7 @@ export default async function handler(
     const data = await response.json();
     res.status(response.status).json(data);
   } catch (error) {
-    console.error("Error in /api/predict:", error);
+    console.error("Error in /api/predict:", error instanceof Error ? error.message : "Unknown error");
     res.status(500).json({ error: "Internal server error" });
   }
 }
