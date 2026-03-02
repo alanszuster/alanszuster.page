@@ -16,6 +16,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const isAnalyticsEnabled = process.env.NEXT_PUBLIC_ENABLE_VERCEL_ANALYTICS === "true";
+
   if (typeof window !== "undefined") {
     console.log("Client-side rendering");
   } else {
@@ -32,7 +34,7 @@ export default function RootLayout({
       </head>
       <body>
         {children}
-        <Analytics />
+        {isAnalyticsEnabled ? <Analytics /> : null}
       </body>
     </html>
   );
