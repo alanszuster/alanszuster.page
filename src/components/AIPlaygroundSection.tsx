@@ -200,8 +200,8 @@ export default function AIPlaygroundSection() {
     canvas.addEventListener("mouseout", stopDrawing);
 
     // Touch events for mobile
-    canvas.addEventListener("touchstart", startDrawing);
-    canvas.addEventListener("touchmove", draw);
+    canvas.addEventListener("touchstart", startDrawing, { passive: true });
+    canvas.addEventListener("touchmove", draw, { passive: true });
     canvas.addEventListener("touchend", stopDrawing);
 
     return () => {
