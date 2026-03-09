@@ -176,7 +176,7 @@ export default function AIPlaygroundSection() {
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
 
-      ctx.lineWidth = 30;
+      ctx.lineWidth = 20;
       ctx.lineCap = "round";
       ctx.strokeStyle = "black";
 
