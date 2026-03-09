@@ -337,7 +337,7 @@ export default function AIPlaygroundSection() {
 
                 {/* Error Section */}
                 {error && (
-                  <div className="alert alert-danger">
+                  <div className={styles["alert-danger"]}>
                     <strong>Error:</strong> {error}
                   </div>
                 )}
