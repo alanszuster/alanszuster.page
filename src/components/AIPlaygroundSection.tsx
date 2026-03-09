@@ -27,6 +27,12 @@ export default function AIPlaygroundSection() {
       return;
     }
 
+    const pixels = new Uint32Array(ctx.getImageData(0, 0, canvas.width, canvas.height).data.buffer);
+    if (!pixels.some((p) => p !== 0)) {
+      setError("Draw something first before predicting.");
+      return;
+    }
+
     // Convert canvas to Base64
     const imageData = canvas.toDataURL("image/png");
 
@@ -176,7 +182,7 @@ export default function AIPlaygroundSection() {
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
 
-      ctx.lineWidth = 20;
+      ctx.lineWidth = 16;
       ctx.lineCap = "round";
       ctx.strokeStyle = "black";
 
