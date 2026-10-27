@@ -31,7 +31,7 @@ export default function HeroSection() {
               <span>Kubernetes</span>
               <span>Terraform</span>
               <span>Datadog</span>
-              <span>Python/TS/Node</span>
+              <span>Python/TS/Node/Bash</span>
               <span>GCP + Azure</span>
               <span>AI/ML + Agentic</span>
             </div>
@@ -41,7 +41,7 @@ export default function HeroSection() {
             <ul>
               <li>Production reliability and incident response</li>
               <li>Cloud and platform engineering with Kubernetes and IaC</li>
-              <li>Daily coding in Python, TypeScript, and Node.js</li>
+              <li>Daily coding in Python, TypeScript, Node.js, and Bash</li>
               <li>AI/ML and agentic systems integrated with platform workflows</li>
             </ul>
           </aside>

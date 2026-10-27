@@ -8,10 +8,10 @@ export default function AboutSection() {
         <div className={styles.header}>
           <h2 className={styles.sectionTitle}>About</h2>
           <p className={styles.lead}>
-            Formal title: Site Reliability Engineer. Scope of work: cloud and
-            platform engineering, plus AI/ML and agentic implementations where
-            they improve operational or delivery outcomes. I also spend a large
-            part of my time writing production code.
+            I work across reliability, cloud, platform, networking, security,
+            and software engineering, plus AI/ML and agentic implementations
+            where they improve delivery outcomes. A large part of my time is
+            still hands-on production coding.
           </p>
         </div>
         <div className={styles.contentGrid}>
@@ -32,7 +32,7 @@ export default function AboutSection() {
           <article className={styles.contentBox}>
             <h3>Software Engineering + AI/ML</h3>
             <p className={styles.description}>
-              Daily coding in Python, TypeScript, and Node.js, plus
+              Daily coding in Python, TypeScript, Node.js, and Bash, plus
               ML/agentic workflow implementation integrated with existing APIs,
               infrastructure, and automation pipelines.
             </p>
