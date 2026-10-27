@@ -6,7 +6,6 @@ import HeroSection from "../components/HeroSection";
 import AIPlaygroundSection from "../components/AIPlaygroundSection";
 import ServicesSection from "../components/ServicesSection";
 import AboutSection from "../components/AboutSection";
-import SkillsSection from "../components/SkillsSection";
 
 export default function HomePage() {
   useEffect(() => {
@@ -94,22 +93,9 @@ export default function HomePage() {
 
   return (
     <>
-      <header>
-        <div className="menu">
-          <Image src="/vercel.svg" alt="Menu Logo" width={50} height={50} />
-        </div>
-      </header>
       <nav>
-        <div
-          className="brand"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            height: "50px",
-          }}
-        >
-          <a href="#home" style={{ display: "flex", alignItems: "center" }}>
+        <div className="brand">
+          <a href="#home" className="brand-link" aria-label="Go to home section">
             <Image
               src="/custom-logo-as.png"
               alt="AS Logo"
@@ -117,17 +103,12 @@ export default function HomePage() {
               height={50}
             />
           </a>
-          <span
-            style={{
-              fontSize: "1.2rem",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            Alan Szuster
-          </span>
+          <span>Alan Szuster</span>
           <div
             className="hamburger"
+            role="button"
+            tabIndex={0}
+            aria-label="Toggle mobile menu"
             onClick={() => {
               const hamburger = document.querySelector(".hamburger");
               const links = document.querySelector(".links");
@@ -136,6 +117,18 @@ export default function HomePage() {
               hamburger?.classList.toggle("active");
               links?.classList.toggle("active");
               socialIcons?.classList.toggle("active");
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                const hamburger = document.querySelector(".hamburger");
+                const links = document.querySelector(".links");
+                const socialIcons = document.querySelector(".social-icons");
+
+                hamburger?.classList.toggle("active");
+                links?.classList.toggle("active");
+                socialIcons?.classList.toggle("active");
+              }
             }}
           >
             <span></span>
@@ -146,9 +139,8 @@ export default function HomePage() {
         <div className="links">
           <a href="#home">Home</a>
           <a href="#about">About</a>
-          <a href="#services">Services</a>
-          <a href="#skills">Skills</a>
-          <a href="#ai-playground">AI Playground</a>
+          <a href="#services">Portfolio</a>
+          <a href="#ai-playground">Playground</a>
         </div>
         <div className="social-icons">
           <a
@@ -173,7 +165,6 @@ export default function HomePage() {
       <HeroSection />
       <AboutSection />
       <ServicesSection />
-      <SkillsSection />
       <AIPlaygroundSection />
     </>
   );
