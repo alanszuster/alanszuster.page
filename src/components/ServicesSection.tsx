@@ -6,20 +6,20 @@ export default function ServicesSection() {
     <section id="services" className={styles.services}>
       <div className="container">
         <div className={styles.header}>
-          <h2 className={styles.sectionTitle}>Selected Impact</h2>
+          <h2 className={styles.sectionTitle}>How I Help Teams</h2>
           <p className={styles.lead}>
-            Portfolio should show results, not only tool names. These are the
-            outcomes I usually optimize for in production environments.
+            I focus on outcomes that matter in real production environments:
+            faster delivery, safer operations, and scalable platforms.
           </p>
         </div>
         <div className={styles.cardGrid}>
           <article className={styles.card}>
             <div className={styles.cardBody}>
               <i className="fas fa-gauge-high"></i>
-              <h3 className={styles.cardTitle}>Delivery Velocity</h3>
+              <h3 className={styles.cardTitle}>Release Flow</h3>
               <p className={styles.cardDescription}>
-                Designing CI/CD and release workflows that reduce lead time
-                while keeping quality gates and rollback paths clear.
+                I design CI/CD pipelines that shorten lead time while keeping
+                quality gates and rollback paths explicit.
               </p>
               <p className={styles.cardMeta}>Automation • Testing • Release Engineering</p>
             </div>
@@ -27,10 +27,10 @@ export default function ServicesSection() {
           <article className={styles.card}>
             <div className={styles.cardBody}>
               <i className="fas fa-life-ring"></i>
-              <h3 className={styles.cardTitle}>Reliability & Resilience</h3>
+              <h3 className={styles.cardTitle}>Reliability Operations</h3>
               <p className={styles.cardDescription}>
-                Hardening services for failure scenarios using observability,
-                incident readiness, and production-safe operational practices.
+                I build observability and incident workflows that reduce noise,
+                speed up diagnosis, and improve on-call confidence.
               </p>
               <p className={styles.cardMeta}>SLOs • Alerting • Incident Response</p>
             </div>
@@ -38,11 +38,10 @@ export default function ServicesSection() {
           <article className={styles.card}>
             <div className={styles.cardBody}>
               <i className="fas fa-layer-group"></i>
-              <h3 className={styles.cardTitle}>Platform Scalability</h3>
+              <h3 className={styles.cardTitle}>Scalable Platform</h3>
               <p className={styles.cardDescription}>
-                Building scalable cloud foundations across Kubernetes and
-                multi-cloud infrastructure with repeatable Infrastructure as
-                Code patterns.
+                I build repeatable cloud foundations across Kubernetes and
+                multi-cloud environments using Infrastructure as Code.
               </p>
               <p className={styles.cardMeta}>Kubernetes • Terraform • Cloud Architecture</p>
             </div>

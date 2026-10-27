@@ -2,6 +2,17 @@
   padding-top: 36px;
 }
 
+.header {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.playgroundShell {
+  margin: 0 auto;
+  max-width: 760px;
+}
+
 .sectionHeading {
   margin-bottom: 8px;
   font-size: clamp(1.9rem, 4vw, 2.8rem);
@@ -41,7 +52,7 @@
 
 .drawingCanvas {
   background: #f9fbfd;
-  border: 2px solid rgba(120, 196, 255, 0.5);
+  border: 2px solid rgba(95, 200, 255, 0.45);
   border-radius: 16px;
   max-width: 100%;
   height: auto;
@@ -62,8 +73,8 @@
   gap: 6px;
   min-height: 44px;
   border-radius: 999px;
-  border: 1px solid rgba(120, 196, 255, 0.34);
-  background: rgba(120, 196, 255, 0.12);
+  border: 1px solid rgba(95, 200, 255, 0.34);
+  background: rgba(95, 200, 255, 0.11);
   color: #e8f4ff;
   font-size: 0.92rem;
   font-weight: 600;
@@ -73,8 +84,8 @@
 
 .controlButton:hover {
   transform: translateY(-2px);
-  background: rgba(120, 196, 255, 0.2);
-  border-color: rgba(120, 196, 255, 0.5);
+  background: rgba(95, 200, 255, 0.2);
+  border-color: rgba(95, 200, 255, 0.52);
 }
 
 .predictions {
