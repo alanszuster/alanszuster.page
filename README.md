@@ -10,6 +10,7 @@ This is my personal website showcasing my work as a Site Reliability Engineer (S
 - **Styling**: CSS Modules, PostCSS
 - **Testing**: Jest, React Testing Library
 - **Deployment**: Vercel
+- **Runtime**: Node.js 24.x, npm latest
 
 ## Author
 
