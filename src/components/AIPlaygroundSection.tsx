@@ -219,125 +219,121 @@ export default function AIPlaygroundSection() {
   return (
     <section id="ai-playground" className={styles.aiPlayground}>
       <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-lg-12 text-center">
-            <h2 className={styles.sectionHeading}>AI Playground</h2>
-            <h3 className={styles.sectionSubheading}>
-              Draw a sketch and let the model classify it.
-            </h3>
-          </div>
+        <div className={styles.header}>
+          <h2 className={styles.sectionHeading}>AI Playground</h2>
+          <h3 className={styles.sectionSubheading}>
+            Draw a sketch and let the model classify it.
+          </h3>
         </div>
 
-        <div className="row justify-content-center">
-          <div className="col-lg-6">
-            <div className={styles.card}>
-              <div className={styles.cardBody}>
-                {/* API Health Section */}
-                {apiHealth && (
-                  <div className={styles.apiHealth}>
-                    <strong>API Health:</strong> {apiHealth}
-                  </div>
-                )}
-
-                {/* Drawing Canvas */}
-                <div className={styles.drawingArea}>
-                  <canvas
-                    ref={canvasRef}
-                    id="drawingCanvas"
-                    width="600"
-                    height="600"
-                    className={styles.drawingCanvas}
-                  ></canvas>
+        <div className={styles.playgroundShell}>
+          <div className={styles.card}>
+            <div className={styles.cardBody}>
+              {/* API Health Section */}
+              {apiHealth && (
+                <div className={styles.apiHealth}>
+                  <strong>API Health:</strong> {apiHealth}
                 </div>
+              )}
 
-                {/* Controls */}
-                <div className={styles.controlsContainer}>
-                  <button
-                    className={styles.controlButton}
-                    onClick={clearCanvas}
-                  >
-                    <i className="fas fa-eraser"></i> Clear
-                  </button>
-                  <button
-                    className={styles.controlButton}
-                    onClick={handlePredict}
-                  >
-                    <i className="fas fa-magic"></i> Predict Draw
-                  </button>
-                  <button
-                    className={styles.controlButton}
-                    onClick={handleGetKnownClasses}
-                  >
-                    <i className="fas fa-list"></i> Get Known Classes
-                  </button>
-                  <button
-                    className={styles.controlButton}
-                    onClick={handleGetRandomClass}
-                  >
-                    <i className="fas fa-dice"></i> Get Random Class
-                  </button>
-                </div>
+              {/* Drawing Canvas */}
+              <div className={styles.drawingArea}>
+                <canvas
+                  ref={canvasRef}
+                  id="drawingCanvas"
+                  width="600"
+                  height="600"
+                  className={styles.drawingCanvas}
+                ></canvas>
+              </div>
 
-                {/* Dynamic Sections */}
-                {activeSection === "predictions" && predictions.length > 0 && (
-                  <div className={styles.predictions}>
-                    <h4>Predictions:</h4>
-                    <ul>
-                      {predictions.map((prediction, index) => (
-                        <li key={index}>
-                          {`Class: ${
-                            prediction.class
-                          }, Confidence: ${prediction.confidence.toFixed(2)}%`}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+              {/* Controls */}
+              <div className={styles.controlsContainer}>
+                <button
+                  className={styles.controlButton}
+                  onClick={clearCanvas}
+                >
+                  <i className="fas fa-eraser"></i> Clear
+                </button>
+                <button
+                  className={styles.controlButton}
+                  onClick={handlePredict}
+                >
+                  <i className="fas fa-magic"></i> Predict Draw
+                </button>
+                <button
+                  className={styles.controlButton}
+                  onClick={handleGetKnownClasses}
+                >
+                  <i className="fas fa-list"></i> Get Known Classes
+                </button>
+                <button
+                  className={styles.controlButton}
+                  onClick={handleGetRandomClass}
+                >
+                  <i className="fas fa-dice"></i> Get Random Class
+                </button>
+              </div>
 
-                {activeSection === "knownClasses" &&
-                  knownClasses.length > 0 && (
-                    <div className={styles.predictions}>
-                      <h4>Known Classes:</h4>
-                      <p>{knownClasses.join(", ")}</p>
-                    </div>
-                  )}
-
-                {randomWord && (
-                  <div className={styles.challengeWord}>
-                    <div className="alert alert-info">
-                      <strong>Try to draw:</strong> {randomWord}
-                    </div>
-                  </div>
-                )}
-
-                {/* Error Section */}
-                {error && (
-                  <div className={styles["alert-danger"]}>
-                    <strong>Error:</strong> {error}
-                  </div>
-                )}
-
-                {/* Instructions Section */}
-                <div className={styles.instructions}>
-                  <h4>How to use:</h4>
-                  <ul className={styles.instructionsList}>
-                    <li>
-                      Draw something on the canvas using your mouse or touch
-                    </li>
-                    <li>
-                      Click &quot;Predict Draw&quot; to let AI analyze your
-                      artwork
-                    </li>
-                    <li>
-                      Use &quot;Get Known Classes&quot; to see all available
-                      drawing categories
-                    </li>
-                    <li>
-                      Use &quot;Get Random Class&quot; for drawing challenges
-                    </li>
-                    <li>Click &quot;Clear&quot; to start over</li>
+              {/* Dynamic Sections */}
+              {activeSection === "predictions" && predictions.length > 0 && (
+                <div className={styles.predictions}>
+                  <h4>Predictions:</h4>
+                  <ul>
+                    {predictions.map((prediction, index) => (
+                      <li key={index}>
+                        {`Class: ${
+                          prediction.class
+                        }, Confidence: ${prediction.confidence.toFixed(2)}%`}
+                      </li>
+                    ))}
                   </ul>
                 </div>
+              )}
+
+              {activeSection === "knownClasses" &&
+                knownClasses.length > 0 && (
+                  <div className={styles.predictions}>
+                    <h4>Known Classes:</h4>
+                    <p>{knownClasses.join(", ")}</p>
+                  </div>
+                )}
+
+              {randomWord && (
+                <div className={styles.challengeWord}>
+                  <div>
+                    <strong>Try to draw:</strong> {randomWord}
+                  </div>
+                </div>
+              )}
+
+              {/* Error Section */}
+              {error && (
+                <div className={styles["alert-danger"]}>
+                  <strong>Error:</strong> {error}
+                </div>
+              )}
+
+              {/* Instructions Section */}
+              <div className={styles.instructions}>
+                <h4>How to use:</h4>
+                <ul className={styles.instructionsList}>
+                  <li>
+                    Draw something on the canvas using your mouse or touch
+                  </li>
+                  <li>
+                    Click &quot;Predict Draw&quot; to let AI analyze your
+                    artwork
+                  </li>
+                  <li>
+                    Use &quot;Get Known Classes&quot; to see all available
+                    drawing categories
+                  </li>
+                  <li>
+                    Use &quot;Get Random Class&quot; for drawing challenges
+                  </li>
+                  <li>Click &quot;Clear&quot; to start over</li>
+                </ul>
               </div>
             </div>
           </div>

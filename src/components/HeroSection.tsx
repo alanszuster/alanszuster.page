@@ -7,21 +7,21 @@ export default function HeroSection() {
       <div className="container">
         <div className={styles.grid}>
           <div className={styles.heroText}>
-            <p className={styles.eyebrow}>SRE • Platform Engineering • AI Side Projects</p>
+            <p className={styles.eyebrow}>Site Reliability Engineer</p>
             <h1 className={styles.heroTitle}>
-              Building systems that stay calm under pressure.
+              I help teams ship faster without breaking production.
             </h1>
             <h2 className={styles.heroSubtitle}>Alan Szuster</h2>
             <p className={styles.heroDescription}>
-              I design reliable cloud platforms, automate delivery paths, and
-              turn operational chaos into measurable engineering outcomes.
+              I work across cloud infrastructure, CI/CD, and observability to
+              build systems that stay reliable under real-world pressure.
             </p>
             <div className={styles.heroActions}>
               <a href="#services" className={styles.primaryAction}>
-                View Portfolio
+                See What I Deliver
               </a>
               <a href="#ai-playground" className={styles.secondaryAction}>
-                Try AI Playground
+                Open Playground
               </a>
             </div>
             <div className={styles.highlights}>
@@ -32,17 +32,15 @@ export default function HeroSection() {
             </div>
           </div>
           <aside className={styles.heroCard}>
-            <h3>Focus Areas</h3>
+            <h3>What I do daily</h3>
             <ul>
-              <li>Production reliability and observability</li>
-              <li>Infrastructure as Code and platform automation</li>
-              <li>Developer experience and delivery speed</li>
+              <li>Production reliability, incident response, observability</li>
+              <li>Platform automation with IaC and delivery pipelines</li>
+              <li>Developer experience focused on safe release velocity</li>
             </ul>
           </aside>
-          <div className={styles.glow} aria-hidden="true"></div>
-          <div className={styles.glowSecondary} aria-hidden="true"></div>
-          </div>
         </div>
+      </div>
     </section>
   );
 }

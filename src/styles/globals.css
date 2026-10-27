@@ -1,16 +1,16 @@
 @import "@fortawesome/fontawesome-free/css/all.min.css";
 
 :root {
-  --bg: #0b1016;
-  --bg-soft: #101824;
-  --surface: #152131;
-  --surface-strong: #1a2b40;
+  --bg: #0f141b;
+  --bg-soft: #161d27;
+  --surface: #1b2431;
+  --surface-strong: #253244;
   --text: #f1f6fb;
-  --text-muted: #9fb1c6;
+  --text-muted: #a7b4c8;
   --line: rgba(159, 177, 198, 0.2);
-  --accent: #44d9a8;
-  --accent-2: #ff8d4d;
-  --accent-3: #78c4ff;
+  --accent: #5fc8ff;
+  --accent-2: #ffc56b;
+  --accent-3: #8ae7c3;
   --radius-xl: 24px;
   --radius-lg: 16px;
   --radius-md: 12px;
@@ -30,10 +30,7 @@ body {
   margin: 0;
   color: var(--text);
   font-family: var(--font-body), "Segoe UI", sans-serif;
-  background:
-    radial-gradient(circle at 12% 8%, rgba(68, 217, 168, 0.14), transparent 32%),
-    radial-gradient(circle at 88% 6%, rgba(255, 141, 77, 0.18), transparent 30%),
-    linear-gradient(180deg, #0b1016 0%, #0d141d 44%, #0b1016 100%);
+  background: linear-gradient(180deg, #0f141b 0%, #101824 48%, #0f141b 100%);
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -84,7 +81,7 @@ nav {
   inset: 0 0 auto 0;
   height: 78px;
   padding: 0 26px;
-  background: rgba(11, 16, 22, 0.74);
+  background: rgba(15, 20, 27, 0.82);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(14px);
   display: flex;
@@ -95,8 +92,8 @@ nav {
 }
 
 nav.scrolled {
-  background: rgba(11, 16, 22, 0.92);
-  border-bottom-color: rgba(68, 217, 168, 0.25);
+  background: rgba(15, 20, 27, 0.95);
+  border-bottom-color: rgba(95, 200, 255, 0.28);
 }
 
 nav .brand {
@@ -141,7 +138,7 @@ nav .links a {
 nav .links a:hover,
 nav .links a.active {
   color: var(--text);
-  background: linear-gradient(120deg, rgba(68, 217, 168, 0.25), rgba(120, 196, 255, 0.2));
+  background: linear-gradient(120deg, rgba(95, 200, 255, 0.24), rgba(138, 231, 195, 0.2));
 }
 
 nav .social-icons {
