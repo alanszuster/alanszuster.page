@@ -4,55 +4,49 @@ import styles from "../styles/components/ServicesSection.module.css";
 export default function ServicesSection() {
   return (
     <section id="services" className={styles.services}>
-      <div className="container px-4">
-        <div className="row gx-5 justify-content-center">
-          <div className="col-lg-8">
-            <div className="text-center mb-5">
-              <h2 className={styles.sectionTitle}>What I Do</h2>
-              <hr className={styles.divider} />
-            </div>
-          </div>
+      <div className="container">
+        <div className={styles.header}>
+          <h2 className={styles.sectionTitle}>Selected Impact</h2>
+          <p className={styles.lead}>
+            Portfolio should show results, not only tool names. These are the
+            outcomes I usually optimize for in production environments.
+          </p>
         </div>
-        <div className="row gx-5 row-cols-1 row-cols-md-3">
-          <div className="col mb-5">
-            <div className={styles.card}>
-              <div className={styles.cardBody}>
-                <i className="fas fa-server fa-3x mb-4 text-primary"></i>
-                <h3 className={styles.cardTitle}>
-                  Infrastructure & Automation
-                </h3>
-                <p className={styles.cardDescription}>
-                  CI/CD automation, cloud infrastructure management (GCP,
-                  Azure), and container orchestration with Docker and
-                  Kubernetes.
-                </p>
-              </div>
+        <div className={styles.cardGrid}>
+          <article className={styles.card}>
+            <div className={styles.cardBody}>
+              <i className="fas fa-gauge-high"></i>
+              <h3 className={styles.cardTitle}>Delivery Velocity</h3>
+              <p className={styles.cardDescription}>
+                Designing CI/CD and release workflows that reduce lead time
+                while keeping quality gates and rollback paths clear.
+              </p>
+              <p className={styles.cardMeta}>Automation • Testing • Release Engineering</p>
             </div>
-          </div>
-          <div className="col mb-5">
-            <div className={styles.card}>
-              <div className={styles.cardBody}>
-                <i className="fas fa-code fa-3x mb-4 text-primary"></i>
-                <h3 className={styles.cardTitle}>Software Development</h3>
-                <p className={styles.cardDescription}>
-                  Building scalable applications using Python, Java, Node.js,
-                  and TypeScript.
-                </p>
-              </div>
+          </article>
+          <article className={styles.card}>
+            <div className={styles.cardBody}>
+              <i className="fas fa-life-ring"></i>
+              <h3 className={styles.cardTitle}>Reliability & Resilience</h3>
+              <p className={styles.cardDescription}>
+                Hardening services for failure scenarios using observability,
+                incident readiness, and production-safe operational practices.
+              </p>
+              <p className={styles.cardMeta}>SLOs • Alerting • Incident Response</p>
             </div>
-          </div>
-          <div className="col mb-5">
-            <div className={styles.card}>
-              <div className={styles.cardBody}>
-                <i className="fas fa-chart-line fa-3x mb-4 text-primary"></i>
-                <h3 className={styles.cardTitle}>Monitoring & Analytics</h3>
-                <p className={styles.cardDescription}>
-                  Implementing monitoring solutions with Datadog, Zabbix, and
-                  other tools to ensure system reliability.
-                </p>
-              </div>
+          </article>
+          <article className={styles.card}>
+            <div className={styles.cardBody}>
+              <i className="fas fa-layer-group"></i>
+              <h3 className={styles.cardTitle}>Platform Scalability</h3>
+              <p className={styles.cardDescription}>
+                Building scalable cloud foundations across Kubernetes and
+                multi-cloud infrastructure with repeatable Infrastructure as
+                Code patterns.
+              </p>
+              <p className={styles.cardMeta}>Kubernetes • Terraform • Cloud Architecture</p>
             </div>
-          </div>
+          </article>
         </div>
       </div>
     </section>

@@ -13,7 +13,6 @@ export default function AIPlaygroundSection() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
   const handlePredict = async () => {
-    console.log("Predict button clicked");
     setActiveSection("predictions");
     const canvas = canvasRef.current;
     if (!canvas) {
@@ -37,7 +36,6 @@ export default function AIPlaygroundSection() {
     const imageData = canvas.toDataURL("image/png");
 
     try {
-      console.log("Sending prediction request...");
       const response = await fetch("/api/predict", {
         method: "POST",
         headers: {
@@ -46,76 +44,57 @@ export default function AIPlaygroundSection() {
         body: JSON.stringify({ image: imageData }),
       });
 
-      console.log("Response status:", response.status);
-
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Error response:", errorData);
         setError(errorData.error || "An error occurred");
         return;
       }
 
       const data = await response.json();
-      console.log("Prediction data:", data);
       setPredictions(data.predictions || []);
       setError(null);
-    } catch (err) {
-      console.error("Prediction exception:", err);
+    } catch {
       setError("Failed to connect to the server");
     }
   };
 
   const handleGetKnownClasses = async () => {
-    console.log("Get Known Classes button clicked");
     setActiveSection("knownClasses");
     try {
-      console.log("Sending get classes request...");
       const response = await fetch("/api/get_classes", {
         method: "GET",
       });
 
-      console.log("Response status:", response.status);
-
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Error response:", errorData);
         setError(errorData.error || "An error occurred");
         return;
       }
 
       const data = await response.json();
-      console.log("Classes data:", data);
       setKnownClasses(data.classes || []);
       setError(null);
-    } catch (err) {
-      console.error("Get classes exception:", err);
+    } catch {
       setError("Failed to connect to the server");
     }
   };
 
   const handleGetRandomClass = async () => {
-    console.log("Get Random Class button clicked");
     try {
-      console.log("Sending get random class request...");
       const response = await fetch("/api/get_random_class", {
         method: "GET",
       });
 
-      console.log("Response status:", response.status);
-
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Error response:", errorData);
         setError(errorData.error || "An error occurred");
         return;
       }
 
       const data = await response.json();
-      console.log("Random class data:", data);
       setRandomWord(data.word || "");
       setError(null);
-    } catch (err) {
-      console.error("Get random class exception:", err);
+    } catch {
       setError("Failed to connect to the server");
     }
   };
@@ -227,10 +206,6 @@ export default function AIPlaygroundSection() {
     checkApiHealth();
   }, []);
 
-  useEffect(() => {
-    console.log("Rendering Random Word:", randomWord);
-  }, [randomWord]);
-
   const clearCanvas = () => {
     const canvas = canvasRef.current;
     if (canvas) {
@@ -248,7 +223,7 @@ export default function AIPlaygroundSection() {
           <div className="col-lg-12 text-center">
             <h2 className={styles.sectionHeading}>AI Playground</h2>
             <h3 className={styles.sectionSubheading}>
-              Draw something and let AI guess what it is!
+              Draw a sketch and let the model classify it.
             </h3>
           </div>
         </div>

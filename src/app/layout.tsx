@@ -1,6 +1,17 @@
 import type { Metadata } from "next";
+import { Manrope, Sora } from "next/font/google";
 import "../styles/globals.css";
 import { Analytics } from "@vercel/analytics/next";
+
+const bodyFont = Manrope({
+  subsets: ["latin"],
+  variable: "--font-body",
+});
+
+const displayFont = Sora({
+  subsets: ["latin"],
+  variable: "--font-display",
+});
 
 export const metadata: Metadata = {
   title: "Alan Szuster - Portfolio",
@@ -16,13 +27,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const isAnalyticsEnabled = process.env.NEXT_PUBLIC_ENABLE_VERCEL_ANALYTICS === "true";
-
-  if (typeof window !== "undefined") {
-    console.log("Client-side rendering");
-  } else {
-    console.log("Server-side rendering");
-  }
+  const isAnalyticsEnabled =
+    process.env.NEXT_PUBLIC_ENABLE_VERCEL_ANALYTICS === "true";
 
   return (
     <html lang="en">
@@ -32,7 +38,7 @@ export default function RootLayout({
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         />
       </head>
-      <body>
+      <body className={`${bodyFont.variable} ${displayFont.variable}`}>
         {children}
         {isAnalyticsEnabled ? <Analytics /> : null}
       </body>

@@ -4,32 +4,39 @@ import styles from "../styles/components/AboutSection.module.css";
 export default function AboutSection() {
   return (
     <section id="about" className={styles.about}>
-      <div className="container px-4">
-        <div className="row gx-5 justify-content-center">
-          <div className="col-lg-8">
-            <div className="text-center mb-5">
-              <h2 className={styles.sectionTitle}>About Me</h2>
-              <hr className={styles.divider} />
-            </div>
-            <div className={styles.contentBox}>
-              <p className={styles.description}>
-                I&apos;m a Site Reliability Engineer passionate about creating
-                resilient, scalable systems that enable businesses to operate
-                smoothly.
-              </p>
-              <p className={styles.description}>
-                With several years of experience in infrastructure management,
-                automation, and monitoring, I specialize in developing CI/CD
-                pipelines, managing cloud infrastructures, and implementing
-                effective monitoring solutions.
-              </p>
-              <p className={styles.description}>
-                My goal is to bridge the gap between development and operations,
-                ensuring that applications are not only delivered quickly but
-                also run reliably in production.
-              </p>
-            </div>
-          </div>
+      <div className="container">
+        <div className={styles.header}>
+          <h2 className={styles.sectionTitle}>About</h2>
+          <p className={styles.lead}>
+            I work at the intersection of platform, reliability, and product
+            velocity. My approach is simple: ship faster, fail safer, recover
+            quicker.
+          </p>
+        </div>
+        <div className={styles.contentGrid}>
+          <article className={styles.contentBox}>
+            <h3>How I work</h3>
+            <p className={styles.description}>
+              I focus on systems thinking, not isolated fixes. That means
+              improving architecture, feedback loops, and team workflows at the
+              same time.
+            </p>
+          </article>
+          <article className={styles.contentBox}>
+            <h3>What I optimize</h3>
+            <p className={styles.description}>
+              Deployment confidence, alert quality, incident response, and
+              developer ergonomics across CI/CD, Kubernetes, and cloud-native
+              services.
+            </p>
+          </article>
+          <article className={styles.contentBox}>
+            <h3>Engineering style</h3>
+            <p className={styles.description}>
+              Pragmatic, measurable, and automation-first. I value maintainable
+              platforms that teams can trust in production.
+            </p>
+          </article>
         </div>
       </div>
     </section>
