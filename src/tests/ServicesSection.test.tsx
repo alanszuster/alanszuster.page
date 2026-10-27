@@ -5,6 +5,6 @@ import ServicesSection from "../components/ServicesSection";
 describe("ServicesSection", () => {
   it("renders without crashing", () => {
     render(<ServicesSection />);
-    expect(screen.getByText(/How I Help Teams/i)).toBeInTheDocument();
+    expect(screen.getByText(/Services/i)).toBeInTheDocument();
   });
 });

@@ -6,10 +6,10 @@ export default function ServicesSection() {
     <section id="services" className={styles.services}>
       <div className="container">
         <div className={styles.header}>
-          <h2 className={styles.sectionTitle}>How I Help Teams</h2>
+          <h2 className={styles.sectionTitle}>Services</h2>
           <p className={styles.lead}>
-            Technical service areas delivered in SRE, Cloud, Platform, and
-            AI/ML/Agentic engineering contexts.
+            Hands-on delivery across SRE, cloud, platform, networking,
+            security, software engineering, and AI/ML.
           </p>
         </div>
         <div className={styles.cardGrid}>
@@ -53,10 +53,10 @@ export default function ServicesSection() {
               <h3 className={styles.cardTitle}>Software + AI/ML Engineering</h3>
               <p className={styles.cardDescription}>
                 AI/ML and agentic implementation connected to production
-                infrastructure, APIs, and operational workflows, with hands-on
-                coding in Python, TypeScript, and Node.js.
+                infrastructure, APIs, and engineering workflows, with hands-on
+                coding in Python, TypeScript, Node.js, and Bash.
               </p>
-              <p className={styles.cardMeta}>Python • LLMs • Integrations</p>
+              <p className={styles.cardMeta}>Python • Bash • LLM Integrations</p>
             </div>
           </article>
         </div>
