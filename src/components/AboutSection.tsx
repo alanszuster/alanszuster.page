@@ -8,18 +8,16 @@ export default function AboutSection() {
         <div className={styles.header}>
           <h2 className={styles.sectionTitle}>About</h2>
           <p className={styles.lead}>
-            I work across reliability, cloud, platform, networking, security,
-            and software engineering, plus AI/ML and agentic implementations
-            where they improve delivery outcomes. A large part of my time is
-            still hands-on production coding.
+            I work across cloud, platform, networking, security, software
+            engineering, and AI/ML integrations.
           </p>
         </div>
         <div className={styles.contentGrid}>
           <article className={styles.contentBox}>
-            <h3>Reliability Engineering</h3>
+            <h3>Networking & Security</h3>
             <p className={styles.description}>
-              SLO/SLI definition, alert quality improvements, incident
-              readiness, and measurable reliability gains in production.
+              Network and security baselines, access control, and hardening
+              across cloud environments.
             </p>
           </article>
           <article className={styles.contentBox}>

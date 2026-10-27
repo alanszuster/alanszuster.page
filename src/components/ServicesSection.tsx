@@ -8,20 +8,20 @@ export default function ServicesSection() {
         <div className={styles.header}>
           <h2 className={styles.sectionTitle}>Services</h2>
           <p className={styles.lead}>
-            Hands-on delivery across SRE, cloud, platform, networking,
-            security, software engineering, and AI/ML.
+            Hands-on delivery across cloud, platform, networking, security,
+            software engineering, and AI/ML.
           </p>
         </div>
         <div className={styles.cardGrid}>
           <article className={styles.card}>
             <div className={styles.cardBody}>
               <i className="fas fa-gauge-high"></i>
-              <h3 className={styles.cardTitle}>SRE & Reliability Operations</h3>
+              <h3 className={styles.cardTitle}>Networking & Security Engineering</h3>
               <p className={styles.cardDescription}>
-                SLO/SLI design, alert tuning, incident response support, and
-                production hardening to improve stability and recovery time.
+                Network architecture, segmentation, access policies, and
+                environment hardening for cloud and platform workloads.
               </p>
-              <p className={styles.cardMeta}>SLOs • On-call • Incident Response</p>
+              <p className={styles.cardMeta}>Networking • Security • Hardening</p>
             </div>
           </article>
           <article className={styles.card}>

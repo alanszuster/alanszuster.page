@@ -7,16 +7,15 @@ export default function HeroSection() {
       <div className="container">
         <div className={styles.grid}>
           <div className={styles.heroText}>
-            <p className={styles.eyebrow}>Site Reliability Engineer</p>
+            <p className={styles.eyebrow}>Cloud • Platform • Software Engineering</p>
             <h1 className={styles.heroTitle}>Alan Szuster</h1>
             <h2 className={styles.heroSubtitle}>
-              SRE • Cloud Engineer • Platform Engineer
+              Cloud Engineer • Platform Engineer • Software Engineer
             </h2>
             <p className={styles.heroDescription}>
-              I build and operate production platforms on GCP and Azure,
-              focusing on reliability engineering, CI/CD automation,
-              operational scalability, and hands-on software
-              engineering.
+              I build and operate cloud platforms on GCP and Azure, with
+              hands-on work in CI/CD, Kubernetes, Terraform, networking,
+              security, and software engineering.
             </p>
             <div className={styles.heroActions}>
               <a href="#services" className={styles.primaryAction}>
