@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: "24"
 
@@ -36,10 +36,10 @@ jobs:
     if: github.event_name == 'pull_request'
     needs: test
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: "24"
 
@@ -66,7 +66,7 @@ jobs:
 
       - name: Create Deployment
         id: create_deployment_preview
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -82,18 +82,16 @@ jobs:
             core.setOutput('preview_url', 'https://preview.example.com');
 
       - name: Create GitHub Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: "${{ steps.bump_version_preview.outputs.new_version || 'v0.0.0-preview' }}"
-          release_name: "Preview Release ${{ steps.bump_version_preview.outputs.new_version || 'v0.0.0-preview' }}"
+          name: "Preview Release ${{ steps.bump_version_preview.outputs.new_version || 'v0.0.0-preview' }}"
           body: "Preview Deployment URL: https://preview.example.com"
           draft: false
           prerelease: true
 
       - name: Update Deployment Status for Preview
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -111,10 +109,10 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: "24"
 
@@ -144,7 +142,7 @@ jobs:
 
       - name: Create Deployment
         id: create_deployment
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -162,12 +160,10 @@ jobs:
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Create GitHub Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: "${{ env.new_version }}"
-          release_name: "Release ${{ env.new_version }}"
+          name: "Release ${{ env.new_version }}"
           body: "Deployment URL: https://alanszuster.vercel.app"
           draft: false
           prerelease: false
@@ -176,7 +172,7 @@ jobs:
         run: echo "URL=https://alanszuster.vercel.app" >> $GITHUB_ENV
 
       - name: Update Deployment Status for Production
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
