@@ -10,7 +10,7 @@ export default function HeroSection() {
             <p className={styles.eyebrow}>Site Reliability Engineer</p>
             <h1 className={styles.heroTitle}>Alan Szuster</h1>
             <h2 className={styles.heroSubtitle}>
-              SRE (formal role) • Cloud Engineer • Platform Engineer
+              SRE • Cloud Engineer • Platform Engineer
             </h2>
             <p className={styles.heroDescription}>
               I build and operate production platforms on GCP and Azure,
@@ -36,15 +36,6 @@ export default function HeroSection() {
               <span>AI/ML + Agentic</span>
             </div>
           </div>
-          <aside className={styles.heroCard}>
-            <h3>Operational Scope</h3>
-            <ul>
-              <li>Production reliability and incident response</li>
-              <li>Cloud and platform engineering with Kubernetes and IaC</li>
-              <li>Daily coding in Python, TypeScript, Node.js, and Bash</li>
-              <li>AI/ML and agentic systems integrated with platform workflows</li>
-            </ul>
-          </aside>
         </div>
       </div>
     </section>

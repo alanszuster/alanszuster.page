@@ -7,7 +7,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.9fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 28px;
   align-items: stretch;
   position: relative;
