@@ -8,33 +8,33 @@ export default function AboutSection() {
         <div className={styles.header}>
           <h2 className={styles.sectionTitle}>About</h2>
           <p className={styles.lead}>
-            I am an SRE who enjoys turning fragile systems into reliable
-            platforms. My work combines infrastructure, automation, and
-            monitoring so engineering teams can move with confidence.
+            Formal title: Site Reliability Engineer. Scope of work: cloud and
+            platform engineering, plus AI/ML and agentic implementations where
+            they improve operational or delivery outcomes. I also spend a large
+            part of my time writing production code.
           </p>
         </div>
         <div className={styles.contentGrid}>
           <article className={styles.contentBox}>
-            <h3>Approach</h3>
+            <h3>Reliability Engineering</h3>
             <p className={styles.description}>
-              I focus on practical reliability engineering: clear SLOs,
-              meaningful alerts, and infrastructure that is easy to operate.
+              SLO/SLI definition, alert quality improvements, incident
+              readiness, and measurable reliability gains in production.
             </p>
           </article>
           <article className={styles.contentBox}>
-            <h3>Core stack</h3>
+            <h3>Cloud & Platform</h3>
             <p className={styles.description}>
-              Kubernetes, Docker, Terraform, CI/CD tooling, and cloud
-              platforms including GCP and Azure, with Datadog-based
-              observability.
+              Kubernetes, Docker, Terraform, and CI/CD across GCP and Azure,
+              with Datadog-centered operational baselines.
             </p>
           </article>
           <article className={styles.contentBox}>
-            <h3>Engineering style</h3>
+            <h3>Software Engineering + AI/ML</h3>
             <p className={styles.description}>
-              Calm under pressure, metrics-driven, and automation-first. I care
-              about maintainable systems that work well for both users and
-              engineers.
+              Daily coding in Python, TypeScript, and Node.js, plus
+              ML/agentic workflow implementation integrated with existing APIs,
+              infrastructure, and automation pipelines.
             </p>
           </article>
         </div>
