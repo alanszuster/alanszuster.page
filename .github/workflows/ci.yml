@@ -10,6 +10,11 @@ env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
+# The repository default for GITHUB_TOKEN is read/write; start from read-only and
+# let each job ask for what it needs.
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -35,6 +40,9 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     needs: test
+    permissions:
+      contents: write # the preview step publishes a pre-release
+      deployments: write
     steps:
       - uses: actions/checkout@v7
 
@@ -108,6 +116,15 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     needs: test
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # push the version bump and tag, create the release
+      deployments: write
+    # Deploys run one at a time and are never cancelled half-way. A run that is
+    # still waiting when a newer push arrives is replaced by it, which is fine:
+    # the newer commit contains the older one.
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v7
 
@@ -128,18 +145,6 @@ jobs:
       - name: Build Project Artifacts
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Bump version in package.json
-        id: bump_version
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          new_version=$(npm version patch -m "ci: bump version to %s" --git-tag-version=false)
-          git add package.json package-lock.json tsconfig.json
-          git commit -m "ci: bump version to $new_version"
-          git tag -a "$new_version" -m "ci: bump version to $new_version"
-          echo "new_version=$new_version" >> $GITHUB_ENV
-          git push origin main --follow-tags
-
       - name: Create Deployment
         id: create_deployment
         uses: actions/github-script@v9
@@ -156,10 +161,59 @@ jobs:
             });
             core.setOutput('deployment_id', deployment.data.id);
 
+      # The site goes live first. Version bookkeeping below must never be able
+      # to block or undo a deployment.
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
 
+      - name: Update Deployment Status for Production
+        uses: actions/github-script@v9
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: ${{ steps.create_deployment.outputs.deployment_id }},
+              state: 'success',
+              environment: 'production',
+              environment_url: 'https://www.alanszuster.dev',
+              description: 'Production deployment successful',
+            })
+
+      # Bump the patch version on top of whatever main is *now*, not on the
+      # commit this run started from. That way a push that landed in the
+      # meantime (or a CI bump from another run) cannot cause a conflict. If the
+      # push is still rejected, fetch again and retry. A failure here is only a
+      # warning: the deployment above has already succeeded.
+      # (Pushes made with GITHUB_TOKEN do not trigger workflows, so this commit
+      # does not start another run.)
+      - name: Bump version, tag and push
+        id: bump_version
+        continue-on-error: true
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          for attempt in 1 2 3 4 5; do
+            git fetch --quiet --tags origin main
+            git reset --hard origin/main
+            new_version=$(npm version patch --git-tag-version=false)
+            git add package.json package-lock.json
+            git commit -m "ci: bump version to $new_version"
+            git tag -a "$new_version" -m "ci: bump version to $new_version"
+            if git push origin main "$new_version"; then
+              echo "new_version=$new_version" >> "$GITHUB_ENV"
+              exit 0
+            fi
+            echo "Push rejected (attempt $attempt): main or the tag moved, retrying"
+            git tag -d "$new_version" || true
+            sleep $((attempt * 3))
+          done
+          echo "::warning::Could not push the version bump after 5 attempts. The deployment itself succeeded."
+          exit 1
+
       - name: Create GitHub Release
+        if: steps.bump_version.outcome == 'success'
         uses: softprops/action-gh-release@v3
         with:
           tag_name: "${{ env.new_version }}"
@@ -168,20 +222,17 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Set Deployment URL
-        run: echo "URL=https://www.alanszuster.dev" >> $GITHUB_ENV
-
-      - name: Update Deployment Status for Production
+      - name: Mark Deployment as Failed
+        if: failure() && steps.create_deployment.outputs.deployment_id != ''
         uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            github.rest.repos.createDeploymentStatus({
+            await github.rest.repos.createDeploymentStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
               deployment_id: ${{ steps.create_deployment.outputs.deployment_id }},
-              state: 'success',
+              state: 'failure',
               environment: 'production',
-              environment_url: 'https://www.alanszuster.dev',
-              description: 'Production deployment successful',
+              description: 'Production deployment failed',
             })
