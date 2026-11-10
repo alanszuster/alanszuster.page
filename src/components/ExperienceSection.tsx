@@ -31,19 +31,6 @@ const roles = [
   },
 ];
 
-const education = [
-  {
-    title: "Bachelor of Engineering, 2018 — 2022",
-    place: "West Pomeranian University of Technology, Szczecin",
-    detail: "Automation and Robotics (Mechatronics, Robotics and Automation Engineering)",
-  },
-  {
-    title: "IT Technician, 2014 — 2018",
-    place: "Zespół Szkół nr 1 w Goleniowie",
-    detail: "IT Technician",
-  },
-];
-
 export default function ExperienceSection() {
   return (
     <section id="experience" className={styles.experience}>
@@ -71,16 +58,6 @@ export default function ExperienceSection() {
             </li>
           ))}
         </ol>
-        <h3 className={styles.eduTitle}>Education</h3>
-        <div className={styles.eduGrid}>
-          {education.map((e) => (
-            <article key={e.title} className={styles.eduCard}>
-              <h4>{e.title}</h4>
-              <p>{e.place}</p>
-              <p className={styles.eduDetail}>{e.detail}</p>
-            </article>
-          ))}
-        </div>
       </div>
     </section>
   );

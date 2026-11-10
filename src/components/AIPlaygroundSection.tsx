@@ -224,6 +224,32 @@ export default function AIPlaygroundSection() {
           <h3 className={styles.sectionSubheading}>
             Draw a sketch and let the model classify it.
           </h3>
+          <p className={styles.about}>
+            This is a live demo of{" "}
+            <a
+              href="https://github.com/alanszuster/doodleai"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              doodleai
+            </a>
+            , my own sketch-recognition project. A custom convolutional neural
+            network, trained on Google&apos;s Quick Draw! dataset, recognises
+            120 hand-drawn categories and returns its top three guesses with
+            confidence scores.
+          </p>
+          <ul className={styles.facts}>
+            <li>Python + TensorFlow</li>
+            <li>Custom CNN</li>
+            <li>REST API with API-key auth and rate limiting</li>
+            <li>Docker</li>
+            <li>Hosted on Hugging Face Spaces</li>
+          </ul>
+          <p className={styles.note}>
+            Your drawing goes through this site&apos;s server to the model API,
+            so the API key never reaches your browser. The demo is rate
+            limited, so give it a moment between predictions.
+          </p>
         </div>
 
         <div className={styles.playgroundShell}>

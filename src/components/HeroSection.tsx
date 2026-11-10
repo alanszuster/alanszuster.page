@@ -56,7 +56,7 @@ export default function HeroSection() {
               src="/alan.jpg"
               alt="Portrait of Alan Szuster"
               width={320}
-              height={320}
+              height={400}
               priority
               className={styles.photo}
             />

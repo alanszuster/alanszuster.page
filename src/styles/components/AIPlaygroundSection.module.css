@@ -23,6 +23,44 @@
   color: var(--text-muted);
 }
 
+.about {
+  margin: 0 0 16px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.about a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.facts {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.facts li {
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #d6ebff;
+  background: rgba(95, 200, 255, 0.1);
+  border: 1px solid rgba(95, 200, 255, 0.3);
+}
+
+.note {
+  margin: 0 0 26px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: rgba(167, 180, 200, 0.85);
+}
+
 .card {
   background: linear-gradient(165deg, rgba(21, 33, 49, 0.96), rgba(16, 24, 36, 0.92));
   border: 1px solid var(--line);

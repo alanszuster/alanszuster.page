@@ -1,37 +1,50 @@
 import React from "react";
 import styles from "../styles/components/SkillsSection.module.css";
 
-const groups = [
-  {
-    icon: "fa-brain",
-    title: "AI / ML & Agents",
-    items: ["Agentic AI", "Custom AI agents", "LLMs", "RAG", "MCP", "Prompt engineering", "Vertex AI", "Azure AI Foundry", "Azure SRE Agent", "PyTorch", "TensorFlow", "MLflow", "GPU workloads", "AIOps"],
-  },
-  {
-    icon: "fa-cloud",
-    title: "Google Cloud",
-    items: ["GKE (Autopilot, Standard)", "Cloud Run", "Cloud Functions", "Cloud SQL", "Cloud Storage", "Cloud Armor", "IAM"],
-  },
-  {
-    icon: "fa-server",
-    title: "Azure",
-    items: ["AKS", "AVS", "Virtual Hub (vHub)", "Hub-spoke VNet", "ExpressRoute", "Azure Firewall"],
-  },
-  {
-    icon: "fa-cubes",
-    title: "Containers & IaC",
-    items: ["Kubernetes", "OpenShift", "Docker", "Helm", "Terraform"],
-  },
-  {
-    icon: "fa-network-wired",
-    title: "Networking",
-    items: ["VPC / VNet", "Peering", "Cloud Interconnect", "Cloud NAT", "Load Balancing", "WAF", "Firewalls"],
-  },
-  {
-    icon: "fa-gauge-high",
-    title: "CI/CD, Observability & Code",
-    items: ["GitHub Actions", "Argo CD", "Git", "Linux", "Grafana Cloud", "Datadog", "Zabbix", "Python", "TypeScript", "JavaScript", "Bash"],
-  },
+const skills = [
+  "Kubernetes",
+  "GKE",
+  "AKS",
+  "OpenShift",
+  "Docker",
+  "Helm",
+  "Terraform",
+  "Argo CD",
+  "GitHub Actions",
+  "Google Cloud",
+  "Azure",
+  "Cloud Run",
+  "Cloud Functions",
+  "Cloud SQL",
+  "Cloud Armor",
+  "IAM",
+  "VPC / VNet",
+  "ExpressRoute",
+  "Cloud Interconnect",
+  "Load Balancing",
+  "WAF",
+  "Firewalls",
+  "Agentic AI",
+  "Custom AI agents",
+  "LLMs",
+  "RAG",
+  "MCP",
+  "Vertex AI",
+  "Azure AI Foundry",
+  "PyTorch",
+  "TensorFlow",
+  "MLflow",
+  "GPU workloads",
+  "AIOps",
+  "Datadog",
+  "Grafana Cloud",
+  "Zabbix",
+  "Python",
+  "TypeScript",
+  "JavaScript",
+  "Bash",
+  "Linux",
+  "Git",
 ];
 
 export default function SkillsSection() {
@@ -44,19 +57,11 @@ export default function SkillsSection() {
             The stack I use daily across platform, cloud and AI workloads.
           </p>
         </div>
-        <div className={styles.cardGrid}>
-          {groups.map((g) => (
-            <article key={g.title} className={styles.card}>
-              <i className={`fas ${g.icon}`}></i>
-              <h3 className={styles.cardTitle}>{g.title}</h3>
-              <ul className={styles.chips}>
-                {g.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </article>
+        <ul className={styles.chips}>
+          {skills.map((item) => (
+            <li key={item}>{item}</li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );
