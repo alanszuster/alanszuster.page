@@ -4,7 +4,8 @@ import { useEffect } from "react";
 import Image from "next/image";
 import HeroSection from "../components/HeroSection";
 import AIPlaygroundSection from "../components/AIPlaygroundSection";
-import ServicesSection from "../components/ServicesSection";
+import ExperienceSection from "../components/ExperienceSection";
+import SkillsSection from "../components/SkillsSection";
 import AboutSection from "../components/AboutSection";
 
 export default function HomePage() {
@@ -93,7 +94,10 @@ export default function HomePage() {
 
   return (
     <>
-      <nav>
+      <a href="#main" className="skip-link">
+        Skip to content
+      </a>
+      <nav aria-label="Main navigation">
         <div className="brand">
           <a href="#home" className="brand-link" aria-label="Go to home section">
             <Image
@@ -139,7 +143,8 @@ export default function HomePage() {
         <div className="links">
           <a href="#home">Home</a>
           <a href="#about">About</a>
-          <a href="#services">Portfolio</a>
+          <a href="#experience">Experience</a>
+          <a href="#skills">Skills</a>
           <a href="#ai-playground">Playground</a>
         </div>
         <div className="social-icons">
@@ -147,6 +152,7 @@ export default function HomePage() {
             href="https://github.com/alanszuster"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="GitHub"
           >
             <i className="fab fa-github"></i>
           </a>
@@ -154,18 +160,22 @@ export default function HomePage() {
             href="https://linkedin.com/in/alan-szuster"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="LinkedIn"
           >
             <i className="fab fa-linkedin"></i>
           </a>
-          <a href="mailto:alanszuster22@gmail.com">
+          <a href="mailto:alanszuster22@gmail.com" aria-label="Email">
             <i className="fas fa-envelope"></i>
           </a>
         </div>
       </nav>
-      <HeroSection />
-      <AboutSection />
-      <ServicesSection />
-      <AIPlaygroundSection />
+      <main id="main">
+        <HeroSection />
+        <AboutSection />
+        <ExperienceSection />
+        <SkillsSection />
+        <AIPlaygroundSection />
+      </main>
     </>
   );
 }

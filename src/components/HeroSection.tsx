@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import styles from "../styles/components/HeroSection.module.css";
 
 export default function HeroSection() {
@@ -7,33 +8,58 @@ export default function HeroSection() {
       <div className="container">
         <div className={styles.grid}>
           <div className={styles.heroText}>
-            <p className={styles.eyebrow}>Cloud • Platform • Software Engineering</p>
+            <p className={styles.eyebrow}>
+              Cloud • Platform • Infrastructure • DevOps • AIOps
+            </p>
             <h1 className={styles.heroTitle}>Alan Szuster</h1>
-            <h2 className={styles.heroSubtitle}>
-              Cloud Engineer • Platform Engineer • Software Engineer
-            </h2>
+            <h2 className={styles.heroSubtitle}>Site Reliability Engineer</h2>
             <p className={styles.heroDescription}>
-              I build and operate cloud platforms on GCP and Azure, with
-              hands-on work in CI/CD, Kubernetes, Terraform, networking,
-              security, and software engineering.
+              SRE at Salling Group running production Kubernetes and cloud
+              networking on GCP and Azure. I also build and run AI agents and
+              ML workloads on Kubernetes, Vertex AI and Azure AI Foundry,
+              including GPU.
             </p>
             <div className={styles.heroActions}>
-              <a href="#services" className={styles.primaryAction}>
-                Service Scope
+              <a href="#experience" className={styles.primaryAction}>
+                Experience
+              </a>
+              <a
+                href="/Alan-Szuster-CV.pdf"
+                download
+                className={styles.secondaryAction}
+              >
+                <i className="fas fa-download" aria-hidden="true"></i>
+                Download CV
               </a>
               <a href="#ai-playground" className={styles.secondaryAction}>
                 AI/ML Playground
               </a>
+              <a
+                href="mailto:alanszuster22@gmail.com"
+                className={styles.secondaryAction}
+              >
+                Get in touch
+              </a>
             </div>
             <div className={styles.highlights}>
-              <span>CI/CD</span>
               <span>Kubernetes</span>
+              <span>GKE + AKS</span>
               <span>Terraform</span>
-              <span>Datadog</span>
-              <span>Python/TS/Node/Bash</span>
-              <span>GCP + Azure</span>
-              <span>AI/ML + Agentic</span>
+              <span>Argo CD</span>
+              <span>GitHub Actions</span>
+              <span>Agentic AI</span>
+              <span>Python/TS/Bash</span>
             </div>
+          </div>
+          <div className={styles.photoWrap}>
+            <Image
+              src="/alan.jpg"
+              alt="Portrait of Alan Szuster"
+              width={320}
+              height={320}
+              priority
+              className={styles.photo}
+            />
           </div>
         </div>
       </div>

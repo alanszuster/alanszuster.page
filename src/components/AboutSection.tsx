@@ -8,31 +8,34 @@ export default function AboutSection() {
         <div className={styles.header}>
           <h2 className={styles.sectionTitle}>About</h2>
           <p className={styles.lead}>
-            I work across cloud, platform, networking, security, software
-            engineering, and AI/ML integrations.
+            At Salling Group since 2022 and in SRE since 2024, I run
+            production Kubernetes clusters across GKE and AKS plus the cloud
+            networking around them.
           </p>
         </div>
         <div className={styles.contentGrid}>
           <article className={styles.contentBox}>
-            <h3>Networking & Security</h3>
+            <h3>Kubernetes & Platform</h3>
             <p className={styles.description}>
-              Network and security baselines, access control, and hardening
-              across cloud environments.
+              GKE (Autopilot and Standard), AKS and a hybrid cluster for
+              self-hosted GitHub Actions runners. GitOps delivery with Argo CD,
+              Helm and Terraform.
             </p>
           </article>
           <article className={styles.contentBox}>
-            <h3>Cloud & Platform</h3>
+            <h3>Cloud Networking & IaC</h3>
             <p className={styles.description}>
-              Kubernetes, Docker, Terraform, and CI/CD across GCP and Azure,
-              with Datadog-centered operational baselines.
+              Landing zones, hub-spoke VNets, vHub, ExpressRoute, Cloud
+              Interconnect, firewalls and WAF. Everything as code with
+              Terraform on GCP and Azure.
             </p>
           </article>
           <article className={styles.contentBox}>
-            <h3>Software Engineering + AI/ML</h3>
+            <h3>AI/ML & Agents</h3>
             <p className={styles.description}>
-              Daily coding in Python, TypeScript, Node.js, and Bash, plus
-              ML/agentic workflow implementation integrated with existing APIs,
-              infrastructure, and automation pipelines.
+              Custom AI agents, LLM and RAG workloads, MCP and AIOps on
+              Kubernetes, Vertex AI and Azure AI Foundry, including GPU
+              workloads and model training.
             </p>
           </article>
         </div>

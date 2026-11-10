@@ -258,3 +258,43 @@ nav .hamburger.active span:nth-child(3) {
     padding: 78px 0;
   }
 }
+
+.skip-link {
+  position: fixed;
+  left: 12px;
+  top: -60px;
+  z-index: 2000;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #0d1620;
+  font-weight: 700;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+
+  section {
+    transform: none;
+  }
+}
