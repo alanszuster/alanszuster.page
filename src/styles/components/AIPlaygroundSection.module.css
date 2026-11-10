@@ -82,6 +82,12 @@
   background: rgba(68, 217, 168, 0.08);
 }
 
+.apiHealthBad {
+  color: #ffd2d2;
+  border-color: rgba(255, 119, 119, 0.4);
+  background: rgba(255, 119, 119, 0.14);
+}
+
 .drawingArea {
   display: flex;
   justify-content: center;

@@ -18,6 +18,16 @@ const MIN_EXTENT = 40;
 
 const LOW_CONFIDENCE = 40;
 
+const HEALTH_MESSAGES: Record<string, string> = {
+  auth_failed: "API is reachable, but authentication failed",
+  model_unavailable: "API is reachable, but the model is not loaded",
+  unreachable: "API is not reachable",
+  misconfigured: "API is not configured",
+};
+
+// Re-check after the visitor comes back to the tab, but not more often than this.
+const HEALTH_RECHECK_MS = 60_000;
+
 const normalise = (value: string) =>
   value.toLowerCase().replace(/[_\s]+/g, " ").trim();
 
@@ -84,6 +94,8 @@ export default function AIPlaygroundSection() {
   const [error, setError] = useState<string | null>(null);
   const [randomWord, setRandomWord] = useState<string | null>(null);
   const [apiHealth, setApiHealth] = useState<string | null>(null);
+  const [apiHealthy, setApiHealthy] = useState(true);
+  const lastHealthCheck = useRef(0);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [isPredicting, setIsPredicting] = useState(false);
   const [isSlow, setIsSlow] = useState(false);
@@ -144,6 +156,26 @@ export default function AIPlaygroundSection() {
     }
   };
 
+  // Real requests are the best health signal: let their outcome update the
+  // indicator. 4xx such as 400 (bad drawing) or 429 (rate limit) say nothing
+  // about the API's health, so they leave it alone.
+  const noteApiResult = (status: number | null) => {
+    const markHealthy = () => {
+      setApiHealthy(true);
+      setApiHealth("API is healthy");
+    };
+    const markBroken = (key: string) => {
+      setApiHealthy(false);
+      setApiHealth(HEALTH_MESSAGES[key]);
+    };
+
+    if (status === null) markBroken("unreachable");
+    else if (status < 400) markHealthy();
+    else if (status === 401) markBroken("auth_failed");
+    else if (status === 503) markBroken("model_unavailable");
+    else if (status >= 500) markBroken("unreachable");
+  };
+
   const handlePredict = async () => {
     setActiveSection("predictions");
 
@@ -171,6 +203,7 @@ export default function AIPlaygroundSection() {
         body: JSON.stringify({ image }),
         signal: controller.signal,
       });
+      noteApiResult(response.status);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -182,6 +215,7 @@ export default function AIPlaygroundSection() {
       const data = await response.json();
       setPredictions(data.predictions || []);
     } catch (err) {
+      noteApiResult(null);
       setPredictions([]);
       setError(
         err instanceof DOMException && err.name === "AbortError"
@@ -202,6 +236,7 @@ export default function AIPlaygroundSection() {
       const response = await fetch("/api/get_classes", {
         method: "GET",
       });
+      noteApiResult(response.status);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -213,6 +248,7 @@ export default function AIPlaygroundSection() {
       setKnownClasses(data.classes || []);
       setError(null);
     } catch {
+      noteApiResult(null);
       setError("Failed to connect to the server");
     }
   };
@@ -222,6 +258,7 @@ export default function AIPlaygroundSection() {
       const response = await fetch("/api/get_random_class", {
         method: "GET",
       });
+      noteApiResult(response.status);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -235,27 +272,43 @@ export default function AIPlaygroundSection() {
       setPredictions([]);
       setError(null);
     } catch {
+      noteApiResult(null);
       setError("Failed to connect to the server");
     }
   };
 
   const checkApiHealth = async () => {
+    // /api/health checks the whole path (reachable, authenticated, model loaded)
+    lastHealthCheck.current = Date.now();
     try {
       const response = await fetch("/api/health");
-      if (!response.ok) {
-        setApiHealth("API is unhealthy");
-        setError("Failed to connect to the server");
+      const data = await response.json().catch(() => null);
+      if (response.ok && data?.status === "ok") {
+        setApiHealthy(true);
+        setApiHealth("API is healthy");
         return;
       }
-      setApiHealth("API is healthy");
+      setApiHealthy(false);
+      setApiHealth(HEALTH_MESSAGES[data?.status] ?? "API is unhealthy");
     } catch {
-      setApiHealth("API is unhealthy");
-      setError("Failed to connect to the server");
+      setApiHealthy(false);
+      setApiHealth("API is not reachable");
     }
   };
 
   useEffect(() => {
     checkApiHealth();
+
+    const recheck = () => {
+      if (
+        document.visibilityState === "visible" &&
+        Date.now() - lastHealthCheck.current > HEALTH_RECHECK_MS
+      ) {
+        checkApiHealth();
+      }
+    };
+    document.addEventListener("visibilitychange", recheck);
+    return () => document.removeEventListener("visibilitychange", recheck);
   }, []);
 
   const clearCanvas = () => {
@@ -322,7 +375,12 @@ export default function AIPlaygroundSection() {
             <div className={styles.cardBody}>
               {/* API Health Section */}
               {apiHealth && (
-                <div className={styles.apiHealth}>
+                <div
+                  className={`${styles.apiHealth} ${
+                    apiHealthy ? "" : styles.apiHealthBad
+                  }`}
+                  role="status"
+                >
                   <strong>API Health:</strong> {apiHealth}
                 </div>
               )}
