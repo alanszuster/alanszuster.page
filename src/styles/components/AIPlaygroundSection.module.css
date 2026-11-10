@@ -89,6 +89,8 @@
 }
 
 .drawingCanvas {
+  touch-action: none;
+  cursor: crosshair;
   background: #f9fbfd;
   border: 2px solid rgba(95, 200, 255, 0.45);
   border-radius: 16px;
@@ -118,6 +120,12 @@
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.controlButton:disabled {
+  opacity: 0.6;
+  cursor: progress;
+  transform: none;
 }
 
 .controlButton:hover {
@@ -216,4 +224,76 @@
     max-width: 90vw;
     aspect-ratio: 1;
   }
+}
+
+.slowNotice {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 197, 107, 0.4);
+  background: rgba(255, 197, 107, 0.1);
+  color: #ffe3b3;
+  font-size: 0.92rem;
+  text-align: left;
+}
+
+.resultList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.resultRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 5px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.resultName,
+.resultNameTop {
+  text-transform: capitalize;
+}
+
+.resultNameTop {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.bar {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(159, 177, 198, 0.18);
+  overflow: hidden;
+}
+
+.barFill,
+.barFillTop {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+
+.barFill {
+  background: rgba(95, 200, 255, 0.55);
+}
+
+.barFillTop {
+  background: linear-gradient(90deg, var(--accent), var(--accent-3));
+}
+
+.hint {
+  margin: 12px 0 0;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.challengeResult {
+  margin-top: 8px;
+  font-weight: 700;
+  color: #ffe9dc;
 }

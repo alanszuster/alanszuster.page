@@ -13,6 +13,15 @@ export default async function handler(
     return res.status(400).json({ error: "Image data is required" });
   }
 
+  // Only accept a reasonably sized PNG data URL (the page sends ~280x280)
+  if (
+    typeof image !== "string" ||
+    !image.startsWith("data:image/png;base64,") ||
+    image.length > 700_000
+  ) {
+    return res.status(400).json({ error: "Invalid image data" });
+  }
+
   const apiUrl = process.env.AI_APP_ENDPOINT;
   const apiKey = process.env.AI_APP_TOKEN;
 

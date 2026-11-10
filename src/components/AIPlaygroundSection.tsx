@@ -1,39 +1,166 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../styles/components/AIPlaygroundSection.module.css";
 
+type Point = { x: number; y: number };
+type Prediction = { class: string; confidence: number };
+
+// Live drawing (what the visitor sees)
+const LIVE_LINE_WIDTH = 16;
+
+// Image sent to the model. The model takes 28x28 input and was trained on
+// Quick Draw! bitmaps: one object that fills the frame, centred, with a
+// thick stroke. The server shrinks the whole image to 28x28, so we send a
+// 10x version that already looks like that (cropped, centred, scaled).
+const MODEL_INPUT_SIZE = 280;
+const MODEL_MARGIN = 25;
+const MODEL_LINE_WIDTH = 22;
+const MIN_EXTENT = 40;
+
+const LOW_CONFIDENCE = 40;
+
+const normalise = (value: string) =>
+  value.toLowerCase().replace(/[_\s]+/g, " ").trim();
+
+function renderForModel(strokes: Point[][]): string | null {
+  const points = strokes.flat();
+  if (points.length === 0) return null;
+
+  let minX = Infinity;
+  let minY = Infinity;
+  let maxX = -Infinity;
+  let maxY = -Infinity;
+  for (const { x, y } of points) {
+    if (x < minX) minX = x;
+    if (y < minY) minY = y;
+    if (x > maxX) maxX = x;
+    if (y > maxY) maxY = y;
+  }
+
+  const extent = Math.max(maxX - minX, maxY - minY, MIN_EXTENT);
+  const scale = (MODEL_INPUT_SIZE - 2 * MODEL_MARGIN) / extent;
+  const offsetX = MODEL_INPUT_SIZE / 2 - ((minX + maxX) / 2) * scale;
+  const offsetY = MODEL_INPUT_SIZE / 2 - ((minY + maxY) / 2) * scale;
+
+  const out = document.createElement("canvas");
+  out.width = MODEL_INPUT_SIZE;
+  out.height = MODEL_INPUT_SIZE;
+  const ctx = out.getContext("2d");
+  if (!ctx) return null;
+
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, MODEL_INPUT_SIZE, MODEL_INPUT_SIZE);
+  ctx.strokeStyle = "#000000";
+  ctx.lineWidth = MODEL_LINE_WIDTH;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+
+  for (const stroke of strokes) {
+    if (stroke.length === 0) continue;
+    ctx.beginPath();
+    ctx.moveTo(stroke[0].x * scale + offsetX, stroke[0].y * scale + offsetY);
+    if (stroke.length === 1) {
+      // A single tap: draw a dot
+      ctx.lineTo(
+        stroke[0].x * scale + offsetX + 0.01,
+        stroke[0].y * scale + offsetY
+      );
+    }
+    for (let i = 1; i < stroke.length; i++) {
+      ctx.lineTo(stroke[i].x * scale + offsetX, stroke[i].y * scale + offsetY);
+    }
+    ctx.stroke();
+  }
+
+  return out.toDataURL("image/png");
+}
+
 export default function AIPlaygroundSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [predictions, setPredictions] = useState<
-    Array<{ class: string; confidence: number }>
-  >([]);
+  const strokesRef = useRef<Point[][]>([]);
+  const activeStrokeRef = useRef<Point[] | null>(null);
+
+  const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [knownClasses, setKnownClasses] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [randomWord, setRandomWord] = useState<string | null>(null);
   const [apiHealth, setApiHealth] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [isPredicting, setIsPredicting] = useState(false);
+  const [isSlow, setIsSlow] = useState(false);
+
+  const getPoint = (e: React.PointerEvent<HTMLCanvasElement>): Point => {
+    const canvas = e.currentTarget;
+    const rect = canvas.getBoundingClientRect();
+    // The canvas is 600x600 but may be shown smaller (e.g. on phones),
+    // so convert from CSS pixels to canvas pixels.
+    const x = ((e.clientX - rect.left) / rect.width) * canvas.width;
+    const y = ((e.clientY - rect.top) / rect.height) * canvas.height;
+    return {
+      x: Math.max(0, Math.min(x, canvas.width)),
+      y: Math.max(0, Math.min(y, canvas.height)),
+    };
+  };
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    const ctx = e.currentTarget.getContext("2d");
+    if (!ctx) return;
+
+    e.currentTarget.setPointerCapture(e.pointerId);
+    const point = getPoint(e);
+    const stroke = [point];
+    activeStrokeRef.current = stroke;
+    strokesRef.current.push(stroke);
+
+    ctx.fillStyle = "#000000";
+    ctx.beginPath();
+    ctx.arc(point.x, point.y, LIVE_LINE_WIDTH / 2, 0, Math.PI * 2);
+    ctx.fill();
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
+    const stroke = activeStrokeRef.current;
+    if (!stroke) return;
+    const ctx = e.currentTarget.getContext("2d");
+    if (!ctx) return;
+
+    const point = getPoint(e);
+    const previous = stroke[stroke.length - 1];
+    stroke.push(point);
+
+    ctx.strokeStyle = "#000000";
+    ctx.lineWidth = LIVE_LINE_WIDTH;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(previous.x, previous.y);
+    ctx.lineTo(point.x, point.y);
+    ctx.stroke();
+  };
+
+  const handlePointerEnd = (e: React.PointerEvent<HTMLCanvasElement>) => {
+    activeStrokeRef.current = null;
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    }
+  };
 
   const handlePredict = async () => {
     setActiveSection("predictions");
-    const canvas = canvasRef.current;
-    if (!canvas) {
-      setError("Please draw something on the canvas before predicting.");
-      return;
-    }
 
-    const ctx = canvas.getContext("2d");
-    if (!ctx) {
-      setError("Canvas context is not available.");
-      return;
-    }
-
-    const pixels = new Uint32Array(ctx.getImageData(0, 0, canvas.width, canvas.height).data.buffer);
-    if (!pixels.some((p) => p !== 0)) {
+    const image = renderForModel(strokesRef.current);
+    if (!image) {
       setError("Draw something first before predicting.");
       return;
     }
 
-    // Convert canvas to Base64
-    const imageData = canvas.toDataURL("image/png");
+    setIsPredicting(true);
+    setIsSlow(false);
+    setError(null);
+
+    // The hosted model can be asleep; tell the visitor instead of looking broken
+    const slowTimer = setTimeout(() => setIsSlow(true), 4000);
+    const controller = new AbortController();
+    const abortTimer = setTimeout(() => controller.abort(), 60000);
 
     try {
       const response = await fetch("/api/predict", {
@@ -41,20 +168,31 @@ export default function AIPlaygroundSection() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ image: imageData }),
+        body: JSON.stringify({ image }),
+        signal: controller.signal,
       });
 
       if (!response.ok) {
         const errorData = await response.json();
+        setPredictions([]);
         setError(errorData.error || "An error occurred");
         return;
       }
 
       const data = await response.json();
       setPredictions(data.predictions || []);
-      setError(null);
-    } catch {
-      setError("Failed to connect to the server");
+    } catch (err) {
+      setPredictions([]);
+      setError(
+        err instanceof DOMException && err.name === "AbortError"
+          ? "The model took too long to respond. Please try again."
+          : "Failed to connect to the server"
+      );
+    } finally {
+      clearTimeout(slowTimer);
+      clearTimeout(abortTimer);
+      setIsPredicting(false);
+      setIsSlow(false);
     }
   };
 
@@ -93,6 +231,8 @@ export default function AIPlaygroundSection() {
 
       const data = await response.json();
       setRandomWord(data.word || "");
+      // A result for the previous word must not be judged against the new one
+      setPredictions([]);
       setError(null);
     } catch {
       setError("Failed to connect to the server");
@@ -115,94 +255,6 @@ export default function AIPlaygroundSection() {
   };
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let drawing = false;
-
-    const startDrawing = (e: MouseEvent | TouchEvent) => {
-      drawing = true;
-      ctx.beginPath();
-      const rect = canvas.getBoundingClientRect();
-      let x, y;
-
-      if (e instanceof TouchEvent) {
-        x = e.touches[0].clientX - rect.left;
-        y = e.touches[0].clientY - rect.top;
-      } else {
-        x = e.clientX - rect.left;
-        y = e.clientY - rect.top;
-      }
-      ctx.moveTo(x, y);
-    };
-
-    const draw = (e: MouseEvent | TouchEvent) => {
-      if (!drawing) return;
-      const canvas = canvasRef.current;
-      if (!canvas) return;
-
-      const rect = canvas.getBoundingClientRect();
-      let clientX, clientY;
-
-      if (e instanceof TouchEvent) {
-        clientX = e.touches[0].clientX;
-        clientY = e.touches[0].clientY;
-      } else {
-        clientX = e.clientX;
-        clientY = e.clientY;
-      }
-
-      const x = Math.max(0, Math.min(clientX - rect.left, canvas.width));
-      const y = Math.max(0, Math.min(clientY - rect.top, canvas.height));
-
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-
-      ctx.lineWidth = 16;
-      ctx.lineCap = "round";
-      ctx.strokeStyle = "black";
-
-      // Begin a new path only if within bounds
-      if (x >= 0 && x <= canvas.width && y >= 0 && y <= canvas.height) {
-        ctx.lineTo(x, y);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-      }
-    };
-
-    const stopDrawing = () => {
-      drawing = false;
-      ctx.closePath();
-    };
-
-    canvas.addEventListener("mousedown", startDrawing);
-    canvas.addEventListener("mousemove", draw);
-    canvas.addEventListener("mouseup", stopDrawing);
-    canvas.addEventListener("mouseout", stopDrawing);
-
-    // Touch events for mobile
-    canvas.addEventListener("touchstart", startDrawing, { passive: true });
-    canvas.addEventListener("touchmove", draw, { passive: true });
-    canvas.addEventListener("touchend", stopDrawing);
-
-    return () => {
-      canvas.removeEventListener("mousedown", startDrawing);
-      canvas.removeEventListener("mousemove", draw);
-      canvas.removeEventListener("mouseup", stopDrawing);
-      canvas.removeEventListener("mouseout", stopDrawing);
-
-      // Remove touch events
-      canvas.removeEventListener("touchstart", startDrawing);
-      canvas.removeEventListener("touchmove", draw);
-      canvas.removeEventListener("touchend", stopDrawing);
-    };
-  }, []);
-
-  useEffect(() => {
     checkApiHealth();
   }, []);
 
@@ -214,7 +266,20 @@ export default function AIPlaygroundSection() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
     }
+    strokesRef.current = [];
+    activeStrokeRef.current = null;
+    setPredictions([]);
+    setError(null);
   };
+
+  const topGuess = predictions[0];
+
+  let challengeResult: "hit" | "close" | "miss" | null = null;
+  if (randomWord && predictions.length > 0 && activeSection === "predictions") {
+    const target = normalise(randomWord);
+    const rank = predictions.findIndex((p) => normalise(p.class) === target);
+    challengeResult = rank === 0 ? "hit" : rank > 0 ? "close" : "miss";
+  }
 
   return (
     <section id="ai-playground" className={styles.aiPlayground}>
@@ -270,6 +335,12 @@ export default function AIPlaygroundSection() {
                   width="600"
                   height="600"
                   className={styles.drawingCanvas}
+                  role="img"
+                  aria-label="Drawing area. Draw with a mouse, finger or stylus."
+                  onPointerDown={handlePointerDown}
+                  onPointerMove={handlePointerMove}
+                  onPointerUp={handlePointerEnd}
+                  onPointerCancel={handlePointerEnd}
                 ></canvas>
               </div>
 
@@ -284,8 +355,11 @@ export default function AIPlaygroundSection() {
                 <button
                   className={styles.controlButton}
                   onClick={handlePredict}
+                  disabled={isPredicting}
+                  aria-busy={isPredicting}
                 >
-                  <i className="fas fa-magic"></i> Predict Draw
+                  <i className="fas fa-magic"></i>{" "}
+                  {isPredicting ? "Predicting…" : "Predict Draw"}
                 </button>
                 <button
                   className={styles.controlButton}
@@ -301,62 +375,123 @@ export default function AIPlaygroundSection() {
                 </button>
               </div>
 
-              {/* Dynamic Sections */}
-              {activeSection === "predictions" && predictions.length > 0 && (
-                <div className={styles.predictions}>
-                  <h4>Predictions:</h4>
-                  <ul>
-                    {predictions.map((prediction, index) => (
-                      <li key={index}>
-                        {`Class: ${
-                          prediction.class
-                        }, Confidence: ${prediction.confidence.toFixed(2)}%`}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {activeSection === "knownClasses" &&
-                knownClasses.length > 0 && (
-                  <div className={styles.predictions}>
-                    <h4>Known Classes:</h4>
-                    <p>{knownClasses.join(", ")}</p>
+              <div aria-live="polite">
+                {isPredicting && isSlow && (
+                  <div className={styles.slowNotice}>
+                    Waking up the model, the first prediction can take a
+                    little longer…
                   </div>
                 )}
 
-              {randomWord && (
-                <div className={styles.challengeWord}>
-                  <div>
-                    <strong>Try to draw:</strong> {randomWord}
+                {/* Dynamic Sections */}
+                {activeSection === "predictions" && topGuess && (
+                  <div className={styles.predictions}>
+                    <h4>Top guesses</h4>
+                    <ul className={styles.resultList}>
+                      {predictions.map((prediction, index) => {
+                        const percent = Math.max(
+                          0,
+                          Math.min(100, prediction.confidence)
+                        );
+                        return (
+                          <li key={prediction.class}>
+                            <div className={styles.resultRow}>
+                              <span
+                                className={
+                                  index === 0
+                                    ? styles.resultNameTop
+                                    : styles.resultName
+                                }
+                              >
+                                {prediction.class}
+                              </span>
+                              <span>{prediction.confidence.toFixed(1)}%</span>
+                            </div>
+                            <div className={styles.bar} aria-hidden="true">
+                              <div
+                                className={
+                                  index === 0
+                                    ? styles.barFillTop
+                                    : styles.barFill
+                                }
+                                style={{ width: `${Math.max(2, percent)}%` }}
+                              />
+                            </div>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                    {topGuess.confidence < LOW_CONFIDENCE && (
+                      <p className={styles.hint}>
+                        Not very sure about this one. Try one simple object,
+                        drawn large, with a continuous line.
+                      </p>
+                    )}
                   </div>
-                </div>
-              )}
+                )}
 
-              {/* Error Section */}
-              {error && (
-                <div className={styles["alert-danger"]}>
-                  <strong>Error:</strong> {error}
-                </div>
-              )}
+                {activeSection === "knownClasses" &&
+                  knownClasses.length > 0 && (
+                    <div className={styles.predictions}>
+                      <h4>Known Classes:</h4>
+                      <p>{knownClasses.join(", ")}</p>
+                    </div>
+                  )}
+
+                {randomWord && (
+                  <div className={styles.challengeWord}>
+                    <div>
+                      <strong>Try to draw:</strong> {randomWord}
+                    </div>
+                    {challengeResult === "hit" && (
+                      <div className={styles.challengeResult}>
+                        Nailed it! The model recognised it.
+                      </div>
+                    )}
+                    {challengeResult === "close" && (
+                      <div className={styles.challengeResult}>
+                        Close! It was in the model&apos;s top three.
+                      </div>
+                    )}
+                    {challengeResult === "miss" && (
+                      <div className={styles.challengeResult}>
+                        Not this time. Clear and try again.
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Error Section */}
+                {error && (
+                  <div className={styles["alert-danger"]}>
+                    <strong>Error:</strong> {error}
+                  </div>
+                )}
+              </div>
 
               {/* Instructions Section */}
               <div className={styles.instructions}>
                 <h4>How to use:</h4>
                 <ul className={styles.instructionsList}>
                   <li>
-                    Draw something on the canvas using your mouse or touch
+                    Draw one simple object on the canvas with your mouse, finger
+                    or stylus
                   </li>
                   <li>
                     Click &quot;Predict Draw&quot; to let AI analyze your
                     artwork
                   </li>
                   <li>
+                    Your sketch is automatically cropped, centred and scaled to
+                    match the training data before it is sent
+                  </li>
+                  <li>
                     Use &quot;Get Known Classes&quot; to see all available
                     drawing categories
                   </li>
                   <li>
-                    Use &quot;Get Random Class&quot; for drawing challenges
+                    Use &quot;Get Random Class&quot; for a drawing challenge:
+                    the model tells you if it got it
                   </li>
                   <li>Click &quot;Clear&quot; to start over</li>
                 </ul>

@@ -164,12 +164,12 @@ jobs:
         with:
           tag_name: "${{ env.new_version }}"
           name: "Release ${{ env.new_version }}"
-          body: "Deployment URL: https://alanszuster.vercel.app"
+          body: "Deployment URL: https://www.alanszuster.dev"
           draft: false
           prerelease: false
 
       - name: Set Deployment URL
-        run: echo "URL=https://alanszuster.vercel.app" >> $GITHUB_ENV
+        run: echo "URL=https://www.alanszuster.dev" >> $GITHUB_ENV
 
       - name: Update Deployment Status for Production
         uses: actions/github-script@v9
@@ -182,6 +182,6 @@ jobs:
               deployment_id: ${{ steps.create_deployment.outputs.deployment_id }},
               state: 'success',
               environment: 'production',
-              environment_url: 'https://alanszuster.vercel.app',
+              environment_url: 'https://www.alanszuster.dev',
               description: 'Production deployment successful',
             })

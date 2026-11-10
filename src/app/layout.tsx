@@ -13,7 +13,8 @@ const displayFont = Sora({
   variable: "--font-display",
 });
 
-const siteUrl = "https://alanszuster.vercel.app";
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.alanszuster.dev";
 
 const jsonLd = {
   "@context": "https://schema.org",
