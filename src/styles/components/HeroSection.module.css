@@ -87,23 +87,6 @@
   box-shadow: var(--shadow-card);
 }
 
-.highlights {
-  margin-top: 22px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.highlights span {
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: rgba(95, 200, 255, 0.12);
-  border: 1px solid rgba(95, 200, 255, 0.35);
-  color: #d6ebff;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
 .heroCard {
   background: linear-gradient(155deg, rgba(27, 36, 49, 0.95), rgba(22, 29, 39, 0.92));
   border: 1px solid rgba(95, 200, 255, 0.2);

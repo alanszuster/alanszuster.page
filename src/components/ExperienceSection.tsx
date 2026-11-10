@@ -5,29 +5,19 @@ const roles = [
   {
     title: "Site Reliability Engineer",
     period: "May 2024 — Present",
-    points: [
-      "Build, deploy and run AI agents and ML applications on Kubernetes, Vertex AI and Azure AI Foundry, including GPU workloads and model training.",
-      "Design and operate Kubernetes clusters across GKE (Autopilot, Standard) and AKS, plus a hybrid cluster for self-hosted GitHub Actions runners.",
-      "Contributed to migrating production applications from OpenShift to GKE Autopilot in Sweden: landing zone, networking, databases and fully rebuilt CI/CD.",
-      "Part of the team that migrated VMs and their databases from Kyndryl's on-prem data center to Azure VMware Solution (AVS).",
-      "Provision infrastructure with Terraform on GCP and Azure; deliver via GitHub Actions (incl. custom actions), Argo CD and Helm.",
-      "Build automation in Python, Bash, JS and TS, including serverless on Cloud Run and Cloud Functions; load test applications in Grafana Cloud.",
-    ],
+    summary:
+      "Running production Kubernetes and cloud platforms on GCP and Azure, plus AI agents and ML workloads.",
   },
   {
     title: "ServiceNow Developer",
     period: "Dec 2022 — May 2024",
-    points: [
-      "Developed and administered ServiceNow (ITSM, custom apps) in JavaScript and Angular; automated workflows with Flow Designer and Script Includes.",
-      "Built REST API and Python integrations; managed MID Server deployments for secure on-prem connectivity.",
-    ],
+    summary:
+      "Developed and integrated the ServiceNow platform: ITSM and custom apps.",
   },
   {
     title: "IT Operator",
     period: "Jan 2022 — Nov 2022",
-    points: [
-      "First-line support for OS and business applications serving tens of thousands of retail employees.",
-    ],
+    summary: "First-line support for business applications used across retail.",
   },
 ];
 
@@ -37,10 +27,6 @@ export default function ExperienceSection() {
       <div className="container">
         <div className={styles.header}>
           <h2 className={styles.sectionTitle}>Experience</h2>
-          <p className={styles.lead}>
-            From first-line support to running production platforms, all at
-            Salling Group A/S.
-          </p>
         </div>
         <ol className={styles.timeline}>
           {roles.map((role) => (
@@ -50,11 +36,7 @@ export default function ExperienceSection() {
                 <span className={styles.period}>{role.period}</span>
               </div>
               <p className={styles.company}>Salling Group A/S</p>
-              <ul>
-                {role.points.map((p) => (
-                  <li key={p}>{p}</li>
-                ))}
-              </ul>
+              <p className={styles.summary}>{role.summary}</p>
             </li>
           ))}
         </ol>

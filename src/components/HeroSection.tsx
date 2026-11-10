@@ -41,15 +41,6 @@ export default function HeroSection() {
                 Get in touch
               </a>
             </div>
-            <div className={styles.highlights}>
-              <span>Kubernetes</span>
-              <span>GKE + AKS</span>
-              <span>Terraform</span>
-              <span>Argo CD</span>
-              <span>GitHub Actions</span>
-              <span>Agentic AI</span>
-              <span>Python/TS/Bash</span>
-            </div>
           </div>
           <div className={styles.photoWrap}>
             <Image
