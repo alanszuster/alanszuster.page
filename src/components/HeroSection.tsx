@@ -9,7 +9,7 @@ export default function HeroSection() {
         <div className={styles.grid}>
           <div className={styles.heroText}>
             <p className={styles.eyebrow}>
-              Cloud • Platform • Infrastructure • DevOps • AIOps • Dev / AI Engineer
+              Cloud • Platform • DevOps • AIOps • Software Engineering • AI Engineering
             </p>
             <h1 className={styles.heroTitle}>Alan Szuster</h1>
             <h2 className={styles.heroSubtitle}>Site Reliability Engineer</h2>

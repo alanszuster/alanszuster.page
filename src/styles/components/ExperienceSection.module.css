@@ -74,3 +74,28 @@
   color: var(--text-muted);
   line-height: 1.6;
 }
+
+@media (max-width: 640px) {
+  .timeline {
+    padding-left: 18px;
+    margin-top: 28px;
+  }
+
+  .role {
+    padding: 18px;
+  }
+
+  .role::before {
+    left: -27px;
+    top: 24px;
+  }
+
+  .roleHead {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .roleHead h3 {
+    font-size: 1.08rem;
+  }
+}

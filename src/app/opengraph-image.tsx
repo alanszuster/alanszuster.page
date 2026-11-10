@@ -19,8 +19,8 @@ export default function OpenGraphImage() {
           color: "#f1f6fb",
         }}
       >
-        <div style={{ fontSize: 24, color: "#ffc56b", letterSpacing: 3 }}>
-          CLOUD · PLATFORM · INFRASTRUCTURE · AIOPS · DEV / AI ENGINEER
+        <div style={{ fontSize: 21, color: "#ffc56b", letterSpacing: 2, whiteSpace: "nowrap" }}>
+          CLOUD · PLATFORM · DEVOPS · AIOPS · SOFTWARE ENGINEERING · AI ENGINEERING
         </div>
         <div style={{ fontSize: 96, fontWeight: 700, marginTop: 24 }}>
           Alan Szuster

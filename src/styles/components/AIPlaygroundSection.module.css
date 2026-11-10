@@ -297,3 +297,24 @@
   font-weight: 700;
   color: #ffe9dc;
 }
+
+@media (max-width: 640px) {
+  .about {
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  .facts {
+    gap: 6px;
+  }
+
+  .facts li {
+    padding: 4px 9px;
+    font-size: 0.75rem;
+  }
+
+  .note {
+    font-size: 0.82rem;
+    margin-bottom: 20px;
+  }
+}

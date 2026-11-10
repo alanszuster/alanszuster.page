@@ -298,3 +298,15 @@ nav .hamburger.active span:nth-child(3) {
     transform: none;
   }
 }
+
+@media (max-width: 980px) {
+  nav {
+    background: rgba(15, 20, 27, 0.97);
+  }
+}
+
+@media (max-width: 640px) {
+  section {
+    padding: 56px 0;
+  }
+}

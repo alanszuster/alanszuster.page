@@ -57,6 +57,10 @@ export default function HomePage() {
     smoothScrollLinks.forEach((link) => {
       link.addEventListener("click", (e) => {
         e.preventDefault();
+        // Close the mobile menu after choosing a section
+        document.querySelector(".hamburger")?.classList.remove("active");
+        document.querySelector(".links")?.classList.remove("active");
+        document.querySelector(".social-icons")?.classList.remove("active");
         const targetId = link.getAttribute("href")?.substring(1);
         const targetSection = document.getElementById(targetId || "");
         if (targetSection) {

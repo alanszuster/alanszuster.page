@@ -173,7 +173,30 @@
 @media (max-width: 980px) {
   .photoWrap {
     order: -1;
-    width: 200px;
-    justify-self: start;
+    width: min(240px, 68%);
+    justify-self: center;
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    min-height: auto;
+    padding-bottom: 40px;
+  }
+
+  .heroText {
+    text-align: left;
+  }
+
+  .eyebrow {
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
+    line-height: 1.6;
+  }
+
+  .heroDescription {
+    font-size: 0.97rem;
+    line-height: 1.65;
   }
 }

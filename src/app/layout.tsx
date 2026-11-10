@@ -52,12 +52,12 @@ export const metadata: Metadata = {
     siteName: "Alan Szuster",
     title: "Alan Szuster - Site Reliability Engineer",
     description:
-      "Site Reliability Engineer and Dev / AI Engineer: production Kubernetes on GKE and AKS, GCP and Azure, Terraform, and AI agents.",
+      "Site Reliability Engineer working across software and AI engineering: production Kubernetes on GKE and AKS, GCP and Azure, Terraform, and AI agents.",
   },
   twitter: { card: "summary_large_image" },
   title: "Alan Szuster - Site Reliability Engineer",
   description:
-    "Alan Szuster, Site Reliability Engineer and Dev / AI Engineer. Production Kubernetes on GKE and AKS, GCP and Azure networking, Terraform, and AI agents/ML workloads.",
+    "Alan Szuster, Site Reliability Engineer working across software and AI engineering. Production Kubernetes on GKE and AKS, GCP and Azure networking, Terraform, and AI agents/ML workloads.",
   icons: {
     icon: "/custom-logo-as.png",
   },
