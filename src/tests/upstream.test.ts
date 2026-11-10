@@ -10,7 +10,6 @@ const req = (headers: Record<string, string | string[]> = {}) =>
 
 const ENV_KEYS = [
   "AI_APP_ENDPOINT",
-  "AI_APP_TOKEN",
   "VERCEL",
   "VERCEL_OIDC_TOKEN",
 ] as const;
@@ -60,13 +59,11 @@ describe("upstream auth helpers", () => {
     expect(getOidcToken(req({ "x-vercel-oidc-token": "header.token" }))).toBe("header.token");
   });
 
-  it("still sends the legacy key during the transition", () => {
+  it("never sends a static API key, even if the old variable is still set", () => {
     process.env.AI_APP_TOKEN = "legacy";
     const headers = upstreamAuthHeaders(req({ "x-vercel-oidc-token": "jwt.value" }));
-    expect(headers).toEqual({
-      Authorization: "Bearer jwt.value",
-      "x-api-key": "legacy",
-    });
+    expect(headers).toEqual({ Authorization: "Bearer jwt.value" });
+    delete process.env.AI_APP_TOKEN;
   });
 
   it("returns null when no credential is available", () => {

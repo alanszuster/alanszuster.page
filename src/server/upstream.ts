@@ -27,20 +27,11 @@ export function getOidcToken(req: NextApiRequest): string | undefined {
 
 /**
  * Headers that authenticate a request to the doodleai API, or null when no
- * credential is available.
+ * OIDC token is available (the backend would refuse the request anyway).
  */
 export function upstreamAuthHeaders(
   req: NextApiRequest
 ): Record<string, string> | null {
-  const headers: Record<string, string> = {};
-
   const token = getOidcToken(req);
-  if (token) headers.Authorization = `Bearer ${token}`;
-
-  // TRANSITION: legacy static key. Delete this block, AI_APP_TOKEN in Vercel
-  // and AI_API_KEY on the Space once the backend runs with OIDC only.
-  const legacyKey = process.env.AI_APP_TOKEN;
-  if (legacyKey) headers["x-api-key"] = legacyKey;
-
-  return Object.keys(headers).length > 0 ? headers : null;
+  return token ? { Authorization: `Bearer ${token}` } : null;
 }
