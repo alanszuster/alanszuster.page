@@ -166,7 +166,7 @@ export default function HomePage() {
           >
             <i className="fab fa-linkedin"></i>
           </a>
-          <a href="mailto:alanszuster22@gmail.com" aria-label="Email">
+          <a href="mailto:alan@alanszuster.dev" aria-label="Email">
             <i className="fas fa-envelope"></i>
           </a>
         </div>

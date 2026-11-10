@@ -37,7 +37,7 @@ export default function HeroSection() {
                 Download CV
               </a>
               <a
-                href="mailto:alanszuster22@gmail.com"
+                href="mailto:alan@alanszuster.dev"
                 className={styles.secondaryAction}
               >
                 Get in touch
