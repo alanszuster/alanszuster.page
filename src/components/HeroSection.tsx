@@ -9,30 +9,32 @@ export default function HeroSection() {
         <div className={styles.grid}>
           <div className={styles.heroText}>
             <p className={styles.eyebrow}>
-              Cloud • Platform • Infrastructure • DevOps • AIOps
+              Cloud • Platform • Infrastructure • DevOps • AIOps • Dev / AI Engineer
             </p>
             <h1 className={styles.heroTitle}>Alan Szuster</h1>
             <h2 className={styles.heroSubtitle}>Site Reliability Engineer</h2>
             <p className={styles.heroDescription}>
-              SRE at Salling Group running production Kubernetes and cloud
-              networking on GCP and Azure. I also build and run AI agents and
-              ML workloads on Kubernetes, Vertex AI and Azure AI Foundry,
-              including GPU.
+              Working on cloud infrastructure and platform engineering across
+              GCP and Azure, focusing on Kubernetes, container orchestration,
+              Infrastructure as Code, CI/CD automation, and cloud-native
+              environments.
+            </p>
+            <p className={styles.heroDescription}>
+              Designing, maintaining, and improving infrastructure, automating
+              workflows, and developing tools and solutions using Python,
+              Terraform, JavaScript, Node.js, TypeScript, and Bash. Working
+              across both infrastructure and development aspects of AI/ML,
+              including GPU workloads, LLMs, Machine Learning, and Agentic AI
+              solutions.
             </p>
             <div className={styles.heroActions}>
-              <a href="#experience" className={styles.primaryAction}>
-                Experience
-              </a>
               <a
                 href="/Alan-Szuster-CV.pdf"
                 download
-                className={styles.secondaryAction}
+                className={styles.primaryAction}
               >
                 <i className="fas fa-download" aria-hidden="true"></i>
                 Download CV
-              </a>
-              <a href="#ai-playground" className={styles.secondaryAction}>
-                AI/ML Playground
               </a>
               <a
                 href="mailto:alanszuster22@gmail.com"

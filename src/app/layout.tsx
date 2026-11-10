@@ -20,7 +20,6 @@ const jsonLd = {
   "@type": "Person",
   name: "Alan Szuster",
   jobTitle: "Site Reliability Engineer",
-  worksFor: { "@type": "Organization", name: "Salling Group A/S" },
   url: siteUrl,
   image: `${siteUrl}/alan.jpg`,
   address: {
@@ -52,12 +51,12 @@ export const metadata: Metadata = {
     siteName: "Alan Szuster",
     title: "Alan Szuster - Site Reliability Engineer",
     description:
-      "Site Reliability Engineer at Salling Group: production Kubernetes on GKE and AKS, GCP and Azure, Terraform, and AI agents.",
+      "Site Reliability Engineer and Dev / AI Engineer: production Kubernetes on GKE and AKS, GCP and Azure, Terraform, and AI agents.",
   },
   twitter: { card: "summary_large_image" },
   title: "Alan Szuster - Site Reliability Engineer",
   description:
-    "Alan Szuster, Site Reliability Engineer at Salling Group. Production Kubernetes on GKE and AKS, GCP and Azure networking, Terraform, and AI agents/ML workloads.",
+    "Alan Szuster, Site Reliability Engineer and Dev / AI Engineer. Production Kubernetes on GKE and AKS, GCP and Azure networking, Terraform, and AI agents/ML workloads.",
   icons: {
     icon: "/custom-logo-as.png",
   },

@@ -6,7 +6,6 @@ import HeroSection from "../components/HeroSection";
 import AIPlaygroundSection from "../components/AIPlaygroundSection";
 import ExperienceSection from "../components/ExperienceSection";
 import SkillsSection from "../components/SkillsSection";
-import AboutSection from "../components/AboutSection";
 
 export default function HomePage() {
   useEffect(() => {
@@ -142,10 +141,9 @@ export default function HomePage() {
         </div>
         <div className="links">
           <a href="#home">Home</a>
-          <a href="#about">About</a>
           <a href="#experience">Experience</a>
           <a href="#skills">Skills</a>
-          <a href="#ai-playground">Playground</a>
+          <a href="#ai-playground">AI/ML Playground</a>
         </div>
         <div className="social-icons">
           <a
@@ -171,7 +169,6 @@ export default function HomePage() {
       </nav>
       <main id="main">
         <HeroSection />
-        <AboutSection />
         <ExperienceSection />
         <SkillsSection />
         <AIPlaygroundSection />

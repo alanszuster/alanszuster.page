@@ -50,6 +50,10 @@
   font-size: 1.04rem;
 }
 
+.heroDescription + .heroDescription {
+  margin-top: 14px;
+}
+
 .heroActions {
   margin-top: 26px;
   display: flex;
@@ -161,6 +165,7 @@
   display: block;
 }
 
+.primaryAction i,
 .secondaryAction i {
   margin-right: 8px;
 }
