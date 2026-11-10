@@ -73,7 +73,7 @@ env/
 .vscode/
 *.swp
 *.swo
-
+.claude
 # Private files - CV
 CV-2025.pdf
 *.pdf
