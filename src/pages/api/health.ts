@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getUpstreamUrl, upstreamAuthHeaders } from "../../server/upstream";
 
 export default async function handler(
   req: NextApiRequest,
@@ -8,19 +9,16 @@ export default async function handler(
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const apiUrl = process.env.AI_APP_ENDPOINT;
-  const apiKey = process.env.AI_APP_TOKEN;
+  // /health is public on the backend, so no credentials are sent.
+  const apiUrl = getUpstreamUrl();
 
-  if (!apiUrl || !apiKey) {
+  if (!apiUrl) {
     return res.status(500).json({ error: "API configuration missing" });
   }
 
   try {
     const response = await fetch(`${apiUrl}/health`, {
       method: "GET",
-      headers: {
-        "x-api-key": apiKey,
-      },
     });
     const data = await response.json();
     res.status(response.status).json(data);

@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getUpstreamUrl, upstreamAuthHeaders } from "../../server/upstream";
 
 export default async function handler(
   req: NextApiRequest,
@@ -22,10 +23,10 @@ export default async function handler(
     return res.status(400).json({ error: "Invalid image data" });
   }
 
-  const apiUrl = process.env.AI_APP_ENDPOINT;
-  const apiKey = process.env.AI_APP_TOKEN;
+  const apiUrl = getUpstreamUrl();
+  const authHeaders = upstreamAuthHeaders(req);
 
-  if (!apiUrl || !apiKey) {
+  if (!apiUrl || !authHeaders) {
     return res.status(500).json({ error: "API configuration missing" });
   }
 
@@ -34,7 +35,7 @@ export default async function handler(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": apiKey,
+        ...authHeaders,
       },
       body: JSON.stringify({ image }),
     });
