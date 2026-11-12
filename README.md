@@ -10,7 +10,7 @@ This is my personal website showcasing my work as a Site Reliability Engineer (S
 - **Styling**: CSS Modules, PostCSS
 - **Testing**: Jest, React Testing Library
 - **Deployment**: Vercel, GitHub Actions
-- **Runtime**: Node.js 24.x, npm latest
+- **Runtime**: Node.js 26.x (LTS), npm 12+
 - **Domain**: `alanszuster.dev` (Cloudflare DNS only, DNSSEC, CAA)
 - **AI backend**: [doodleai](https://github.com/alanszuster/doodleai) on Hugging Face Spaces
 
