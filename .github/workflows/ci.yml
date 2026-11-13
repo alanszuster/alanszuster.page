@@ -31,7 +31,7 @@ jobs:
         run: npm install --global npm@latest
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Lint
         run: npm run lint
@@ -51,7 +51,7 @@ jobs:
         run: npm install --global npm@latest
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Type check
         run: npm run typecheck
@@ -71,20 +71,14 @@ jobs:
         run: npm install --global npm@latest
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run Tests
         run: npm test
 
-  deploy-preview:
+  audit:
     runs-on: ubuntu-latest
-    # Dependabot PRs cannot read the Vercel secrets, so a preview would only fail; lint,
-    # type check and tests above still run for them.
-    if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
-    needs: [lint, typecheck, test]
-    permissions:
-      contents: write # the preview step publishes a pre-release
-      deployments: write
+
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
@@ -93,70 +87,12 @@ jobs:
         with:
           node-version: "26"
 
-      - name: Update npm
-        run: npm install --global npm@latest
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
 
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Bump version in package.json
-        id: bump_version_preview
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          new_version=$(npm version prerelease --preid=preview -m "ci: bump preview version to %s" --allow-same-version --git-tag-version=false)
-          echo "new_version=$new_version" >> $GITHUB_ENV
-          echo "new_version=$new_version" >> $GITHUB_OUTPUT
-
-      - name: Create Deployment
-        id: create_deployment_preview
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const deployment = await github.rest.repos.createDeployment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: context.ref,
-              required_contexts: [],
-              environment: 'preview',
-              description: 'Preview deployment',
-            });
-            core.setOutput('deployment_id', deployment.data.id);
-            core.setOutput('preview_url', 'https://preview.example.com');
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3 # v3.0.4
-        with:
-          tag_name: "${{ steps.bump_version_preview.outputs.new_version || 'v0.0.0-preview' }}"
-          name: "Preview Release ${{ steps.bump_version_preview.outputs.new_version || 'v0.0.0-preview' }}"
-          body: "Preview Deployment URL: https://preview.example.com"
-          draft: false
-          prerelease: true
-
-      - name: Update Deployment Status for Preview
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            github.rest.repos.createDeploymentStatus({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              deployment_id: ${{ steps.create_deployment_preview.outputs.deployment_id || '0' }},
-              state: 'success',
-              environment: 'preview',
-              environment_url: 'https://preview.example.com',
-              description: 'Preview deployment successful',
-            })
   deploy-production:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    needs: [lint, typecheck, test]
+    needs: [lint, typecheck, test, audit]
     runs-on: ubuntu-latest
     permissions:
       contents: write # push the version bump and tag, create the release
