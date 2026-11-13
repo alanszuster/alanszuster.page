@@ -16,3 +16,8 @@ updates:
     groups:
       npm-minor-and-patch:
         update-types: ["minor", "patch"]
+    ignore:
+      # TypeScript 7 (native compiler) breaks ts-jest (no JS compiler API) and typescript-eslint
+      # (supports it from 7.1). Drop this once both do.
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
