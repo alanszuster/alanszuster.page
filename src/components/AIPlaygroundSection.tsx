@@ -439,7 +439,7 @@ export default function AIPlaygroundSection() {
                   <i className="fas fa-eraser"></i> Clear
                 </button>
                 <button
-                  className={`${styles.controlButton} ${styles.controlButtonWide}`}
+                  className={styles.primaryButton}
                   onClick={handlePredict}
                   disabled={isPredicting}
                   aria-busy={isPredicting}
@@ -448,13 +448,13 @@ export default function AIPlaygroundSection() {
                   {isPredicting ? "Predicting…" : "Predict Draw"}
                 </button>
                 <button
-                  className={styles.controlButton}
+                  className={`${styles.controlButton} ${styles.controlButtonGhost}`}
                   onClick={handleGetKnownClasses}
                 >
                   <i className="fas fa-list"></i> Get Known Classes
                 </button>
                 <button
-                  className={styles.controlButton}
+                  className={`${styles.controlButton} ${styles.controlButtonGhost}`}
                   onClick={handleGetRandomClass}
                 >
                   <i className="fas fa-dice"></i> Get Random Class
