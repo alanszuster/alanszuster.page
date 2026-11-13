@@ -95,3 +95,6 @@ config.local.json
 
 # Vercel
 .vercel
+
+# written by `next dev` (hints for AI coding tools); not part of the project
+AGENTS.md
