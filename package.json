@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.1.0",
-    "@vercel/analytics": "^1.6.1",
+    "@vercel/analytics": "^2.0.1",
     "botid": "^1.5.13",
     "next": "^16.1.0",
     "node-fetch": "^3.3.2",
