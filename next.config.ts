@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withBotId } from "botid/next/config";
 
 const isDev = process.env.NODE_ENV !== "production";
 
@@ -56,4 +57,5 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+// withBotId adds the rewrites that let the BotID challenge script reach Vercel.
+export default withBotId(nextConfig);
