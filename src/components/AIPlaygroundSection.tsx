@@ -1,16 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../styles/components/AIPlaygroundSection.module.css";
+import {
+  describeError,
+  redrawStrokes,
+  type Point,
+} from "../utils/playground";
 
-type Point = { x: number; y: number };
 type Prediction = { class: string; confidence: number };
 
 // Live drawing (what the visitor sees)
 const LIVE_LINE_WIDTH = 16;
 
-// Image sent to the model. The model takes 28x28 input and was trained on
-// Quick Draw! bitmaps: one object that fills the frame, centred, with a
-// thick stroke. The server shrinks the whole image to 28x28, so we send a
-// 10x version that already looks like that (cropped, centred, scaled).
+// Image sent to the model: one object that fills the frame, centred, with a
+// thick stroke, drawn the way the training images are drawn. The server
+// shrinks the whole image to the model's own input size (it reads that from
+// the model), so we send a 280px version that already looks like that
+// (cropped, centred, scaled).
 const MODEL_INPUT_SIZE = 280;
 const MODEL_MARGIN = 25;
 const MODEL_LINE_WIDTH = 22;
@@ -207,9 +212,9 @@ export default function AIPlaygroundSection() {
       noteApiResult(response.status);
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json().catch(() => null);
         setPredictions([]);
-        setError(errorData.error || "An error occurred");
+        setError(describeError(response.status, errorData?.error));
         return;
       }
 
@@ -242,7 +247,7 @@ export default function AIPlaygroundSection() {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => null);
-        setError(errorData?.error || "An error occurred");
+        setError(describeError(response.status, errorData?.error));
         return null;
       }
 
@@ -310,6 +315,17 @@ export default function AIPlaygroundSection() {
     document.addEventListener("visibilitychange", recheck);
     return () => document.removeEventListener("visibilitychange", recheck);
   }, []);
+
+  const handleUndo = () => {
+    const ctx = canvasRef.current?.getContext("2d");
+    if (!ctx || strokesRef.current.length === 0) return;
+    strokesRef.current.pop();
+    activeStrokeRef.current = null;
+    redrawStrokes(ctx, strokesRef.current, LIVE_LINE_WIDTH);
+    // A result for the drawing as it was must not stay next to the new one
+    setPredictions([]);
+    setError(null);
+  };
 
   const clearCanvas = () => {
     const canvas = canvasRef.current;
@@ -412,12 +428,18 @@ export default function AIPlaygroundSection() {
               <div className={styles.controlsContainer}>
                 <button
                   className={styles.controlButton}
+                  onClick={handleUndo}
+                >
+                  <i className="fas fa-undo"></i> Undo
+                </button>
+                <button
+                  className={styles.controlButton}
                   onClick={clearCanvas}
                 >
                   <i className="fas fa-eraser"></i> Clear
                 </button>
                 <button
-                  className={styles.controlButton}
+                  className={`${styles.controlButton} ${styles.controlButtonWide}`}
                   onClick={handlePredict}
                   disabled={isPredicting}
                   aria-busy={isPredicting}
