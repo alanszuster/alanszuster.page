@@ -82,6 +82,11 @@
   background: rgba(68, 217, 168, 0.08);
 }
 
+.apiVersion {
+  opacity: 0.75;
+  white-space: nowrap;
+}
+
 .apiHealthBad {
   color: #ffd2d2;
   border-color: rgba(255, 119, 119, 0.4);

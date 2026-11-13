@@ -51,10 +51,20 @@ export default async function handler(
       return fail(503, "model_unavailable");
     }
 
+    // The API's release version ("1.0.6", or "dev"), shown next to the health
+    // message. Only a short, plain token is passed on: it comes from another
+    // service and ends up in the page.
+    const version =
+      typeof data.version === "string" && /^[\w.+-]{1,32}$/.test(data.version)
+        ? data.version
+        : undefined;
+
     // Healthy answers may be shared for a short while so page loads do not
     // each hit the backend.
     res.setHeader("Cache-Control", "s-maxage=30, stale-while-revalidate=60");
-    return res.status(200).json({ status: "ok" satisfies HealthStatus });
+    return res
+      .status(200)
+      .json({ status: "ok" satisfies HealthStatus, ...(version && { version }) });
   } catch (error) {
     console.error(
       "Error in /api/health:",

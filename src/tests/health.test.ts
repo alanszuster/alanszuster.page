@@ -68,6 +68,25 @@ describe("/api/health", () => {
     expect(reply.headers["Cache-Control"]).toContain("s-maxage");
   });
 
+  it("passes the API's release version on, but only as a short plain token", async () => {
+    for (const [sent, shown] of [
+      ["1.0.6", "1.0.6"],
+      ["dev", "dev"],
+      ["<script>alert(1)</script>", undefined],
+      ["x".repeat(40), undefined],
+      [{ nested: true }, undefined],
+    ] as const) {
+      global.fetch = upstream(200, {
+        status: "ok",
+        model: "loaded",
+        version: sent,
+      }) as unknown as typeof fetch;
+      const reply = await call("GET", withToken);
+      expect(reply.code).toBe(200);
+      expect(reply.body).toEqual(shown ? { status: "ok", version: shown } : { status: "ok" });
+    }
+  });
+
   it("reports an authentication failure instead of looking healthy", async () => {
     global.fetch = upstream(401, { error: "Unauthorized" }) as unknown as typeof fetch;
     const reply = await call("GET", withToken);

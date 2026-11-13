@@ -95,6 +95,7 @@ export default function AIPlaygroundSection() {
   const [randomWord, setRandomWord] = useState<string | null>(null);
   const [apiHealth, setApiHealth] = useState<string | null>(null);
   const [apiHealthy, setApiHealthy] = useState(true);
+  const [apiVersion, setApiVersion] = useState<string | null>(null);
   const lastHealthCheck = useRef(0);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [isPredicting, setIsPredicting] = useState(false);
@@ -286,6 +287,7 @@ export default function AIPlaygroundSection() {
       if (response.ok && data?.status === "ok") {
         setApiHealthy(true);
         setApiHealth("API is healthy");
+        setApiVersion(typeof data.version === "string" ? data.version : null);
         return;
       }
       setApiHealthy(false);
@@ -297,6 +299,8 @@ export default function AIPlaygroundSection() {
   };
 
   useEffect(() => {
+    // Fetch on mount: state is only set after the await, not synchronously.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     checkApiHealth();
 
     const recheck = () => {
@@ -382,6 +386,12 @@ export default function AIPlaygroundSection() {
                   role="status"
                 >
                   <strong>API Health:</strong> {apiHealth}
+                  {apiHealthy && apiVersion && (
+                    <span className={styles.apiVersion}>
+                      {" · "}
+                      {/^\d/.test(apiVersion) ? `v${apiVersion}` : apiVersion}
+                    </span>
+                  )}
                 </div>
               )}
 
