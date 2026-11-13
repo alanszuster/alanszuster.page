@@ -163,7 +163,7 @@ export default function AIPlaygroundSection() {
   const noteApiResult = (status: number | null) => {
     const markHealthy = () => {
       setApiHealthy(true);
-      setApiHealth("API is healthy");
+      setApiHealth("healthy");
     };
     const markBroken = (key: string) => {
       setApiHealthy(false);
@@ -282,15 +282,15 @@ export default function AIPlaygroundSection() {
       const data = await response.json().catch(() => null);
       if (response.ok && data?.status === "ok") {
         setApiHealthy(true);
-        setApiHealth("API is healthy");
+        setApiHealth("healthy");
         setApiVersion(typeof data.version === "string" ? data.version : null);
         return;
       }
       setApiHealthy(false);
-      setApiHealth(HEALTH_MESSAGES[data?.status] ?? "API is unhealthy");
+      setApiHealth(HEALTH_MESSAGES[data?.status] ?? "unhealthy");
     } catch {
       setApiHealthy(false);
-      setApiHealth("API is not reachable");
+      setApiHealth("not reachable");
     }
   };
 
@@ -381,7 +381,7 @@ export default function AIPlaygroundSection() {
                   }`}
                   role="status"
                 >
-                  <strong>API Health:</strong> {apiHealth}
+                  <strong>API status:</strong> {apiHealth}
                   {apiHealthy && apiVersion && (
                     <span className={styles.apiVersion}>
                       {" · "}
