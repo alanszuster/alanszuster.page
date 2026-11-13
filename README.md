@@ -32,4 +32,4 @@ npm test
 
 ## License
 
-© 2025 Alan Szuster. All rights reserved.
+The code is [MIT](LICENSE) licensed. The content (texts, photo and CV) is © Alan Szuster, all rights reserved, and is not covered by that license.
