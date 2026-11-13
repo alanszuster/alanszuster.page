@@ -18,6 +18,7 @@ updates:
         update-types: ["minor", "patch"]
     ignore:
       # TypeScript 7 (native compiler) breaks ts-jest (no JS compiler API) and typescript-eslint
-      # (supports it from 7.1). Drop this once both do.
+      # (supports it from 7.1). We run 6.0.x, the last release with the JS API. Drop this
+      # once both tools support 7.
       - dependency-name: typescript
-        update-types: ["version-update:semver-major"]
+        versions: [">=7"]
