@@ -78,7 +78,9 @@ jobs:
 
   deploy-preview:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    # Dependabot PRs cannot read the Vercel secrets, so a preview would only fail; lint,
+    # type check and tests above still run for them.
+    if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
     needs: [lint, typecheck, test]
     permissions:
       contents: write # the preview step publishes a pre-release
