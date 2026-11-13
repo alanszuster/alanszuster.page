@@ -16,7 +16,7 @@ permissions:
   contents: read
 
 jobs:
-  test:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -36,13 +36,50 @@ jobs:
       - name: Lint
         run: npm run lint
 
+  typecheck:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "26"
+
+      - name: Update npm
+        run: npm install --global npm@latest
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Type check
+        run: npm run typecheck
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "26"
+
+      - name: Update npm
+        run: npm install --global npm@latest
+
+      - name: Install dependencies
+        run: npm install
+
       - name: Run Tests
         run: npm test
 
   deploy-preview:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
-    needs: test
+    needs: [lint, typecheck, test]
     permissions:
       contents: write # the preview step publishes a pre-release
       deployments: write
@@ -117,7 +154,7 @@ jobs:
             })
   deploy-production:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    needs: test
+    needs: [lint, typecheck, test]
     runs-on: ubuntu-latest
     permissions:
       contents: write # push the version bump and tag, create the release
