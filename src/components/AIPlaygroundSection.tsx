@@ -231,51 +231,47 @@ export default function AIPlaygroundSection() {
     }
   };
 
-  const handleGetKnownClasses = async () => {
-    setActiveSection("knownClasses");
+  // The class list only changes with a new model, so it is fetched once (the edge caches
+  // it too). The random word is picked here: it costs the API no request at all.
+  const classesRef = useRef<string[] | null>(null);
+  const loadClasses = async (): Promise<string[] | null> => {
+    if (classesRef.current) return classesRef.current;
     try {
-      const response = await fetch("/api/get_classes", {
-        method: "GET",
-      });
+      const response = await fetch("/api/get_classes", { method: "GET" });
       noteApiResult(response.status);
 
       if (!response.ok) {
-        const errorData = await response.json();
-        setError(errorData.error || "An error occurred");
-        return;
+        const errorData = await response.json().catch(() => null);
+        setError(errorData?.error || "An error occurred");
+        return null;
       }
 
       const data = await response.json();
-      setKnownClasses(data.classes || []);
-      setError(null);
+      classesRef.current = data.classes || [];
+      return classesRef.current;
     } catch {
       noteApiResult(null);
       setError("Failed to connect to the server");
+      return null;
+    }
+  };
+
+  const handleGetKnownClasses = async () => {
+    setActiveSection("knownClasses");
+    const classes = await loadClasses();
+    if (classes) {
+      setKnownClasses(classes);
+      setError(null);
     }
   };
 
   const handleGetRandomClass = async () => {
-    try {
-      const response = await fetch("/api/get_random_class", {
-        method: "GET",
-      });
-      noteApiResult(response.status);
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        setError(errorData.error || "An error occurred");
-        return;
-      }
-
-      const data = await response.json();
-      setRandomWord(data.word || "");
-      // A result for the previous word must not be judged against the new one
-      setPredictions([]);
-      setError(null);
-    } catch {
-      noteApiResult(null);
-      setError("Failed to connect to the server");
-    }
+    const classes = await loadClasses();
+    if (!classes || classes.length === 0) return;
+    setRandomWord(classes[Math.floor(Math.random() * classes.length)]);
+    // A result for the previous word must not be judged against the new one
+    setPredictions([]);
+    setError(null);
   };
 
   const checkApiHealth = async () => {
@@ -363,13 +359,13 @@ export default function AIPlaygroundSection() {
           <ul className={styles.facts}>
             <li>Python + TensorFlow</li>
             <li>Custom CNN</li>
-            <li>REST API with API-key auth and rate limiting</li>
+            <li>REST API with OIDC auth and rate limiting</li>
             <li>Docker</li>
             <li>Hosted on Hugging Face Spaces</li>
           </ul>
           <p className={styles.note}>
             Your drawing goes through this site&apos;s server to the model API,
-            so the API key never reaches your browser. The demo is rate
+            so no API credentials ever reach your browser. The demo is rate
             limited, so give it a moment between predictions.
           </p>
         </div>
