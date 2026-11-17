@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "../styles/components/AIPlaygroundSection.module.css";
 import {
   describeError,
+  displayPredictions,
   redrawStrokes,
   type Point,
+  type Prediction,
 } from "../utils/playground";
-
-type Prediction = { class: string; confidence: number };
 
 // Live drawing (what the visitor sees)
 const LIVE_LINE_WIDTH = 16;
@@ -219,7 +219,7 @@ export default function AIPlaygroundSection() {
       }
 
       const data = await response.json();
-      setPredictions(data.predictions || []);
+      setPredictions(displayPredictions(data));
     } catch (err) {
       noteApiResult(null);
       setPredictions([]);
@@ -491,7 +491,11 @@ export default function AIPlaygroundSection() {
                               >
                                 {prediction.class}
                               </span>
-                              <span>{prediction.confidence.toFixed(1)}%</span>
+                              <span>
+                                {prediction.confidence === 101 && prediction.class === "You"
+                                  ? "101%"
+                                  : `${prediction.confidence.toFixed(1)}%`}
+                              </span>
                             </div>
                             <div className={styles.bar} aria-hidden="true">
                               <div

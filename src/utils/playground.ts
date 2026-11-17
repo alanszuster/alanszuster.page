@@ -1,4 +1,14 @@
 export type Point = { x: number; y: number };
+export type Prediction = { class: string; confidence: number };
+
+export function displayPredictions(data: {
+  predictions?: Prediction[];
+  easter_egg?: boolean;
+}): Prediction[] {
+  return data.easter_egg === true
+    ? [{ class: "You", confidence: 101 }]
+    : data.predictions || [];
+}
 
 const ERROR_MESSAGES: Record<number, string> = {
   429: "Too many tries in a short time. Give it a minute and try again.",

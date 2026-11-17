@@ -1,7 +1,18 @@
 /**
  * @jest-environment node
  */
-import { describeError, redrawStrokes } from "../utils/playground";
+import { describeError, displayPredictions, redrawStrokes } from "../utils/playground";
+
+describe("displayPredictions", () => {
+  it("only replaces normal predictions when the detector signals a match", () => {
+    const predictions = [{ class: "banana", confidence: 90 }];
+    expect(displayPredictions({ predictions })).toEqual(predictions);
+    expect(displayPredictions({ predictions, easter_egg: false })).toEqual(predictions);
+    expect(displayPredictions({ predictions, easter_egg: true })).toEqual([
+      { class: "You", confidence: 101 },
+    ]);
+  });
+});
 
 describe("describeError", () => {
   it("explains a rate limit and a failed browser check in plain words", () => {
